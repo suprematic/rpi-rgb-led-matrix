@@ -28,7 +28,7 @@ mkdir tema
 cd tema/
 git clone https://github.com/suprematic/rpi-rgb-led-matrix.git
 cd rpi-rgb-led-matrix/
-git checkout tema-p10
+git checkout tema-p8
 make
 ```
 
