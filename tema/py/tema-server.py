@@ -5,6 +5,7 @@ import bluetooth
 import os
 
 def start(tableau):
+  tableau.display("Wait...")
   server_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
   server_sock.bind(("", bluetooth.PORT_ANY))
   server_sock.listen(1)
@@ -22,6 +23,8 @@ def start(tableau):
   client_sock, client_info = server_sock.accept()
   print("Accepted connection from {0}".format(client_info))
 
+  tableau.display("Connected")
+
   try:
       while True:
           data = client_sock.recv(1024)
@@ -37,8 +40,9 @@ def start(tableau):
   print("Disconnected.")
   client_sock.close()
   server_sock.close()
-  start()
+  start(tableau)
 
 
 simple_text = SimpleText()
+simple_text.process()
 start(simple_text)
