@@ -11,7 +11,9 @@ class SimpleText(SampleBase):
         self.parser.add_argument("-t", "--text", help="The text to display on the RGB LED panel", default="Hello!")
         
     def run(self):
-        msg = self.args.text
+        self.display(self.args.text)
+    
+    def display(self, msg):
         print("Displaying '{0}'".format(msg))
         canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
@@ -27,3 +29,5 @@ if __name__ == "__main__":
     simple_text = SimpleText()
     if (not simple_text.process()):
         simple_text.print_help()
+    simple_text.display("Msg 2")
+    simple_text.display("Msg 3")
