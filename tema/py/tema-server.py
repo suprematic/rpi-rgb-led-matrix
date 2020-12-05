@@ -6,6 +6,7 @@ import os
 
 def start(tableau):
   tableau.display("Wait...")
+  # tableau.display_score("624*15464*40")
   server_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
   server_sock.bind(("", bluetooth.PORT_ANY))
   server_sock.listen(1)
@@ -34,7 +35,7 @@ def start(tableau):
               break
           elif data == "\n":
               print("Received packet: {0}".format(msg))
-              tableau.display(msg)
+              tableau.display_score(msg)
               msg = ""
           else:
               msg+=data

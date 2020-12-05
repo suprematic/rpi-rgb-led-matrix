@@ -13,6 +13,74 @@ class SimpleText(SampleBase):
     def run(self):
         self.display(self.args.text)
     
+    def display_score(self, msg):
+        print("Displaying tennis score '{0}'".format(msg))
+
+        if (len(msg)==12):
+            p1_set1 = msg[0]
+            p1_set2 = msg[1]
+            p1_set3 = msg[2]
+            p1_serv = msg[3]
+            p1_game1 = msg[4]
+            p1_game2 = msg[5]
+            p2_set1 = msg[6]
+            p2_set2 = msg[7]
+            p2_set3 = msg[8]
+            p2_serv = msg[9]
+            p2_game1 = msg[10]
+            p2_game2 = msg[11]
+
+            print("\tparsed score: {0}-{1} {2}-{3} {4}-{5} {6} {7}{8}:{9}{10} {11}".format(p1_set1, p2_set1, p1_set2, p2_set2, p1_set3, p2_set3, p1_serv, p1_game1, p1_game2, p2_game1, p2_game2, p2_serv))
+
+            canvas = self.matrix.CreateFrameCanvas()
+            font = graphics.Font()
+            font.LoadFont("../fonts/6x10.bdf")
+            color_set = graphics.Color(0, 128, 0)
+            color_game = graphics.Color(128, 128, 0)
+            color_serv = graphics.Color(128, 0, 0)
+            canvas.Clear()
+            
+            x_p1_set1 = x_p2_set1 = 0
+            x_p1_set2 = x_p2_set2 = 6
+            x_p1_set3 = x_p2_set3 = 12
+            x_p1_game1 = x_p2_game1 = 22
+            x_p1_game2 = x_p2_game2 = 27
+            y_p1_set1 = y_p1_set2 = y_p1_set3 = y_p1_game1 = y_p1_game2 = 7
+            y_p2_set1 = y_p2_set2 = y_p2_set3 = y_p2_game1 = y_p2_game2 = 15
+
+            graphics.DrawText(canvas, font, x_p1_set1, y_p1_set1, color_set, p1_set1)
+            graphics.DrawText(canvas, font, x_p1_set2, y_p1_set2, color_set, p1_set2)
+            graphics.DrawText(canvas, font, x_p1_set3, y_p1_set3, color_set, p1_set3)
+            if(p1_serv=="*"):
+                graphics.DrawText(canvas, font, 17, 4, color_serv, ".")
+                graphics.DrawText(canvas, font, 17, 5, color_serv, ".")
+                graphics.DrawText(canvas, font, 18, 4, color_serv, ".")
+                graphics.DrawText(canvas, font, 18, 5, color_serv, ".")
+
+
+            graphics.DrawText(canvas, font, x_p1_game1, y_p1_game1, color_game, p1_game1)
+            graphics.DrawText(canvas, font, x_p1_game2, y_p1_game2, color_game, p1_game2)
+            
+            graphics.DrawText(canvas, font, x_p2_set1, y_p2_set1, color_set, p2_set1)
+            graphics.DrawText(canvas, font, x_p2_set2, y_p2_set2, color_set, p2_set2)
+            graphics.DrawText(canvas, font, x_p2_set3, y_p2_set3, color_set, p2_set3)
+            graphics.DrawText(canvas, font, x_p2_game1, y_p2_game1, color_game, p2_game1)
+            if(p2_serv=="*"):
+                graphics.DrawText(canvas, font, 17, 12, color_serv, ".")
+                graphics.DrawText(canvas, font, 17, 13, color_serv, ".")
+                graphics.DrawText(canvas, font, 18, 12, color_serv, ".")
+                graphics.DrawText(canvas, font, 18, 13, color_serv, ".")
+            graphics.DrawText(canvas, font, x_p2_game2, y_p2_game2, color_game, p2_game2)
+
+            canvas = self.matrix.SwapOnVSync(canvas)
+            time.sleep(1)
+
+
+
+        else:
+            print("ERROR: invalid score, cannot display")
+
+
     def display(self, msg):
         print("Displaying '{0}'".format(msg))
         canvas = self.matrix.CreateFrameCanvas()
