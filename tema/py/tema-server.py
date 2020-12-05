@@ -30,6 +30,7 @@ def start(tableau):
       while True:
           data = client_sock.recv(1)          
           if not data:
+              # FIXME doesn't work when sending empty string from Android
               break
           elif data == "\n":
               print("Received packet: {0}".format(msg))
