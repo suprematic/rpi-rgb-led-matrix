@@ -26,12 +26,17 @@ def start(tableau):
   tableau.display("Connected")
 
   try:
+      msg = "";
       while True:
-          data = client_sock.recv(1024)
+          data = client_sock.recv(1)          
           if not data:
               break
-          print("Received", data)
-          tableau.display(data)          
+          elif data == "\n":
+              print("Received packet: {0}".format(msg))
+              tableau.display(msg)
+              msg = ""
+          else:
+              msg+=data
   except bluetooth.btcommon.BluetoothError as err:
       print("BT error: {0}".format(err))
       pass
