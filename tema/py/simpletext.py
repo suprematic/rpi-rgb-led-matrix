@@ -35,9 +35,9 @@ class SimpleText(SampleBase):
             canvas = self.matrix.CreateFrameCanvas()
             font = graphics.Font()
             font.LoadFont("../fonts/6x10.bdf")
-            color_set = graphics.Color(0, 128, 0)
-            color_game = graphics.Color(128, 128, 0)
-            color_serv = graphics.Color(128, 0, 0)
+            color_set = graphics.Color(0, 200, 0)
+            color_serv = graphics.Color(0, 255, 0)
+            color_game = graphics.Color(0, 255, 0)
             canvas.Clear()
             
             x_p1_set1 = x_p2_set1 = 0
