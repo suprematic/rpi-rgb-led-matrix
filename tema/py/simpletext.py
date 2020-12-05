@@ -17,7 +17,7 @@ class SimpleText(SampleBase):
         print("Displaying '{0}'".format(msg))
         canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
-        font.LoadFont("../fonts/5x8.bdf")
+        font.LoadFont("../fonts/6x10.bdf")
         textColor = graphics.Color(255, 255, 0)
         canvas.Clear()
         graphics.DrawText(canvas, font, 0, 10, textColor, msg)
