@@ -46,7 +46,7 @@ class SimpleText(SampleBase):
             x_p1_game1 = x_p2_game1 = 22
             x_p1_game2 = x_p2_game2 = 27
             y_p1_set1 = y_p1_set2 = y_p1_set3 = y_p1_game1 = y_p1_game2 = 7
-            y_p2_set1 = y_p2_set2 = y_p2_set3 = y_p2_game1 = y_p2_game2 = 15
+            y_p2_set1 = y_p2_set2 = y_p2_set3 = y_p2_game1 = y_p2_game2 = 16
 
             graphics.DrawText(canvas, font, x_p1_set1, y_p1_set1, color_set, p1_set1)
             graphics.DrawText(canvas, font, x_p1_set2, y_p1_set2, color_set, p1_set2)
@@ -66,10 +66,10 @@ class SimpleText(SampleBase):
             graphics.DrawText(canvas, font, x_p2_set3, y_p2_set3, color_set, p2_set3)
             graphics.DrawText(canvas, font, x_p2_game1, y_p2_game1, color_game, p2_game1)
             if(p2_serv=="*"):
-                graphics.DrawText(canvas, font, 17, 12, color_serv, ".")
                 graphics.DrawText(canvas, font, 17, 13, color_serv, ".")
-                graphics.DrawText(canvas, font, 18, 12, color_serv, ".")
+                graphics.DrawText(canvas, font, 17, 14, color_serv, ".")
                 graphics.DrawText(canvas, font, 18, 13, color_serv, ".")
+                graphics.DrawText(canvas, font, 18, 14, color_serv, ".")
             graphics.DrawText(canvas, font, x_p2_game2, y_p2_game2, color_game, p2_game2)
 
             canvas = self.matrix.SwapOnVSync(canvas)
