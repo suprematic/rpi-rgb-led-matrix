@@ -40,12 +40,12 @@ class SimpleText(SampleBase):
                 r = int(msg[12:15])
                 g = int(msg[15:18])
                 b = int(msg[18:21])
-                print("\using {0}.{1}.{2} color".format(r, g, b))
+                print("using {0}.{1}.{2} color".format(r, g, b))
             except:
                 r = 0
                 g = 255
                 b = 0
-                print("\tfallback to GREEN color")
+                print("fallback to GREEN color")
 
             color_set = color_serv = color_game = graphics.Color(r, g, b)
                 
