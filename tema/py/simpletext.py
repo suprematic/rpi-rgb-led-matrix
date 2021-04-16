@@ -16,7 +16,7 @@ class SimpleText(SampleBase):
     def display_score(self, msg):
         print("Displaying tennis score '{0}'".format(msg))
 
-        if (len(msg)==12):
+        if (len(msg)>=12):
             p1_set1 = msg[0]
             p1_set2 = msg[1]
             p1_set3 = msg[2]
@@ -35,9 +35,20 @@ class SimpleText(SampleBase):
             canvas = self.matrix.CreateFrameCanvas()
             font = graphics.Font()
             font.LoadFont("../fonts/6x10.bdf")
-            color_set = graphics.Color(0, 200, 0)
-            color_serv = graphics.Color(0, 255, 0)
-            color_game = graphics.Color(0, 255, 0)
+            
+            try:
+                r = int(msg[12:15])
+                g = int(msg[15:18])
+                b = int(msg[18:21])
+                print("\using {0}.{1}.{2} color".format(r, g, b))
+            except:
+                r = 0
+                g = 255
+                b = 0
+                print("\fallback to GREEN color")
+
+            color_set = color_serv = color_game = graphics.Color(r, g, b)
+                
             canvas.Clear()
             
             x_p1_set1 = x_p2_set1 = 0
@@ -86,7 +97,7 @@ class SimpleText(SampleBase):
         canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
         font.LoadFont("../fonts/6x10.bdf")
-        textColor = graphics.Color(255, 255, 0)
+        textColor = graphics.Color(255, 255, 0) # yellow max
         canvas.Clear()
         graphics.DrawText(canvas, font, 0, 10, textColor, msg)
         canvas = self.matrix.SwapOnVSync(canvas)
