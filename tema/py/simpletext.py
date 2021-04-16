@@ -45,7 +45,7 @@ class SimpleText(SampleBase):
                 r = 0
                 g = 255
                 b = 0
-                print("\fallback to GREEN color")
+                print("\tfallback to GREEN color")
 
             color_set = color_serv = color_game = graphics.Color(r, g, b)
                 
