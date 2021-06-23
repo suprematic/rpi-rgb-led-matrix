@@ -5,7 +5,8 @@ import bluetooth
 import os
 
 def start(tableau):
-  tableau.display("Wait...")
+  # tableau.display("Wait...")
+  tableau.display_score("TEST_WHITE")
   # tableau.display_score("624*15464*40")
   server_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
   server_sock.bind(("", bluetooth.PORT_ANY))
