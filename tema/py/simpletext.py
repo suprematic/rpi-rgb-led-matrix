@@ -86,11 +86,19 @@ class SimpleText(SampleBase):
             canvas = self.matrix.SwapOnVSync(canvas)
             time.sleep(1)
 
-
-
+        elif msg == "TEST_WHITE":
+            print("\tTESTING ALL WHITE OUTPUT")
+            self.display_fill(graphics.Color(255, 255, 255))
         else:
             print("ERROR: invalid score, cannot display")
 
+
+    def display_fill(self, color):
+        canvas = self.matrix.CreateFrameCanvas()
+        canvas.Clear()
+        for y in range(0,16):
+            graphics.DrawLine(canvas, 0, y, 31, y, color)
+        canvas = self.matrix.SwapOnVSync(canvas)
 
     def display(self, msg):
         print("Displaying '{0}'".format(msg))
@@ -106,7 +114,14 @@ class SimpleText(SampleBase):
 # Main function
 if __name__ == "__main__":
     simple_text = SimpleText()
+
+    
     if (not simple_text.process()):
         simple_text.print_help()
-    simple_text.display("Msg 2")
-    simple_text.display("Msg 3")
+    # simple_text.display("Msg 2")
+    # simple_text.display("Msg 3")
+    for rgb in range(240,256):
+        print("RGB={0}".format(rgb))
+        color = graphics.Color(rgb, rgb, rgb)
+        simple_text.display_fill(color)
+        time.sleep(0.5)
