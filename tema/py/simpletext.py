@@ -88,7 +88,7 @@ class SimpleText(SampleBase):
 
         elif msg == "TEST_WHITE":
             print("\tTESTING ALL WHITE OUTPUT")
-            self.display_fill(graphics.Color(239, 239, 239))
+            self.display_fill(graphics.Color(255, 255, 255))
         else:
             print("ERROR: invalid score, cannot display")
 
@@ -120,8 +120,8 @@ if __name__ == "__main__":
         simple_text.print_help()
     # simple_text.display("Msg 2")
     # simple_text.display("Msg 3")
-    for rgb in range(242,256):
+    for rgb in range(255,256):
         print("RGB={0}".format(rgb))
         color = graphics.Color(rgb, rgb, rgb)
         simple_text.display_fill(color)
-        time.sleep(0.5)
+        time.sleep(10)
