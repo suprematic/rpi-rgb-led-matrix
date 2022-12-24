@@ -15,6 +15,9 @@ class M1_Demo(SampleBase):
         self.clrYellow = graphics.Color(255, 255, 0) 
         self.clrGreen = graphics.Color(0, 255, 0)
         self.clrGrey = graphics.Color(128, 128, 128)
+
+        self.fntXL = graphics.Font()
+        self.fntXL.LoadFont("fonts/texgyre-27.bdf")
         
 
 
@@ -23,36 +26,25 @@ class M1_Demo(SampleBase):
         for x in range(100000):
             self.runSlideShow(delay)
 
-    def runSlideShow(self, delay):
-
+    def showClock(self, canvas, duration):
         
-        canvas = self.matrix.CreateFrameCanvas()
-        font = graphics.Font()
-        font.LoadFont("fonts/texgyre-27.bdf")
+        clrClock = self.clrGrey
 
-        
-        #### Frame: clock 
-        clrClock = self.clrGrey        
-
-        for x in range(delay):
+        for x in range(duration):
             canvas.Clear()
             txtClock=datetime.now().strftime('%H:%M:%S')
-            graphics.DrawText(canvas, font, 80, 60, clrClock, txtClock)
+            graphics.DrawText(canvas, self.fntXL, 80, 60, clrClock, txtClock)
             canvas = self.matrix.SwapOnVSync(canvas)
             time.sleep(1)
 
-
-        #### Frame: logos
+    def showLogos(self, canvas, duration):
 
         image = Image.open("images/waldau_generali_transparent.png")
         #image.thumbnail((64*3, 32*2), Image.ANTIALIAS)
         self.matrix.SetImage(image.convert('RGB'))
+        time.sleep(duration)
 
-        time.sleep(delay)
-        
-        #### Frame: score
-
-
+    def showScore(self, canvas, duration):
 
         clrName = self.clrGrey
         clrScoreSet = clrName
@@ -142,24 +134,38 @@ class M1_Demo(SampleBase):
         xSet2 = xSet1 + wSet
         xSet3 = xSet2 + wSet
         
-        graphics.DrawText(canvas, font, 0, yT1, clrName, "FED")
-        graphics.DrawText(canvas, font, xSet1, yT1, clrScoreSet, "7")
-        graphics.DrawText(canvas, font, xSet2, yT1, clrScoreSet, "3")
-        graphics.DrawText(canvas, font, xSet3, yT1, clrScoreSet, "5")
-        graphics.DrawText(canvas, font, xService, yT1-yServiceDelta, clrScoreSet, ".")
-        graphics.DrawText(canvas, font, xGame, yT1, clrScoreSet, "30")
+        graphics.DrawText(canvas, self.fntXL, 0, yT1, clrName, "FED")
+        graphics.DrawText(canvas, self.fntXL, xSet1, yT1, clrScoreSet, "7")
+        graphics.DrawText(canvas, self.fntXL, xSet2, yT1, clrScoreSet, "3")
+        graphics.DrawText(canvas, self.fntXL, xSet3, yT1, clrScoreSet, "5")
+        graphics.DrawText(canvas, self.fntXL, xService, yT1-yServiceDelta, clrScoreSet, ".")
+        graphics.DrawText(canvas, self.fntXL, xGame, yT1, clrScoreSet, "30")
 
 
-        graphics.DrawText(canvas, font, 0, yT2, clrName, "NAD")
-        graphics.DrawText(canvas, font, xSet1, yT2, clrScoreSet, "6")
-        graphics.DrawText(canvas, font, xSet2, yT2, clrScoreSet, "6")
-        graphics.DrawText(canvas, font, xSet3, yT2, clrScoreSet, "4")
-        graphics.DrawText(canvas, font, xService, yT2-yServiceDelta, clrScoreSet, "")
-        graphics.DrawText(canvas, font, xGame, yT2, clrScoreSet, "15")
+        graphics.DrawText(canvas, self.fntXL, 0, yT2, clrName, "NAD")
+        graphics.DrawText(canvas, self.fntXL, xSet1, yT2, clrScoreSet, "6")
+        graphics.DrawText(canvas, self.fntXL, xSet2, yT2, clrScoreSet, "6")
+        graphics.DrawText(canvas, self.fntXL, xSet3, yT2, clrScoreSet, "4")
+        graphics.DrawText(canvas, self.fntXL, xService, yT2-yServiceDelta, clrScoreSet, "")
+        graphics.DrawText(canvas, self.fntXL, xGame, yT2, clrScoreSet, "15")
 
 
         canvas = self.matrix.SwapOnVSync(canvas)
-        time.sleep(delay)
+        time.sleep(duration)
+
+
+    def runSlideShow(self, durationPerScreen):
+        
+        canvas = self.matrix.CreateFrameCanvas()
+        
+        self.showClock(canvas, durationPerScreen)
+
+        self.showLogos(canvas, durationPerScreen)
+
+        self.showScore(canvas, durationPerScreen)
+            
+        
+
 
 # Main function
 if __name__ == "__main__":
