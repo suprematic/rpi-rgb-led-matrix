@@ -29,12 +29,12 @@ class M1_Demo(SampleBase):
     def showScoreDoubles(self, canvas, duration):
         canvas.Clear()
 
-        canvas.SetImage(Image.open("images/flag-france.png"), 0*18, 0*12)
-        canvas.SetImage(Image.open("images/flag-germany.png"), 1*18, 1*12)
-        canvas.SetImage(Image.open("images/flag-italy.png"), 2*18, 2*12)
-        canvas.SetImage(Image.open("images/flag-portugal.png"), 3*18, 3*12)
-        canvas.SetImage(Image.open("images/flag-spain.png"), 4*18, 0*12)
-        canvas.SetImage(Image.open("images/flag-ukraine.png"), 0*18, 3*12)
+        canvas.SetImage(Image.open("images/flag-france.png").convert('RGB'), 0*18, 0*12)
+        canvas.SetImage(Image.open("images/flag-germany.png").convert('RGB'), 1*18, 1*12)
+        canvas.SetImage(Image.open("images/flag-italy.png").convert('RGB'), 2*18, 2*12)
+        canvas.SetImage(Image.open("images/flag-portugal.png").convert('RGB'), 3*18, 3*12)
+        canvas.SetImage(Image.open("images/flag-spain.png").convert('RGB'), 4*18, 0*12)
+        canvas.SetImage(Image.open("images/flag-ukraine.png").convert('RGB'), 0*18, 3*12)
 
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
