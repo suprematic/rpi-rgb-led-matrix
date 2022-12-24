@@ -38,20 +38,24 @@ class M1_Demo(SampleBase):
             time.sleep(1)
 
     def showLogos(self, canvas, duration):
+        canvas.Clear()
 
         image = Image.open("images/waldau_generali_transparent.png")
-        #image.thumbnail((64*3, 32*2), Image.ANTIALIAS)
-        self.matrix.SetImage(image.convert('RGB'))
+        # image.thumbnail((64*3, 32*2), Image.ANTIALIAS)
+        # self.matrix.SetImage(image.convert('RGB'))
+
+        canvas.SetImage(image.convert('RGB'))
+
+        canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
     def showScore(self, canvas, duration):
+        canvas.Clear()
 
         clrName = self.clrGrey
         clrScoreSet = clrName
         clrScoreGame = clrScoreSet
         
-        canvas.Clear()
-
         ## Flag Switzerland 10x10
         f1l = 10 
         f1h = 10
