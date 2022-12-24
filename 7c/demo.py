@@ -69,6 +69,31 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
+    def showScoreSinglesWithFlags(self, canvas, duration):
+        canvas.Clear()
+
+        yT1 = 26
+        yT2 = 58
+
+        fH = 12
+        fW = 18
+
+        canvas.SetImage(Image.open("images/flag-switzerland.png").convert('RGB'),   0, yT1)
+        canvas.SetImage(Image.open("images/flag-spain.png").convert('RGB'),   0, yT2)
+        
+        
+        clrName = self.clrGrey
+        fnt = graphics.Font()
+        fnt.LoadFont("../fonts/texgyre-27.bdf")
+
+        graphics.DrawText(canvas, fnt, fW+2, yT1, clrName, "FED")
+        graphics.DrawText(canvas, fnt, fW+2, yT2, clrName, "NAD")
+        
+        self.renderScore3Sets(canvas, -2)
+
+        canvas = self.matrix.SwapOnVSync(canvas)
+        time.sleep(duration)
+
     def showScoreDoublesWithFlags(self, canvas, duration):
         canvas.Clear()
 
@@ -214,6 +239,8 @@ class M1_Demo(SampleBase):
         
         canvas = self.matrix.CreateFrameCanvas()
         
+        self.showScoreSinglesWithFlags(canvas, durationPerScreen)
+
         self.showScoreDoublesWithFlags(canvas, durationPerScreen)
 
         self.showFlags(canvas, durationPerScreen)
