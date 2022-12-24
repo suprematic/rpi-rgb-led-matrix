@@ -45,13 +45,12 @@ class M1_Demo(SampleBase):
         fH = 12
         fW = 18
 
-
         canvas.SetImage(Image.open("images/flag-italy.png").convert('RGB'),   0, 3)
         canvas.SetImage(Image.open("images/flag-spain.png").convert('RGB'),   0, 3+fH+2)
         canvas.SetImage(Image.open("images/flag-france.png").convert('RGB'),  0, 3+fH+2+fH+3+3)
         canvas.SetImage(Image.open("images/flag-ukraine.png").convert('RGB'), 0, 3+fH+2+fH+3+3+fH+2)
         
-        
+        renderScore3Sets(canvas)
 
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
@@ -79,12 +78,41 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
+    def renderScore3Sets(self, canvas):
+        ## pseudo score in 3 sets:
+        ## 7-6 3-6 7-4 *30-15
+
+        clrScoreSet = self.clrGrey
+        clrScoreGame = self.clrGrey
+        
+        yT1 = 28
+        yT2 = 62
+        yServiceDelta = 10
+
+        xGame = 158
+        xService = 146
+        wSet = 24
+        xSet1 = 80
+        xSet2 = xSet1 + wSet
+        xSet3 = xSet2 + wSet
+        
+        graphics.DrawText(canvas, self.fntXL, xSet1, yT1, clrScoreSet, "7")
+        graphics.DrawText(canvas, self.fntXL, xSet2, yT1, clrScoreSet, "3")
+        graphics.DrawText(canvas, self.fntXL, xSet3, yT1, clrScoreSet, "5")
+        graphics.DrawText(canvas, self.fntXL, xService, yT1-yServiceDelta, clrScoreSet, ".")
+        graphics.DrawText(canvas, self.fntXL, xGame, yT1, clrScoreSet, "30")
+
+        graphics.DrawText(canvas, self.fntXL, xSet1, yT2, clrScoreSet, "6")
+        graphics.DrawText(canvas, self.fntXL, xSet2, yT2, clrScoreSet, "6")
+        graphics.DrawText(canvas, self.fntXL, xSet3, yT2, clrScoreSet, "4")
+        graphics.DrawText(canvas, self.fntXL, xService, yT2-yServiceDelta, clrScoreSet, "")
+        graphics.DrawText(canvas, self.fntXL, xGame, yT2, clrScoreSet, "15")
+
     def showScore(self, canvas, duration):
         canvas.Clear()
 
-        clrName = self.clrGrey
-        clrScoreSet = clrName
-        clrScoreGame = clrScoreSet
+        
+        
         
         ## Flag Switzerland 10x10
         f1l = 10 
@@ -156,33 +184,16 @@ class M1_Demo(SampleBase):
         graphics.DrawLine(canvas, fx+2, fy+6, fx+2+2, fy+6, clrF1)
 
        
-        ## Names and score 
-        yT1 = 28
-        yT2 = 62
-        yServiceDelta = 10
-
-        xGame = 158
-        xService = 146
-        wSet = 24
-        xSet1 = 80
-        xSet2 = xSet1 + wSet
-        xSet3 = xSet2 + wSet
         
+        ## Names
+        yT1 = 28
+        yT2 = 62        
+        clrName = self.clrGrey
+
         graphics.DrawText(canvas, self.fntXL, 0, yT1, clrName, "FED")
-        graphics.DrawText(canvas, self.fntXL, xSet1, yT1, clrScoreSet, "7")
-        graphics.DrawText(canvas, self.fntXL, xSet2, yT1, clrScoreSet, "3")
-        graphics.DrawText(canvas, self.fntXL, xSet3, yT1, clrScoreSet, "5")
-        graphics.DrawText(canvas, self.fntXL, xService, yT1-yServiceDelta, clrScoreSet, ".")
-        graphics.DrawText(canvas, self.fntXL, xGame, yT1, clrScoreSet, "30")
-
-
         graphics.DrawText(canvas, self.fntXL, 0, yT2, clrName, "NAD")
-        graphics.DrawText(canvas, self.fntXL, xSet1, yT2, clrScoreSet, "6")
-        graphics.DrawText(canvas, self.fntXL, xSet2, yT2, clrScoreSet, "6")
-        graphics.DrawText(canvas, self.fntXL, xSet3, yT2, clrScoreSet, "4")
-        graphics.DrawText(canvas, self.fntXL, xService, yT2-yServiceDelta, clrScoreSet, "")
-        graphics.DrawText(canvas, self.fntXL, xGame, yT2, clrScoreSet, "15")
 
+        self.renderScore3Sets(canvas)
 
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
