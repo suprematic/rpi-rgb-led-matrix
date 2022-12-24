@@ -78,8 +78,8 @@ class M1_Demo(SampleBase):
         fH = 12
         fW = 18
 
-        canvas.SetImage(Image.open("images/flag-switzerland.png").convert('RGB'),   0, yT1)
-        canvas.SetImage(Image.open("images/flag-spain.png").convert('RGB'),   0, yT2)
+        canvas.SetImage(Image.open("images/flag-switzerland.png").convert('RGB'),   0, 10)
+        canvas.SetImage(Image.open("images/flag-spain.png").convert('RGB'),   0, 42)
         
         
         clrName = self.clrGrey
