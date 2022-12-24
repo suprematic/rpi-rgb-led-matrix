@@ -26,15 +26,15 @@ class M1_Demo(SampleBase):
         for x in range(100000):
             self.runSlideShow(delay)
 
-    def renderScore3Sets(self, canvas):
+    def renderScore3Sets(self, canvas, yShiftPerTeam=0):
         ## pseudo score in 3 sets:
         ## 7-6 3-6 7-4 *30-15
 
         clrScoreSet = self.clrGrey
         clrScoreGame = self.clrGrey
         
-        yT1 = 28
-        yT2 = 62
+        yT1 = 28 + 1*yShiftPerTeam
+        yT2 = 62 + 2*yShiftPerTeam
         yServiceDelta = 10
 
         xGame = 163
@@ -82,8 +82,8 @@ class M1_Demo(SampleBase):
 
 
 
-        yT1 = 28
-        yT2 = 62        
+        yT1 = 26
+        yT2 = 58        
         clrName = self.clrGrey
         fnt = graphics.Font()
         fnt.LoadFont("../fonts/texgyre-27.bdf")
@@ -91,7 +91,7 @@ class M1_Demo(SampleBase):
         graphics.DrawText(canvas, fnt, fW+2, yT1, clrName, "FED")
         graphics.DrawText(canvas, fnt, fW+2, yT2, clrName, "NAD")
         
-        self.renderScore3Sets(canvas)
+        self.renderScore3Sets(canvas, -2)
 
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
