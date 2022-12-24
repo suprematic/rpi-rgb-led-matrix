@@ -107,14 +107,19 @@ class M1_Demo(SampleBase):
 
 
 
-        yT1 = 26
-        yT2 = 58        
+        yT1P1 = 2 + fH 
+        yT1P2 = yT1P1 + 2 + fH
+        yT2P1 = yT1P2 + 18
+        yT2P2 = yT2P1 + 2 + fH
+        
         clrName = self.clrGrey
         fnt = graphics.Font()
-        fnt.LoadFont("../fonts/texgyre-27.bdf")
+        fnt.LoadFont("../fonts/7x13.bdf")
 
-        graphics.DrawText(canvas, fnt, fW+2, yT1, clrName, "FED")
-        graphics.DrawText(canvas, fnt, fW+2, yT2, clrName, "NAD")
+        graphics.DrawText(canvas, fnt, fW+2, yT1P1, clrName, "Schiavionne".upper())
+        graphics.DrawText(canvas, fnt, fW+2, yT1P2, clrName, "Shinkarenko".upper())
+        graphics.DrawText(canvas, fnt, fW+2, yT2P1, clrName, "Berrettini".upper())
+        graphics.DrawText(canvas, fnt, fW+2, yT2P2, clrName, "Dolgopolov".upper())
         
         self.renderScore3Sets(canvas, -2)
 
@@ -239,11 +244,11 @@ class M1_Demo(SampleBase):
         
         canvas = self.matrix.CreateFrameCanvas()
         
-        self.showScoreSinglesWithFlags(canvas, durationPerScreen)
-
         self.showScoreDoublesWithFlags(canvas, durationPerScreen)
 
         self.showFlags(canvas, durationPerScreen)
+        
+        self.showScoreSinglesWithFlags(canvas, durationPerScreen)
 
         self.showClock(canvas, durationPerScreen)
 
