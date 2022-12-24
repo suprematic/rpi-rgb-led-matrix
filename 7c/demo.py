@@ -46,10 +46,10 @@ class M1_Demo(SampleBase):
         fW = 18
 
 
-        canvas.SetImage(Image.open("images/flag-italy.png").convert('RGB'),   0, 2)
-        canvas.SetImage(Image.open("images/flag-spain.png").convert('RGB'),   0, 2+fH+2+2)
-        canvas.SetImage(Image.open("images/flag-france.png").convert('RGB'),  0, 2+fH+2+2+fH+2+2)
-        canvas.SetImage(Image.open("images/flag-ukraine.png").convert('RGB'), 0, 2+fH+2+2+fH+2+2+fH+2+2)
+        canvas.SetImage(Image.open("images/flag-italy.png").convert('RGB'),   0, 3)
+        canvas.SetImage(Image.open("images/flag-spain.png").convert('RGB'),   0, 3+fH+2)
+        canvas.SetImage(Image.open("images/flag-france.png").convert('RGB'),  0, 3+fH+2+fH+3+3)
+        canvas.SetImage(Image.open("images/flag-ukraine.png").convert('RGB'), 0, 3+fH+2+fH+3+3+fH+2)
         
         
 
