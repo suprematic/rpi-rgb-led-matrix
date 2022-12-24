@@ -28,7 +28,7 @@ class M1_Demo(SampleBase):
         
         canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
-        font.LoadFont("../../fonts/texgyre-27.bdf")
+        font.LoadFont("fonts/texgyre-27.bdf")
 
         
         #### Frame: clock 
@@ -44,7 +44,7 @@ class M1_Demo(SampleBase):
 
         #### Frame: logos
 
-        image = Image.open("../images/waldau_generali_transparent.png")
+        image = Image.open("images/waldau_generali_transparent.png")
         #image.thumbnail((64*3, 32*2), Image.ANTIALIAS)
         self.matrix.SetImage(image.convert('RGB'))
 
