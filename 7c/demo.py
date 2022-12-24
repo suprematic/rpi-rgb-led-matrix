@@ -26,6 +26,36 @@ class M1_Demo(SampleBase):
         for x in range(100000):
             self.runSlideShow(delay)
 
+    def renderScore3Sets(self, canvas):
+        ## pseudo score in 3 sets:
+        ## 7-6 3-6 7-4 *30-15
+
+        clrScoreSet = self.clrGrey
+        clrScoreGame = self.clrGrey
+        
+        yT1 = 28
+        yT2 = 62
+        yServiceDelta = 10
+
+        xGame = 158
+        xService = 146
+        wSet = 24
+        xSet1 = 80
+        xSet2 = xSet1 + wSet
+        xSet3 = xSet2 + wSet
+        
+        graphics.DrawText(canvas, self.fntXL, xSet1, yT1, clrScoreSet, "7")
+        graphics.DrawText(canvas, self.fntXL, xSet2, yT1, clrScoreSet, "3")
+        graphics.DrawText(canvas, self.fntXL, xSet3, yT1, clrScoreSet, "5")
+        graphics.DrawText(canvas, self.fntXL, xService, yT1-yServiceDelta, clrScoreSet, ".")
+        graphics.DrawText(canvas, self.fntXL, xGame, yT1, clrScoreSet, "30")
+
+        graphics.DrawText(canvas, self.fntXL, xSet1, yT2, clrScoreSet, "6")
+        graphics.DrawText(canvas, self.fntXL, xSet2, yT2, clrScoreSet, "6")
+        graphics.DrawText(canvas, self.fntXL, xSet3, yT2, clrScoreSet, "4")
+        graphics.DrawText(canvas, self.fntXL, xService, yT2-yServiceDelta, clrScoreSet, "")
+        graphics.DrawText(canvas, self.fntXL, xGame, yT2, clrScoreSet, "15")
+
     def showFlags(self, canvas, duration):
         canvas.Clear()
 
@@ -77,36 +107,6 @@ class M1_Demo(SampleBase):
 
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
-
-    def renderScore3Sets(self, canvas):
-        ## pseudo score in 3 sets:
-        ## 7-6 3-6 7-4 *30-15
-
-        clrScoreSet = self.clrGrey
-        clrScoreGame = self.clrGrey
-        
-        yT1 = 28
-        yT2 = 62
-        yServiceDelta = 10
-
-        xGame = 158
-        xService = 146
-        wSet = 24
-        xSet1 = 80
-        xSet2 = xSet1 + wSet
-        xSet3 = xSet2 + wSet
-        
-        graphics.DrawText(canvas, self.fntXL, xSet1, yT1, clrScoreSet, "7")
-        graphics.DrawText(canvas, self.fntXL, xSet2, yT1, clrScoreSet, "3")
-        graphics.DrawText(canvas, self.fntXL, xSet3, yT1, clrScoreSet, "5")
-        graphics.DrawText(canvas, self.fntXL, xService, yT1-yServiceDelta, clrScoreSet, ".")
-        graphics.DrawText(canvas, self.fntXL, xGame, yT1, clrScoreSet, "30")
-
-        graphics.DrawText(canvas, self.fntXL, xSet1, yT2, clrScoreSet, "6")
-        graphics.DrawText(canvas, self.fntXL, xSet2, yT2, clrScoreSet, "6")
-        graphics.DrawText(canvas, self.fntXL, xSet3, yT2, clrScoreSet, "4")
-        graphics.DrawText(canvas, self.fntXL, xService, yT2-yServiceDelta, clrScoreSet, "")
-        graphics.DrawText(canvas, self.fntXL, xGame, yT2, clrScoreSet, "15")
 
     def showScore(self, canvas, duration):
         canvas.Clear()
