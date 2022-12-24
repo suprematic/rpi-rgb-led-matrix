@@ -94,7 +94,24 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
-    def showScoreDoublesWithFlags(self, canvas, duration):
+    def renderNamesDoubles(self, canvas, n1, n2, n3, n4, font="../fonts/7x13.bdf"):
+
+        yT1P1 = 2 + fH 
+        yT1P2 = yT1P1 + 2 + fH
+        yT2P1 = yT1P2 + 18
+        yT2P2 = yT2P1 + 2 + fH
+        
+        clrName = self.clrGrey
+        fnt = graphics.Font()
+        fnt.LoadFont(font)
+
+        graphics.DrawText(canvas, fnt, fW+2, yT1P1, clrName, n1.upper())
+        graphics.DrawText(canvas, fnt, fW+2, yT1P2, clrName, n2.upper())
+        graphics.DrawText(canvas, fnt, fW+2, yT2P1, clrName, n3.upper())
+        graphics.DrawText(canvas, fnt, fW+2, yT2P2, clrName, n4.upper())
+
+
+    def showScoreDoublesWithFlagsLong(self, canvas, duration):
         canvas.Clear()
 
         fH = 12
@@ -107,19 +124,23 @@ class M1_Demo(SampleBase):
 
 
 
-        yT1P1 = 2 + fH 
-        yT1P2 = yT1P1 + 2 + fH
-        yT2P1 = yT1P2 + 18
-        yT2P2 = yT2P1 + 2 + fH
+        self.renderNamesDoubles(canvas, "Schiavionne", "Berrettini", "Shinkarenko", "Dolgopolov")
         
-        clrName = self.clrGrey
-        fnt = graphics.Font()
-        fnt.LoadFont("../fonts/7x13.bdf")
+        self.renderScore3Sets(canvas, -2)
 
-        graphics.DrawText(canvas, fnt, fW+2, yT1P1, clrName, "Schiavionne".upper())
-        graphics.DrawText(canvas, fnt, fW+2, yT1P2, clrName, "Shinkarenko".upper())
-        graphics.DrawText(canvas, fnt, fW+2, yT2P1, clrName, "Berrettini".upper())
-        graphics.DrawText(canvas, fnt, fW+2, yT2P2, clrName, "Dolgopolov".upper())
+        canvas = self.matrix.SwapOnVSync(canvas)
+        time.sleep(duration)
+
+    def showScoreDoublesWithFlagsShort(self, canvas, duration):
+        canvas.Clear()
+
+        fH = 12
+        fW = 18
+
+        canvas.SetImage(Image.open("images/flag-italy.png").convert('RGB'),   0, 3)
+        canvas.SetImage(Image.open("images/flag-spain.png").convert('RGB'),   0, 3+fH+2+fH+3+3)        
+
+        self.renderNamesDoubles(canvas, "Rossi", "Bianchi", "González", "Lopez", "../fonts/9x13.bdf")
         
         self.renderScore3Sets(canvas, -2)
 
@@ -244,7 +265,9 @@ class M1_Demo(SampleBase):
         
         canvas = self.matrix.CreateFrameCanvas()
         
-        self.showScoreDoublesWithFlags(canvas, durationPerScreen)
+        self.showScoreDoublesWithFlagsShort(canvas, durationPerScreen)
+
+        self.showScoreDoublesWithFlagsLong(canvas, durationPerScreen)
 
         self.showFlags(canvas, durationPerScreen)
         
