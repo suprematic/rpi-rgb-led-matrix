@@ -38,7 +38,7 @@ class M1_Demo(SampleBase):
         yServiceDelta = 10
 
         xGame = 163
-        xService = 151
+        xService = 155
         wSet = 20
         xSet1 = 96
         xSet2 = xSet1 + wSet
@@ -79,6 +79,17 @@ class M1_Demo(SampleBase):
         canvas.SetImage(Image.open("images/flag-spain.png").convert('RGB'),   0, 3+fH+2)
         canvas.SetImage(Image.open("images/flag-france.png").convert('RGB'),  0, 3+fH+2+fH+3+3)
         canvas.SetImage(Image.open("images/flag-ukraine.png").convert('RGB'), 0, 3+fH+2+fH+3+3+fH+2)
+
+
+
+        yT1 = 28
+        yT2 = 62        
+        clrName = self.clrGrey
+        fnt = graphics.Font()
+        fnt.LoadFont("../fonts/texgyre-27.bdf")
+
+        graphics.DrawText(canvas, fnt, fW+2, yT1, clrName, "FED")
+        graphics.DrawText(canvas, fnt, fW+2, yT2, clrName, "NAD")
         
         self.renderScore3Sets(canvas)
 
