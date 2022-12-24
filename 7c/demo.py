@@ -80,7 +80,7 @@ class M1_Demo(SampleBase):
         canvas.SetImage(Image.open("images/flag-france.png").convert('RGB'),  0, 3+fH+2+fH+3+3)
         canvas.SetImage(Image.open("images/flag-ukraine.png").convert('RGB'), 0, 3+fH+2+fH+3+3+fH+2)
         
-        renderScore3Sets(canvas)
+        self.renderScore3Sets(canvas)
 
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
