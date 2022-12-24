@@ -37,10 +37,10 @@ class M1_Demo(SampleBase):
         yT2 = 62
         yServiceDelta = 10
 
-        xGame = 158
-        xService = 146
-        wSet = 24
-        xSet1 = 80
+        xGame = 163
+        xService = 151
+        wSet = 20
+        xSet1 = 96
         xSet2 = xSet1 + wSet
         xSet3 = xSet2 + wSet
         
