@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from samplebase import SampleBase
 from rgbmatrix import graphics
 import time
@@ -96,6 +97,9 @@ class M1_Demo(SampleBase):
 
     def renderNamesDoubles(self, canvas, n1, n2, n3, n4, font="../fonts/7x13.bdf"):
 
+        fH=12
+        fW=18
+
         yT1P1 = 2 + fH 
         yT1P2 = yT1P1 + 2 + fH
         yT2P1 = yT1P2 + 18
@@ -137,10 +141,11 @@ class M1_Demo(SampleBase):
         fH = 12
         fW = 18
 
-        canvas.SetImage(Image.open("images/flag-italy.png").convert('RGB'),   0, 3)
-        canvas.SetImage(Image.open("images/flag-spain.png").convert('RGB'),   0, 3+fH+2+fH+3+3)        
+        canvas.SetImage(Image.open("images/flag-italy.png").convert('RGB'),   0, 6 + 3)
+        canvas.SetImage(Image.open("images/flag-spain.png").convert('RGB'),   0, 6 + 3+fH+2+fH+3+3)        
 
-        self.renderNamesDoubles(canvas, "Rossi", "Bianchi", "González", "Lopez", "../fonts/9x13.bdf")
+        # FIXME support accents, umlauts etc (Gonzalez)
+        self.renderNamesDoubles(canvas, "Rossi", "Bianchi", "Gonzalez", "Lopez", "../fonts/9x15.bdf")
         
         self.renderScore3Sets(canvas, -2)
 
@@ -269,15 +274,16 @@ class M1_Demo(SampleBase):
 
         self.showScoreDoublesWithFlagsLong(canvas, durationPerScreen)
 
-        self.showFlags(canvas, durationPerScreen)
         
         self.showScoreSinglesWithFlags(canvas, durationPerScreen)
 
-        self.showClock(canvas, durationPerScreen)
+        
+        self.showScore(canvas, durationPerScreen)
 
         self.showLogos(canvas, durationPerScreen)
+        self.showClock(canvas, durationPerScreen)
 
-        self.showScore(canvas, durationPerScreen)
+        self.showFlags(canvas, durationPerScreen)
             
         
 
