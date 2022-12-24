@@ -26,6 +26,19 @@ class M1_Demo(SampleBase):
         for x in range(100000):
             self.runSlideShow(delay)
 
+    def showScoreDoubles(self, canvas, duration):
+        canvas.Clear()
+
+        canvas.SetImage(Image.open("images/flag-france.png"), 0*18, 0*12)
+        canvas.SetImage(Image.open("images/flag-germany.png"), 1*18, 1*12)
+        canvas.SetImage(Image.open("images/flag-italy.png"), 2*18, 2*12)
+        canvas.SetImage(Image.open("images/flag-portugal.png"), 3*18, 3*12)
+        canvas.SetImage(Image.open("images/flag-spain.png"), 4*18, 0*12)
+        canvas.SetImage(Image.open("images/flag-ukraine.png"), 0*18, 3*12)
+
+        canvas = self.matrix.SwapOnVSync(canvas)
+        time.sleep(duration)
+
     def showClock(self, canvas, duration):
         
         clrClock = self.clrGrey
@@ -162,6 +175,8 @@ class M1_Demo(SampleBase):
         
         canvas = self.matrix.CreateFrameCanvas()
         
+        self.showScoreDoubles(canvas, durationPerScreen)
+
         self.showClock(canvas, durationPerScreen)
 
         self.showLogos(canvas, durationPerScreen)
