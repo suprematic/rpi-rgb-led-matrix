@@ -20,6 +20,10 @@ class M1_Demo(SampleBase):
 
         self.font_XL = graphics.Font()
         self.font_XL.LoadFont("fonts/texgyre-27.bdf")
+        self.font_S = graphics.Font()
+        self.font_S.LoadFont("fonts/7x13.bdf")
+        self.font_M = graphics.Font()
+        self.font_M.LoadFont("fonts/9x15.bdf")
         
 
 
@@ -61,12 +65,12 @@ class M1_Demo(SampleBase):
     def show_flags(self, canvas, duration):
         canvas.Clear()
 
-        canvas.SetImage(Image.open("images/flag-france.png").convert('RGB'), 0*18, 0*12)
-        canvas.SetImage(Image.open("images/flag-germany.png").convert('RGB'), 1*18, 1*12)
-        canvas.SetImage(Image.open("images/flag-italy.png").convert('RGB'), 2*18, 2*12)
-        canvas.SetImage(Image.open("images/flag-portugal.png").convert('RGB'), 3*18, 3*12)
-        canvas.SetImage(Image.open("images/flag-spain.png").convert('RGB'), 4*18, 0*12)
-        canvas.SetImage(Image.open("images/flag-ukraine.png").convert('RGB'), 0*18, 3*12)
+        canvas.SetImage(Image.open("images/flags/france.png").convert('RGB'), 0*18, 0*12)
+        canvas.SetImage(Image.open("images/flags/germany.png").convert('RGB'), 1*18, 1*12)
+        canvas.SetImage(Image.open("images/flags/italy.png").convert('RGB'), 2*18, 2*12)
+        canvas.SetImage(Image.open("images/flags/portugal.png").convert('RGB'), 3*18, 3*12)
+        canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'), 4*18, 0*12)
+        canvas.SetImage(Image.open("images/flags/ukraine.png").convert('RGB'), 0*18, 3*12)
 
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
@@ -80,23 +84,21 @@ class M1_Demo(SampleBase):
         flag_height = 12
         flag_width = 18
 
-        canvas.SetImage(Image.open("images/flag-switzerland.png").convert('RGB'),   0, 10)
-        canvas.SetImage(Image.open("images/flag-spain.png").convert('RGB'),   0, 42)
+        canvas.SetImage(Image.open("images/flags/switzerland.png").convert('RGB'),   0, 10)
+        canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'),   0, 42)
         
         
         color_name = self.color_grey
-        font = graphics.Font()
-        font.LoadFont("../fonts/texgyre-27.bdf")
-
-        graphics.DrawText(canvas, font, flag_width+2, y_T1, color_name, "FED")
-        graphics.DrawText(canvas, font, flag_width+2, y_T2, color_name, "NAD")
+        
+        graphics.DrawText(canvas, self.font_XL, flag_width+2, y_T1, color_name, "FED")
+        graphics.DrawText(canvas, self.font_XL, flag_width+2, y_T2, color_name, "NAD")
         
         self.render_score_3_sets(canvas)
 
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
-    def render_names_doubles(self, canvas, n1, n2, n3, n4, font_path="../fonts/7x13.bdf"):
+    def render_names_doubles(self, canvas, n1, n2, n3, n4, font=self.font_S):
 
         flag_height=12
         flag_width=18
@@ -107,9 +109,7 @@ class M1_Demo(SampleBase):
         y_T2P2 = y_T2P1 + 2 + flag_height
         
         color_name = self.color_grey
-        font = graphics.Font()
-        font.LoadFont(font_path)
-
+        
         graphics.DrawText(canvas, font, flag_width+2, y_T1P1, color_name, n1.upper())
         graphics.DrawText(canvas, font, flag_width+2, y_T1P2, color_name, n2.upper())
         graphics.DrawText(canvas, font, flag_width+2, y_T2P1, color_name, n3.upper())
@@ -122,10 +122,10 @@ class M1_Demo(SampleBase):
         flag_height = 12
         flag_width = 18
 
-        canvas.SetImage(Image.open("images/flag-italy.png").convert('RGB'),   0, 3)
-        canvas.SetImage(Image.open("images/flag-spain.png").convert('RGB'),   0, 3+flag_height+2)
-        canvas.SetImage(Image.open("images/flag-france.png").convert('RGB'),  0, 3+flag_height+2+flag_height+3+3)
-        canvas.SetImage(Image.open("images/flag-ukraine.png").convert('RGB'), 0, 3+flag_height+2+flag_height+3+3+flag_height+2)
+        canvas.SetImage(Image.open("images/flags/italy.png").convert('RGB'),   0, 3)
+        canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'),   0, 3+flag_height+2)
+        canvas.SetImage(Image.open("images/flags/france.png").convert('RGB'),  0, 3+flag_height+2+flag_height+3+3)
+        canvas.SetImage(Image.open("images/flags/ukraine.png").convert('RGB'), 0, 3+flag_height+2+flag_height+3+3+flag_height+2)
 
 
 
@@ -142,11 +142,11 @@ class M1_Demo(SampleBase):
         flag_height = 12
         flag_width = 18
 
-        canvas.SetImage(Image.open("images/flag-italy.png").convert('RGB'), 0, 6 + 3)
-        canvas.SetImage(Image.open("images/flag-spain.png").convert('RGB'), 0, 6 + 3+flag_height+2+flag_height+3+3)
+        canvas.SetImage(Image.open("images/flags/italy.png").convert('RGB'), 0, 6 + 3)
+        canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'), 0, 6 + 3+flag_height+2+flag_height+3+3)
 
         # FIXME support accents, umlauts etc (Gonzalez)
-        self.render_names_doubles(canvas, "Rossi", "Bianchi", "Gonzalez", "Lopez", "../fonts/9x15.bdf")
+        self.render_names_doubles(canvas, "Rossi", "Bianchi", "Gonzalez", "Lopez", self.font_M)
         
         self.render_score_3_sets(canvas)
 
@@ -164,20 +164,19 @@ class M1_Demo(SampleBase):
             canvas = self.matrix.SwapOnVSync(canvas)
             time.sleep(1)
 
-    def show_logos(self, canvas, duration):
+    def show_logo(self, canvas, path_to_logo, duration):
         canvas.Clear()
-
-        image = Image.open("images/waldau_generali_transparent.png")
-        canvas.SetImage(image.convert('RGB'))
-
+        canvas.SetImage(Image.open(path_to_logo).convert('RGB'))
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
     def show_title_slide(self, canvas, duration):
         canvas.Clear()
 
-        image = Image.open("images/sevencourts_logo.png")
+        image = Image.open("images/logos/sevencourts_192x21.png")
         canvas.SetImage(image.convert('RGB'))
+
+        graphics.DrawText(canvas, self.font_XL, 0, 60, self.color_grey, "Interactive infoboards affordable for any club")
 
         graphics.DrawText(canvas, self.font_XL, 80, 60, self.color_grey, "Demo")
 
@@ -189,9 +188,15 @@ class M1_Demo(SampleBase):
         
         canvas = self.matrix.CreateFrameCanvas()
 
-
         self.show_title_slide(canvas, durationPerScreen)
+
+        #self.show_logo(canvas, "images/logos/waldau_64x64.png", durationPerScreen)
+        #self.show_logo(canvas, "images/logos/generali_76x61.png", durationPerScreen)
+        self.show_logo(canvas, "images/logos/a-rete_192x51.png", durationPerScreen)        
+        self.show_logo(canvas, "images/logos/tom-schilke_192x55.png", durationPerScreen)
+        self.show_logo(canvas, "images/logos/sv1845_101x64.png", durationPerScreen)
         
+                
         self.show_score_doubles_with_flags_short(canvas, durationPerScreen)
 
 
@@ -203,7 +208,7 @@ class M1_Demo(SampleBase):
         self.show_score_singles_with_flags(canvas, durationPerScreen)
 
 
-        self.show_logos(canvas, durationPerScreen)
+        
         self.show_clock(canvas, durationPerScreen)
 
         self.show_flags(canvas, durationPerScreen)
