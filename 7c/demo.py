@@ -175,13 +175,31 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
-    def show_clock_with_weather(self, canvas, duration):
+    def show_clock_with_weather_and_announcement(self, canvas, duration):
+        canvas.Clear()
+
+        self.render_weather(canvas)
+        graphics.DrawText(
+            canvas, self.font_M, 4, 60, self.color_grey,
+            "Happy wedding day,\nJohn and Mary!")
+        
+        # draw statics also on the swapped canvas before starting clock
+        canvas = self.matrix.SwapOnVSync(canvas)
+
+        self.render_weather(canvas)
+        graphics.DrawText(
+            canvas, self.font_M, 4, 60, self.color_grey,
+            "Happy wedding day,\nJohn and Mary!")
+
+        self.render_clock(canvas, 80, 60, 104, 21, self.font_L, duration)
+
+    def show_big_clock_with_weather(self, canvas, duration):
         canvas.Clear()
         self.render_weather(canvas)
         # draw statics also on the swapped canvas before starting clock
         canvas = self.matrix.SwapOnVSync(canvas)
         self.render_weather(canvas)
-        self.render_clock(canvas, duration)
+        self.render_clock(canvas, 80, 60, 104, 21, self.font_XL, duration)
 
     def render_weather(self, canvas):
         x_weather = 128
@@ -201,13 +219,8 @@ class M1_Demo(SampleBase):
         for x in range (x0, x0+w):
             graphics.DrawLine(canvas, x, y0, x, y0+h, self.color_black)
 
-    def render_clock(self, canvas, duration):
+    def render_clock(self, canvas, x, y, w, h, font, duration):
         color_clock = self.color_grey
-        font = self.font_XL
-        x = 80
-        y = 60
-        h = 21
-        w = 104
         for _ in range(duration):
             self.clear_rect(canvas, x, y-h, w, h)
             current_time=datetime.now().strftime('%H:%M:%S')
@@ -263,12 +276,10 @@ class M1_Demo(SampleBase):
         self.show_logo(canvas, "images/logos/sv1845_101x64.png", duration_logo)
 
         # 3.1. Clock + Weather
-        self.show_clock_with_weather(canvas, duration_per_slide)
+        self.show_big_clock_with_weather(canvas, duration_per_slide)
 
-        # 3.2. Clock + Weather + Club logo
-
-        # 3.3. Clock + Weather + Club logo
-
+        # 3.2. Clock + Weather + Announcement
+        self.show_clock_with_weather_and_announcement(canvas, duration_per_slide)
 
         self.show_score_doubles_with_flags_short(canvas, duration_per_slide)
         self.show_score_doubles_with_flags_long(canvas, duration_per_slide)
@@ -278,7 +289,8 @@ class M1_Demo(SampleBase):
     def run_slide_show(self, duration_per_slide):
         canvas = self.matrix.CreateFrameCanvas()
 
-        self.show_clock_with_weather(canvas, duration_per_slide)
+        self.show_clock_with_weather_and_announcement(canvas, duration_per_slide)
+        
         #self.run_demo_sequence(canvas, duration_per_slide)        
 
         #self.show_flags(canvas, duration_per_slide)
