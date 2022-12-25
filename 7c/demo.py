@@ -196,11 +196,10 @@ class M1_Demo(SampleBase):
         canvas.Clear()
 
         image = Image.open("images/logos/sevencourts_192x21.png")
-        canvas.SetImage(image.convert('RGB'))
 
-        graphics.DrawText(canvas, self.font_XS, 0, 40, self.color_grey, "Interactive infoboards affordable for any club")
+        canvas.SetImage(image.convert('RGB'), 0, 20)
 
-        graphics.DrawText(canvas, self.font_XL, 80, 60, self.color_grey, "Demo")
+        graphics.DrawText(canvas, self.font_S, 4, 60, self.color_grey, "Interactive infoboards for EVERY club")
 
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
@@ -224,15 +223,15 @@ class M1_Demo(SampleBase):
         
         canvas = self.matrix.CreateFrameCanvas()
 
-        self.show_fonts(canvas, durationPerScreen)
 
         self.show_title_slide(canvas, durationPerScreen)
 
         #self.show_logo(canvas, "images/logos/waldau_64x64.png", durationPerScreen)
         #self.show_logo(canvas, "images/logos/generali_76x61.png", durationPerScreen)
-        self.show_logo(canvas, "images/logos/a-rete_192x51.png", durationPerScreen)        
-        self.show_logo(canvas, "images/logos/tom-schilke_192x55.png", durationPerScreen)
-        self.show_logo(canvas, "images/logos/sv1845_101x64.png", durationPerScreen)
+        duration_logo = 2
+        self.show_logo(canvas, "images/logos/a-rete_192x51.png", duration_logo)
+        self.show_logo(canvas, "images/logos/tom-schilke_192x55.png", duration_logo)
+        self.show_logo(canvas, "images/logos/sv1845_101x64.png", duration_logo)
         
 
         self.show_score_doubles_with_flags_short(canvas, durationPerScreen)
@@ -250,6 +249,7 @@ class M1_Demo(SampleBase):
         self.show_clock(canvas, durationPerScreen)
 
         self.show_flags(canvas, durationPerScreen)
+        self.show_fonts(canvas, durationPerScreen)
             
         
 
