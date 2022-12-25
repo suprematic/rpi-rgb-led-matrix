@@ -96,7 +96,7 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
-    def render_names_doubles(self, canvas, n1, n2, n3, n4, font="../fonts/7x13.bdf"):
+    def render_names_doubles(self, canvas, n1, n2, n3, n4, font_path="../fonts/7x13.bdf"):
 
         flag_height=12
         flag_width=18
@@ -108,7 +108,7 @@ class M1_Demo(SampleBase):
         
         color_name = self.color_grey
         font = graphics.Font()
-        font.LoadFont(font)
+        font.LoadFont(font_path)
 
         graphics.DrawText(canvas, font, flag_width+2, y_T1P1, color_name, n1.upper())
         graphics.DrawText(canvas, font, flag_width+2, y_T1P2, color_name, n2.upper())
