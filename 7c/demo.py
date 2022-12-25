@@ -28,15 +28,15 @@ class M1_Demo(SampleBase):
         for x in range(100000):
             self.run_slide_show(delay)
 
-    def render_score_3_sets(self, canvas, y_shift_per_team=0):
+    def render_score_3_sets(self, canvas):
         ## pseudo score in 3 sets:
         ## 7-6 3-6 7-4 *30-15
 
         color_score_set = self.color_grey
         color_score_game = self.color_grey
         
-        y_T1 = 28 + 1*y_shift_per_team
-        y_T2 = 62 + 2*y_shift_per_team
+        y_T1 = 26
+        y_T2 = 58
         y_service_delta = 10
 
         x_game = 163
@@ -91,7 +91,7 @@ class M1_Demo(SampleBase):
         graphics.DrawText(canvas, font, flag_width+2, y_T1, color_name, "FED")
         graphics.DrawText(canvas, font, flag_width+2, y_T2, color_name, "NAD")
         
-        self.render_score_3_sets(canvas, -2)
+        self.render_score_3_sets(canvas)
 
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
@@ -131,7 +131,7 @@ class M1_Demo(SampleBase):
 
         self.render_names_doubles(canvas, "Schiavionne", "Berrettini", "Shinkarenko", "Dolgopolov")
         
-        self.render_score_3_sets(canvas, -2)
+        self.render_score_3_sets(canvas)
 
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
@@ -148,7 +148,7 @@ class M1_Demo(SampleBase):
         # FIXME support accents, umlauts etc (Gonzalez)
         self.render_names_doubles(canvas, "Rossi", "Bianchi", "Gonzalez", "Lopez", "../fonts/9x15.bdf")
         
-        self.render_score_3_sets(canvas, -2)
+        self.render_score_3_sets(canvas)
 
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
@@ -176,97 +176,6 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
-    def show_score(self, canvas, duration):
-        canvas.Clear()
-
-        
-        
-        ### FIXME use png sprite instead
-        ## Flag Switzerland 10x10
-        f1l = 10 
-        f1h = 10
-        f1x = 63
-        f1y = 13
-
-        fl = f1l - 1
-        flag_height = f1h - 1
-        fx = f1x
-        fy = f1y
-        clrF1 = graphics.Color(218, 41, 28)
-        clrF2 = self.color_white
-        graphics.DrawLine(canvas, fx, fy, fx+fl, fy, clrF1)
-        graphics.DrawLine(canvas, fx, fy+1, fx+fl, fy+1, clrF1)
-
-        graphics.DrawLine(canvas, fx, fy, fx, fy+flag_height, clrF1)
-        graphics.DrawLine(canvas, fx+1, fy, fx+1, fy+flag_height, clrF1)
-
-        graphics.DrawLine(canvas, fx+fl, fy, fx+fl, fy+flag_height, clrF1)
-        graphics.DrawLine(canvas, fx+fl-1, fy, fx+fl-1, fy+flag_height, clrF1)
-        graphics.DrawLine(canvas, fx, fy+flag_height, fx+fl, fy+flag_height, clrF1)
-        graphics.DrawLine(canvas, fx, fy+flag_height-1, fx+fl, fy+flag_height-1, clrF1)
-        
-        graphics.DrawLine(canvas, fx + 1, fy + 1, fx + 1, fy + 1, clrF1)
-        graphics.DrawLine(canvas, fx + fl - 1, fy + 1, fx + fl - 1, fy + 1, clrF1)
-        graphics.DrawLine(canvas, fx + 1, fy + flag_height - 1, fx + 1, fy + flag_height - 1, clrF1)
-        graphics.DrawLine(canvas, fx + fl - 1, fy + flag_height - 1, fx + fl - 1, fy + flag_height - 1, clrF1)
-
-        graphics.DrawLine(canvas, fx+2, fy+2, fx+fl-2, fy+2, clrF1)
-        graphics.DrawLine(canvas, fx+2, fy+2+1, fx+fl-2, fy+2+1, clrF1)
-        graphics.DrawLine(canvas, fx+2, fy+flag_height-2, fx+fl-2, fy+flag_height-2, clrF1)
-        graphics.DrawLine(canvas, fx+2, fy+flag_height-2-1, fx+fl-2, fy+flag_height-2-1, clrF1)
-
-        graphics.DrawLine(canvas, fx+4, fy+2, fx+4, fy+flag_height-2, clrF2)
-        graphics.DrawLine(canvas, fx+4+1, fy+2, fx+4+1, fy+flag_height-2, clrF2)
-        graphics.DrawLine(canvas, fx+2, fy+4, fx+fl-2, fy+4, clrF2)
-        graphics.DrawLine(canvas, fx+2, fy+4+1, fx+fl-2, fy+4+1, clrF2)
-
-       
-        ### FIXME use png sprite instead
-        ## Flag Spain 12x10
-        f2l = 12 
-        f2h = 10
-        f2x = 62
-        f2y = 47 
-
-        fl = f2l - 1
-        flag_height = f2h - 1
-        fx = f2x
-        fy = f2y
-        clrF1 = graphics.Color(170, 21, 27)
-        clrF2 = graphics.Color(241, 191, 0)
-        
-        graphics.DrawLine(canvas, fx, fy, fx+fl, fy, clrF1)
-        graphics.DrawLine(canvas, fx, fy+1, fx+fl, fy+1, clrF1)
-        graphics.DrawLine(canvas, fx, fy+flag_height-1, fx+fl, fy+flag_height-1, clrF1)
-        graphics.DrawLine(canvas, fx, fy+flag_height, fx+fl, fy+flag_height, clrF1)
-
-        graphics.DrawLine(canvas, fx, fy+2, fx+fl, fy+2, clrF2)
-        graphics.DrawLine(canvas, fx, fy+3, fx+fl, fy+3, clrF2)
-        graphics.DrawLine(canvas, fx, fy+4, fx+fl, fy+4, clrF2)
-        graphics.DrawLine(canvas, fx, fy+5, fx+fl, fy+5, clrF2)
-        graphics.DrawLine(canvas, fx, fy+6, fx+fl, fy+6, clrF2)
-        graphics.DrawLine(canvas, fx, fy+7, fx+fl, fy+7, clrF2)
-
-        graphics.DrawLine(canvas, fx+3, fy+4, fx+2+1, fy+3, clrF1)
-        graphics.DrawLine(canvas, fx+2, fy+4, fx+2+2, fy+4, clrF1)
-        graphics.DrawLine(canvas, fx+2, fy+5, fx+2+2, fy+5, clrF1)
-        graphics.DrawLine(canvas, fx+2, fy+6, fx+2+2, fy+6, clrF1)
-
-       
-        
-        ## Names
-        y_T1 = 28
-        y_T2 = 62        
-        color_name = self.color_grey
-
-        graphics.DrawText(canvas, self.font_XL, 0, y_T1, color_name, "FED")
-        graphics.DrawText(canvas, self.font_XL, 0, y_T2, color_name, "NAD")
-
-        self.render_score_3_sets(canvas)
-
-        canvas = self.matrix.SwapOnVSync(canvas)
-        time.sleep(duration)
-
 
     def run_slide_show(self, durationPerScreen):
         
@@ -274,13 +183,14 @@ class M1_Demo(SampleBase):
         
         self.show_score_doubles_with_flags_short(canvas, durationPerScreen)
 
+
+
+
         self.show_score_doubles_with_flags_long(canvas, durationPerScreen)
 
         
         self.show_score_singles_with_flags(canvas, durationPerScreen)
 
-        
-        self.show_score(canvas, durationPerScreen)
 
         self.show_logos(canvas, durationPerScreen)
         self.show_clock(canvas, durationPerScreen)
