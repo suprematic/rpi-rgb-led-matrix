@@ -181,6 +181,7 @@ class M1_Demo(SampleBase):
         self.render_weather(canvas)
         graphics.DrawText(canvas, self.font_S, 2, 26, self.color_grey, "Happy wedding day,")
         graphics.DrawText(canvas, self.font_M, 2, 40, self.color_grey, "John & Mary!")
+        canvas.SetImage(Image.open("images/clipart/heart_19x16.png").convert('RGB'), 30, 50)
         
         # draw statics also on the swapped canvas before starting clock
         canvas = self.matrix.SwapOnVSync(canvas)
@@ -188,6 +189,7 @@ class M1_Demo(SampleBase):
         self.render_weather(canvas)
         graphics.DrawText(canvas, self.font_S, 2, 26, self.color_grey, "Happy wedding day,")
         graphics.DrawText(canvas, self.font_M, 2, 40, self.color_grey, "John & Mary!")
+        canvas.SetImage(Image.open("images/clipart/heart_19x16.png").convert('RGB'), 30, 50)
 
         self.render_clock(canvas, 110, 60, 104, 14, self.font_L, duration)
 
