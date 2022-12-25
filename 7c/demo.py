@@ -23,13 +23,15 @@ class M1_Demo(SampleBase):
         self.clr_green = graphics.Color(0, 255, 0)        
 
         self.font_XL = graphics.Font()
-        self.font_XL.LoadFont("fonts/texgyre-27.bdf")        
+        self.font_XL.LoadFont("fonts/texgyre-27.bdf")
+        self.font_L = graphics.Font()
+        self.font_L.LoadFont("../fonts/10x20.bdf") #FIXME
         self.font_M = graphics.Font()
         self.font_M.LoadFont("fonts/9x15.bdf")
         self.font_S = graphics.Font()
         self.font_S.LoadFont("fonts/7x13.bdf")
         self.font_XS = graphics.Font()
-        self.font_XS.LoadFont("../fonts/tom-thumb.bdf")
+        self.font_XS.LoadFont("../fonts/tom-thumb.bdf") #FIXME
         
 
 
@@ -203,10 +205,24 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
+    def show_fonts(self, canvas, duration):
+        canvas.Clear()
+
+        graphics.DrawText(canvas, self.font_XL, 0, 40, self.color_grey, "Extra large")
+        graphics.DrawText(canvas, self.font_L, 0, 40, self.color_grey, "Just large")
+        graphics.DrawText(canvas, self.font_M, 0, 40, self.color_grey, "Medium")
+        graphics.DrawText(canvas, self.font_S, 0, 40, self.color_grey, "Just small")
+        graphics.DrawText(canvas, self.font_XS, 0, 40, self.color_grey, "Extra small")
+
+        canvas = self.matrix.SwapOnVSync(canvas)
+        time.sleep(duration)
+
 
     def run_slide_show(self, durationPerScreen):
         
         canvas = self.matrix.CreateFrameCanvas()
+
+        self.show_fonts(canvas, durationPerScreen)
 
         self.show_title_slide(canvas, durationPerScreen)
 
