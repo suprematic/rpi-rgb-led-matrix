@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
+# FIXME use python3 where utf-8 is default and there is no need to decode anything
+
 from samplebase import SampleBase
 from rgbmatrix import graphics
 import time
@@ -17,10 +20,11 @@ class M1_Demo(SampleBase):
 
         self.color_white = graphics.Color(255, 255, 255) 
         self.color_grey = graphics.Color(128, 128, 128)
+        self.color_black = graphics.Color(0, 0, 0)
 
-        self.clr_red = graphics.Color(255, 0, 0) 
-        self.clr_yellow = graphics.Color(255, 255, 0) 
-        self.clr_green = graphics.Color(0, 255, 0)        
+        self.color_red = graphics.Color(255, 0, 0) 
+        self.color_yellow = graphics.Color(255, 255, 0) 
+        self.color_green = graphics.Color(0, 255, 0)        
 
         self.font_XL = graphics.Font()
         self.font_XL.LoadFont("fonts/texgyre-27.bdf")
@@ -173,20 +177,41 @@ class M1_Demo(SampleBase):
 
     def show_clock_with_weather(self, canvas, duration):
         canvas.Clear()
+        self.render_weather(canvas)
+        # draw statics also on the swapped canvas before starting clock
+        canvas = self.matrix.SwapOnVSync(canvas)
+        self.render_weather(canvas)
+        self.render_clock(canvas, duration)
 
-        x_weather = 80
-        y_weather = 24
+    def render_weather(self, canvas):
+        x_weather = 128
+        y_weather = 2
         image_weather = Image.open("images/weather/sunny_with_clouds_25x20.png").convert('RGB')
         canvas.SetImage(image_weather, x_weather, y_weather)
-        graphics.DrawText(canvas, self.font_L, x_weather + image_weather.width, y_weather, self.color_grey, "23°C")
+        # FIXME use python3 where utf-8 is default and there is no need to decode anything
+        graphics.DrawText(
+                canvas, 
+                self.font_L, 
+                x_weather + image_weather.width + 2, 
+                y_weather + image_weather.height - 2, 
+                self.color_grey, 
+                '23°'.decode('utf-8'))
 
-        self.render_clock(canvas, duration)
+    def clear_rect(self, canvas, x0, y0, w, h):
+        for x in range (x0, x0+w):
+            graphics.DrawLine(canvas, x, y0, x, y0+h, self.color_black)
 
     def render_clock(self, canvas, duration):
         color_clock = self.color_grey
-        for x in range(duration):            
+        font = self.font_XL
+        x = 80
+        y = 60
+        h = 21
+        w = 104
+        for _ in range(duration):
+            self.clear_rect(canvas, x, y-h, w, h)
             current_time=datetime.now().strftime('%H:%M:%S')
-            graphics.DrawText(canvas, self.font_XL, 80, 60, color_clock, current_time)
+            graphics.DrawText(canvas, font, x, y, color_clock, current_time)
             canvas = self.matrix.SwapOnVSync(canvas)
             time.sleep(1)
 
