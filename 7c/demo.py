@@ -23,11 +23,13 @@ class M1_Demo(SampleBase):
         self.clr_green = graphics.Color(0, 255, 0)        
 
         self.font_XL = graphics.Font()
-        self.font_XL.LoadFont("fonts/texgyre-27.bdf")
-        self.font_S = graphics.Font()
-        self.font_S.LoadFont("fonts/7x13.bdf")
+        self.font_XL.LoadFont("fonts/texgyre-27.bdf")        
         self.font_M = graphics.Font()
         self.font_M.LoadFont("fonts/9x15.bdf")
+        self.font_S = graphics.Font()
+        self.font_S.LoadFont("fonts/7x13.bdf")
+        self.font_XS = graphics.Font()
+        self.font_XS.LoadFont("../fonts/tom-thumb.bdf")
         
 
 
@@ -194,7 +196,7 @@ class M1_Demo(SampleBase):
         image = Image.open("images/logos/sevencourts_192x21.png")
         canvas.SetImage(image.convert('RGB'))
 
-        graphics.DrawText(canvas, self.font_XL, 0, 60, self.color_grey, "Interactive infoboards affordable for any club")
+        graphics.DrawText(canvas, self.font_XS, 0, 40, self.color_grey, "Interactive infoboards affordable for any club")
 
         graphics.DrawText(canvas, self.font_XL, 80, 60, self.color_grey, "Demo")
 
