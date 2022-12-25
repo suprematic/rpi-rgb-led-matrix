@@ -25,13 +25,15 @@ class M1_Demo(SampleBase):
         self.font_XL = graphics.Font()
         self.font_XL.LoadFont("fonts/texgyre-27.bdf")
         self.font_L = graphics.Font()
-        self.font_L.LoadFont("../fonts/10x20.bdf") #FIXME
+        self.font_L.LoadFont("fonts/10x20.bdf")
         self.font_M = graphics.Font()
         self.font_M.LoadFont("fonts/9x15.bdf")
         self.font_S = graphics.Font()
-        self.font_S.LoadFont("../fonts/5x8.bdf")
+        self.font_S.LoadFont("fonts/7x13.bdf")
         self.font_XS = graphics.Font()
-        self.font_XS.LoadFont("../fonts/tom-thumb.bdf") #FIXME
+        self.font_XS.LoadFont("fonts/5x8.bdf")
+        self.font_XXS = graphics.Font()
+        self.font_XXS.LoadFont("fonts/tom-thumb.bdf")
         
 
 
