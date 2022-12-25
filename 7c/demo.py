@@ -98,22 +98,30 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
-    def render_names_doubles(self, canvas, n1, n2, n3, n4, font=self.font_S):
+    def render_names_doubles(self, canvas, t1p1, t1p2, t2p1, t2p2):
+
+        max_name_length = max({len(t1p1), len(t1p2), len(t2p1), len(t2p2)})
+        if max_name_length > 8:
+            font = self.font_S
+        elif max_name_length > 6:
+            font = self.font_M
+        else:
+            font = self.font_L  
 
         flag_height=12
         flag_width=18
 
-        y_T1P1 = 2 + flag_height 
-        y_T1P2 = y_T1P1 + 2 + flag_height
-        y_T2P1 = y_T1P2 + 18
-        y_T2P2 = y_T2P1 + 2 + flag_height
+        y_t1p1 = 2 + flag_height 
+        y_t1p2 = y_t1p1 + 2 + flag_height
+        y_t2p1 = y_t1p2 + 18
+        y_t2p2 = y_t2p1 + 2 + flag_height
         
         color_name = self.color_grey
         
-        graphics.DrawText(canvas, font, flag_width+2, y_T1P1, color_name, n1.upper())
-        graphics.DrawText(canvas, font, flag_width+2, y_T1P2, color_name, n2.upper())
-        graphics.DrawText(canvas, font, flag_width+2, y_T2P1, color_name, n3.upper())
-        graphics.DrawText(canvas, font, flag_width+2, y_T2P2, color_name, n4.upper())
+        graphics.DrawText(canvas, font, flag_width+2, y_t1p1, color_name, t1p1.upper())
+        graphics.DrawText(canvas, font, flag_width+2, y_t1p2, color_name, t1p2.upper())
+        graphics.DrawText(canvas, font, flag_width+2, y_t2p1, color_name, t2p1.upper())
+        graphics.DrawText(canvas, font, flag_width+2, y_t2p2, color_name, t2p2.upper())
 
 
     def show_score_doubles_with_flags_long(self, canvas, duration):
@@ -146,7 +154,7 @@ class M1_Demo(SampleBase):
         canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'), 0, 6 + 3+flag_height+2+flag_height+3+3)
 
         # FIXME support accents, umlauts etc (Gonzalez)
-        self.render_names_doubles(canvas, "Rossi", "Bianchi", "Gonzalez", "Lopez", self.font_M)
+        self.render_names_doubles(canvas, "Rossi", "Bianchi", "Gonzalez", "Lopez")
         
         self.render_score_3_sets(canvas)
 
@@ -196,7 +204,7 @@ class M1_Demo(SampleBase):
         self.show_logo(canvas, "images/logos/tom-schilke_192x55.png", durationPerScreen)
         self.show_logo(canvas, "images/logos/sv1845_101x64.png", durationPerScreen)
         
-                
+
         self.show_score_doubles_with_flags_short(canvas, durationPerScreen)
 
 
