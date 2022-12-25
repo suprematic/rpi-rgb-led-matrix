@@ -179,8 +179,12 @@ class M1_Demo(SampleBase):
     def show_logo(self, canvas, path_to_logo, duration):
         canvas.Clear()
         image = Image.open(path_to_logo).convert('RGB')
-        print(image.width)
-        canvas.SetImage(image, 0, 0)
+        
+        # center image
+        x = max(0, (PANEL_WIDTH - image.width) / 2)
+        y = max(0, (PANEL_HEIGHT - image.height) / 2)        
+        
+        canvas.SetImage(image, x, y)
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
