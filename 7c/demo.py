@@ -179,19 +179,17 @@ class M1_Demo(SampleBase):
         canvas.Clear()
 
         self.render_weather(canvas)
-        graphics.DrawText(
-            canvas, self.font_M, 4, 60, self.color_grey,
-            "Happy wedding day,\nJohn and Mary!")
+        graphics.DrawText(canvas, self.font_S, 2, 26, self.color_grey, "Happy wedding day,")
+        graphics.DrawText(canvas, self.font_M, 2, 40, self.color_grey, "John & Mary!")
         
         # draw statics also on the swapped canvas before starting clock
         canvas = self.matrix.SwapOnVSync(canvas)
 
         self.render_weather(canvas)
-        graphics.DrawText(
-            canvas, self.font_M, 4, 60, self.color_grey,
-            "Happy wedding day,\nJohn and Mary!")
+        graphics.DrawText(canvas, self.font_S, 2, 26, self.color_grey, "Happy wedding day,")
+        graphics.DrawText(canvas, self.font_M, 2, 40, self.color_grey, "John & Mary!")
 
-        self.render_clock(canvas, 80, 60, 104, 21, self.font_L, duration)
+        self.render_clock(canvas, 110, 60, 104, 14, self.font_L, duration)
 
     def show_big_clock_with_weather(self, canvas, duration):
         canvas.Clear()
