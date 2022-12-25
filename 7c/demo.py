@@ -171,12 +171,20 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
-    def show_clock(self, canvas, duration):
-        
-        color_clock = self.color_grey
+    def show_clock_with_weather(self, canvas, duration):
+        canvas.Clear()
 
-        for x in range(duration):
-            canvas.Clear()
+        x_weather = 80
+        y_weather = 24
+        image_weather = Image.open("images/weather/sunny_with_clouds_25x20.png").convert('RGB')
+        canvas.SetImage(image_weather, x_weather, y_weather)
+        graphics.DrawText(canvas, self.font_L, x_weather + image_weather.width, y_weather, self.color_grey, "23°C")
+
+        self.render_clock(canvas, duration)
+
+    def render_clock(self, canvas, duration):
+        color_clock = self.color_grey
+        for x in range(duration):            
             current_time=datetime.now().strftime('%H:%M:%S')
             graphics.DrawText(canvas, self.font_XL, 80, 60, color_clock, current_time)
             canvas = self.matrix.SwapOnVSync(canvas)
@@ -218,37 +226,38 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
+    def run_demo_sequence(self, canvas, duration):
+        
+        # 1. Title slide: SevenCourts logo + slogan
+        self.show_title_slide(canvas, duration)
 
-    def run_slide_show(self, durationPerScreen):
-        canvas = self.matrix.CreateFrameCanvas()
-
-
-        self.show_title_slide(canvas, durationPerScreen)
-
-        #self.show_logo(canvas, "images/logos/waldau_64x64.png", durationPerScreen)
-        #self.show_logo(canvas, "images/logos/generali_76x61.png", durationPerScreen)
-        duration_logo = min(2, durationPerScreen)
+        # 2. Sequence of logos of our references
+        duration_logo = min(2, duration_per_slide)
         self.show_logo(canvas, "images/logos/a-rete_192x51.png", duration_logo)
         self.show_logo(canvas, "images/logos/tom-schilke_192x55.png", duration_logo)
         self.show_logo(canvas, "images/logos/sv1845_101x64.png", duration_logo)
-        
 
-        self.show_score_doubles_with_flags_short(canvas, durationPerScreen)
+        # 3.1. Clock + Weather
+        self.show_clock_with_weather(canvas, duration_per_slide)
 
+        # 3.2. Clock + Weather + Club logo
 
-
-
-        self.show_score_doubles_with_flags_long(canvas, durationPerScreen)
-
-        
-        self.show_score_singles_with_flags(canvas, durationPerScreen)
+        # 3.3. Clock + Weather + Club logo
 
 
-        
-        self.show_clock(canvas, durationPerScreen)
+        self.show_score_doubles_with_flags_short(canvas, duration_per_slide)
+        self.show_score_doubles_with_flags_long(canvas, duration_per_slide)
+        self.show_score_singles_with_flags(canvas, duration_per_slide)
 
-        self.show_flags(canvas, durationPerScreen)
-        self.show_fonts(canvas, durationPerScreen)
+
+    def run_slide_show(self, duration_per_slide):
+        canvas = self.matrix.CreateFrameCanvas()
+
+        self.show_clock_with_weather(canvas, duration_per_slide)
+        #self.run_demo_sequence(canvas, duration_per_slide)        
+
+        #self.show_flags(canvas, duration_per_slide)
+        #self.show_fonts(canvas, duration_per_slide)
             
         
 
