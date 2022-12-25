@@ -142,8 +142,8 @@ class M1_Demo(SampleBase):
         flag_height = 12
         flag_width = 18
 
-        canvas.SetImage(Image.open("images/flag-italy.png").convert('RGB'),   0, 6 + 3)
-        canvas.SetImage(Image.open("images/flag-spain.png").convert('RGB'),   0, 6 + 3+flag_height+2+flag_height+3+3)        
+        canvas.SetImage(Image.open("images/flag-italy.png").convert('RGB'), 0, 6 + 3)
+        canvas.SetImage(Image.open("images/flag-spain.png").convert('RGB'), 0, 6 + 3+flag_height+2+flag_height+3+3)
 
         # FIXME support accents, umlauts etc (Gonzalez)
         self.render_names_doubles(canvas, "Rossi", "Bianchi", "Gonzalez", "Lopez", "../fonts/9x15.bdf")
@@ -168,10 +168,18 @@ class M1_Demo(SampleBase):
         canvas.Clear()
 
         image = Image.open("images/waldau_generali_transparent.png")
-        # image.thumbnail((64*3, 32*2), Image.ANTIALIAS)
-        # self.matrix.SetImage(image.convert('RGB'))
-
         canvas.SetImage(image.convert('RGB'))
+
+        canvas = self.matrix.SwapOnVSync(canvas)
+        time.sleep(duration)
+
+    def show_title_slide(self, canvas, duration):
+        canvas.Clear()
+
+        image = Image.open("images/sevencourts_logo.png")
+        canvas.SetImage(image.convert('RGB'))
+
+        graphics.DrawText(canvas, self.font_XL, 80, 60, self.color_grey, "Demo")
 
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
@@ -180,6 +188,9 @@ class M1_Demo(SampleBase):
     def run_slide_show(self, durationPerScreen):
         
         canvas = self.matrix.CreateFrameCanvas()
+
+
+        self.show_title_slide(canvas, durationPerScreen)
         
         self.show_score_doubles_with_flags_short(canvas, durationPerScreen)
 
