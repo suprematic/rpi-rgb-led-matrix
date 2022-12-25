@@ -208,11 +208,13 @@ class M1_Demo(SampleBase):
     def show_fonts(self, canvas, duration):
         canvas.Clear()
 
-        graphics.DrawText(canvas, self.font_XL, 0, 20, self.color_grey, "Extra large")
-        graphics.DrawText(canvas, self.font_L, 10, 34, self.color_grey, "Just large")
-        graphics.DrawText(canvas, self.font_M, 20, 44, self.color_grey, "Medium, still great")
-        graphics.DrawText(canvas, self.font_S, 30, 56, self.color_grey, "Just small but good")
-        graphics.DrawText(canvas, self.font_XS, 40, 63, self.color_grey, "Extra small but also good")
+        phrase = 'Quick brown fox jumps over the lazy dog'
+
+        graphics.DrawText(canvas, self.font_XL, 0, 20, self.color_grey, phrase)
+        graphics.DrawText(canvas, self.font_L, 5, 34, self.color_grey, phrase)
+        graphics.DrawText(canvas, self.font_M, 10, 44, self.color_grey, phrase)
+        graphics.DrawText(canvas, self.font_S, 15, 56, self.color_grey, phrase)
+        graphics.DrawText(canvas, self.font_XS, 20, 63, self.color_grey, phrase)
 
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
