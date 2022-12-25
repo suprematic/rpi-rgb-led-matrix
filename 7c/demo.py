@@ -201,28 +201,25 @@ class M1_Demo(SampleBase):
 
         canvas.SetImage(image.convert('RGB'), 0, 20)
 
-        graphics.DrawText(canvas, self.font_S, 4, 60, self.color_grey, "Interactive infoboards for EVERY club")
+        graphics.DrawText(canvas, self.font_XS, 4, 60, self.color_grey, "Interactive infoboards for EVERY club")
 
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
     def show_fonts(self, canvas, duration):
         canvas.Clear()
-
         phrase = 'Quick brown fox jumps over the lazy dog'
-
         graphics.DrawText(canvas, self.font_XL, 0, 20, self.color_grey, phrase)
-        graphics.DrawText(canvas, self.font_L, 5, 34, self.color_grey, phrase)
-        graphics.DrawText(canvas, self.font_M, 10, 48, self.color_grey, phrase)
-        graphics.DrawText(canvas, self.font_S, 15, 57, self.color_grey, phrase)
-        graphics.DrawText(canvas, self.font_XS, 20, 63, self.color_grey, phrase)
-
+        graphics.DrawText(canvas, self.font_L, 0, 33, self.color_grey, phrase)
+        graphics.DrawText(canvas, self.font_M, 0, 44, self.color_grey, phrase)
+        graphics.DrawText(canvas, self.font_S, 0, 53, self.color_grey, phrase)
+        graphics.DrawText(canvas, self.font_XS, 0, 59, self.color_grey, phrase)
+        graphics.DrawText(canvas, self.font_XXS, 0, 64, self.color_grey, phrase)
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
 
     def run_slide_show(self, durationPerScreen):
-        
         canvas = self.matrix.CreateFrameCanvas()
 
 
@@ -230,7 +227,7 @@ class M1_Demo(SampleBase):
 
         #self.show_logo(canvas, "images/logos/waldau_64x64.png", durationPerScreen)
         #self.show_logo(canvas, "images/logos/generali_76x61.png", durationPerScreen)
-        duration_logo = 2
+        duration_logo = min(2, durationPerScreen)
         self.show_logo(canvas, "images/logos/a-rete_192x51.png", duration_logo)
         self.show_logo(canvas, "images/logos/tom-schilke_192x55.png", duration_logo)
         self.show_logo(canvas, "images/logos/sv1845_101x64.png", duration_logo)
