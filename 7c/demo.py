@@ -29,7 +29,7 @@ class M1_Demo(SampleBase):
         self.font_M = graphics.Font()
         self.font_M.LoadFont("fonts/9x15.bdf")
         self.font_S = graphics.Font()
-        self.font_S.LoadFont("fonts/7x13.bdf")
+        self.font_S.LoadFont("../fonts/5x8.bdf")
         self.font_XS = graphics.Font()
         self.font_XS.LoadFont("../fonts/tom-thumb.bdf") #FIXME
         
@@ -212,8 +212,8 @@ class M1_Demo(SampleBase):
 
         graphics.DrawText(canvas, self.font_XL, 0, 20, self.color_grey, phrase)
         graphics.DrawText(canvas, self.font_L, 5, 34, self.color_grey, phrase)
-        graphics.DrawText(canvas, self.font_M, 10, 44, self.color_grey, phrase)
-        graphics.DrawText(canvas, self.font_S, 15, 56, self.color_grey, phrase)
+        graphics.DrawText(canvas, self.font_M, 10, 48, self.color_grey, phrase)
+        graphics.DrawText(canvas, self.font_S, 15, 57, self.color_grey, phrase)
         graphics.DrawText(canvas, self.font_XS, 20, 63, self.color_grey, phrase)
 
         canvas = self.matrix.SwapOnVSync(canvas)
