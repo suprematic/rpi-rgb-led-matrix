@@ -6,6 +6,10 @@ import time
 from datetime import datetime
 from PIL import Image
 
+# Constants for the 7C M1 panel (P5 192 x 64)
+PANEL_WIDTH = 192
+PANEL_HEIGHT = 64
+
 class M1_Demo(SampleBase):
     def __init__(self, *args, **kwargs):
         super(M1_Demo, self).__init__(*args, **kwargs)
@@ -100,7 +104,7 @@ class M1_Demo(SampleBase):
 
     def render_names_doubles(self, canvas, t1p1, t1p2, t2p1, t2p2):
 
-        max_name_length = max({len(t1p1), len(t1p2), len(t2p1), len(t2p2)})
+        max_name_length = max(len(t1p1), len(t1p2), len(t2p1), len(t2p2))
         if max_name_length > 8:
             font = self.font_S
         elif max_name_length > 6:
@@ -174,7 +178,9 @@ class M1_Demo(SampleBase):
 
     def show_logo(self, canvas, path_to_logo, duration):
         canvas.Clear()
-        canvas.SetImage(Image.open(path_to_logo).convert('RGB'))
+        image = Image.open(path_to_logo).convert('RGB')
+        print(image.width)
+        canvas.SetImage(image, 0, 0)
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
