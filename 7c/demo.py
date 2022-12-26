@@ -252,6 +252,14 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
+    def show_caption(self, canvas, text):
+        canvas.Clear()
+
+        graphics.DrawText(canvas, self.font_S, 4, 32, self.color_yellow, text.decode('utf-8'))
+
+        canvas = self.matrix.SwapOnVSync(canvas)
+        time.sleep(3)
+
     def show_fonts(self, canvas, duration):
         canvas.Clear()
         phrase = 'Quick brown fox jumps over the lazy dog'
@@ -266,24 +274,36 @@ class M1_Demo(SampleBase):
 
     def run_demo_sequence(self, canvas, duration):
         
-        # 1. Title slide: SevenCourts logo + slogan
+        # 0. Title slide: SevenCourts logo + slogan
         self.show_title_slide(canvas, duration)
 
-        # 2. Sequence of logos of our references
+
+        # 1.1. Idle mode: sequence of logos of our references
+        self.show_caption(canvas, "Club or sponsors logos")
         duration_logo = min(2, duration)
         self.show_logo(canvas, "images/logos/a-rete_192x51.png", duration_logo)
         self.show_logo(canvas, "images/logos/tom-schilke_192x55.png", duration_logo)
         self.show_logo(canvas, "images/logos/sv1845_101x64.png", duration_logo)
 
-        # 3.1. Clock + Weather
+        # 1.2. Idle mode: Clock + Weather + etc.
+        self.show_caption(canvas, "Time, weather, etc.")
         self.show_big_clock_with_weather(canvas, duration)
-
-        # 3.2. Clock + Weather + Announcement
         self.show_clock_with_weather_and_announcement(canvas, duration)
 
+        # 2.1. Match mode: point-by-point
+        self.show_caption(canvas, "Point-by-point score (pro)")
         self.show_score_doubles_with_flags_short(canvas, duration)
         self.show_score_doubles_with_flags_long(canvas, duration)
         self.show_score_singles_with_flags(canvas, duration)
+
+
+        # 2.2. Match mode: game-by-game
+        self.show_caption(canvas, "Game-by-game score")
+        #self.show_score_doubles_with_flags_short(canvas, duration)
+        #self.show_score_doubles_with_flags_long(canvas, duration)
+        #self.show_score_singles_with_flags(canvas, duration)
+
+        self.show_caption(canvas, "Price: M1 999€ / XS 399€")
 
 
     def run_slide_show(self, duration):
