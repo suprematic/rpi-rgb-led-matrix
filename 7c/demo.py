@@ -191,7 +191,7 @@ class M1_Demo(SampleBase):
         graphics.DrawText(canvas, self.font_M, 2, 40, self.color_grey, "John & Mary")
         canvas.SetImage(Image.open("images/clipart/heart_19x16.png").convert('RGB'), 42, 45)
 
-        self.render_clock(canvas, 110, 60, 104, 14, self.font_L, duration)
+        self.render_clock(canvas, '%H:%M', 140, 61, 104, 14, self.font_L, duration)
 
     def show_big_clock_with_weather(self, canvas, duration):
         canvas.Clear()
@@ -199,7 +199,7 @@ class M1_Demo(SampleBase):
         # draw statics also on the swapped canvas before starting clock
         canvas = self.matrix.SwapOnVSync(canvas)
         self.render_weather(canvas)
-        self.render_clock(canvas, 80, 60, 104, 21, self.font_XL, duration)
+        self.render_clock(canvas, '%H:%M:%S', 80, 60, 104, 21, self.font_XL, duration)
 
     def render_weather(self, canvas):
         x_weather = 134
@@ -219,11 +219,11 @@ class M1_Demo(SampleBase):
         for x in range (x0, x0+w):
             graphics.DrawLine(canvas, x, y0, x, y0+h, self.color_black)
 
-    def render_clock(self, canvas, x, y, w, h, font, duration):
+    def render_clock(self, canvas, format, x, y, w, h, font, duration):
         color_clock = self.color_grey
         for _ in range(duration):
             self.clear_rect(canvas, x, y-h, w, h)
-            current_time=datetime.now().strftime('%H:%M:%S')
+            current_time=datetime.now().strftime(format)
             graphics.DrawText(canvas, font, x, y, color_clock, current_time)
             canvas = self.matrix.SwapOnVSync(canvas)
             time.sleep(1)
@@ -286,15 +286,13 @@ class M1_Demo(SampleBase):
         self.show_score_singles_with_flags(canvas, duration)
 
 
-    def run_slide_show(self, duration_per_slide):
+    def run_slide_show(self, duration):
         canvas = self.matrix.CreateFrameCanvas()
 
-        #self.show_clock_with_weather_and_announcement(canvas, duration_per_slide)
-        
-        self.run_demo_sequence(canvas, duration_per_slide)        
+        self.run_demo_sequence(canvas, duration)        
 
-        #self.show_flags(canvas, duration_per_slide)
-        #self.show_fonts(canvas, duration_per_slide)
+        #self.show_flags(canvas, duration)
+        #self.show_fonts(canvas, duration)
             
         
 
