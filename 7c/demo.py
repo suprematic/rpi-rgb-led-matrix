@@ -278,9 +278,7 @@ class M1_Demo(SampleBase):
         self.show_title_slide(canvas, duration)
 
 
-        # 1.1. Idle mode: sequence of logos of our references
-        self.show_image_centered(canvas, "images/slide_caption_logos.png", duration)
-        self.show_image_centered(canvas, "images/slide_caption_logos2.png", duration)
+        # 1.1. Idle mode: sequence of logos of our references        
         self.show_caption(canvas, "Club or sponsors logos")
         
         
@@ -314,6 +312,10 @@ class M1_Demo(SampleBase):
 
     def run_slide_show(self, duration):
         canvas = self.matrix.CreateFrameCanvas()
+        
+        self.show_image_centered(canvas, "images/slide_caption_logos.png", duration)
+        self.show_image_centered(canvas, "images/slide_caption_logos2.png", duration)
+        self.show_image_centered(canvas, "images/slide_caption_logos3.png", duration)
 
         self.run_demo_sequence(canvas, duration)        
 
