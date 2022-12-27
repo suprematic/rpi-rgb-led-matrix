@@ -228,9 +228,9 @@ class M1_Demo(SampleBase):
             canvas = self.matrix.SwapOnVSync(canvas)
             time.sleep(1)
 
-    def show_logo(self, canvas, path_to_logo, duration):
+    def show_image_centered(self, canvas, path_to_image, duration):
         canvas.Clear()
-        image = Image.open(path_to_logo).convert('RGB')
+        image = Image.open(path_to_image).convert('RGB')
         
         # center image
         x = max(0, (PANEL_WIDTH - image.width) / 2)
@@ -279,11 +279,16 @@ class M1_Demo(SampleBase):
 
 
         # 1.1. Idle mode: sequence of logos of our references
+        self.show_image_centered(canvas, "images/slide_caption_logos.png", duration)
         self.show_caption(canvas, "Club or sponsors logos")
+        
+        
         duration_logo = min(2, duration)
-        self.show_logo(canvas, "images/logos/a-rete_192x51.png", duration_logo)
-        self.show_logo(canvas, "images/logos/tom-schilke_192x55.png", duration_logo)
-        self.show_logo(canvas, "images/logos/sv1845_101x64.png", duration_logo)
+        self.show_image_centered(canvas, "images/logos/a-rete_192x51.png", duration_logo)
+        self.show_image_centered(canvas, "images/logos/tom-schilke_192x55.png", duration_logo)
+        self.show_image_centered(canvas, "images/logos/sv1845_101x64.png", duration_logo)
+        
+        
 
         # 1.2. Idle mode: Clock + Weather + etc.
         self.show_caption(canvas, "Time, weather, etc.")
