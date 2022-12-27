@@ -280,6 +280,7 @@ class M1_Demo(SampleBase):
 
         # 1.1. Idle mode: sequence of logos of our references
         self.show_image_centered(canvas, "images/slide_caption_logos.png", duration)
+        self.show_image_centered(canvas, "images/slide_caption_logos2.png", duration)
         self.show_caption(canvas, "Club or sponsors logos")
         
         
