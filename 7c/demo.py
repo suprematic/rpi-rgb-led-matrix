@@ -313,6 +313,7 @@ class M1_Demo(SampleBase):
     def run_slide_show(self, duration):
         canvas = self.matrix.CreateFrameCanvas()
         
+        self.show_image_centered(canvas, "images/sevencourts_2_192x21.png", duration)
         self.show_image_centered(canvas, "images/slide_caption_logos.png", duration)
         self.show_image_centered(canvas, "images/slide_caption_logos2.png", duration)
         self.show_image_centered(canvas, "images/slide_caption_logos3.png", duration)
