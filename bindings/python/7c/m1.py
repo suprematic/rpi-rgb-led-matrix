@@ -57,33 +57,37 @@ def team_name(name):
         n = name
         return n if len(n) <= 6 else n[0:4] + "."
 
+# Style constants
+COLOR_WHITE = graphics.Color(255, 255, 255)
+COLOR_GREY = graphics.Color(128, 128, 128)
+COLOR_BLACK = graphics.Color(0, 0, 0)
+COLOR_RED = graphics.Color(255, 0, 0)
+COLOR_YELLOW = graphics.Color(255, 255, 0)
+COLOR_GREEN = graphics.Color(0, 255, 0)
+
+FONT_XL = graphics.Font()
+FONT_XL.LoadFont("fonts/texgyre-27.bdf")
+FONT_L = graphics.Font()
+FONT_L.LoadFont("fonts/10x20.bdf")
+FONT_M = graphics.Font()
+FONT_M.LoadFont("fonts/9x15.bdf")
+FONT_S = graphics.Font()
+FONT_S.LoadFont("fonts/7x13.bdf")
+FONT_XS = graphics.Font()
+FONT_XS.LoadFont("fonts/5x8.bdf")
+FONT_XXS = graphics.Font()
+FONT_XXS.LoadFont("fonts/tom-thumb.bdf")
+
+# Stylesheet
+COLOR_DEFAULT = COLOR_GREY
+FONT_DEFAULT = FONT_S
+
 class SevenCourtsM1(SampleBase):
     def __init__(self, *args, **kwargs):
         super(SevenCourtsM1, self).__init__(*args, **kwargs)        
 
     def run(self):
         self.canvas = self.matrix.CreateFrameCanvas()
-
-        self.color_white = graphics.Color(255, 255, 255)
-        self.color_grey = graphics.Color(128, 128, 128)
-        self.color_black = graphics.Color(0, 0, 0)
-
-        self.color_red = graphics.Color(255, 0, 0)
-        self.color_yellow = graphics.Color(255, 255, 0)
-        self.color_green = graphics.Color(0, 255, 0)
-        
-        self.font_XL = graphics.Font()
-        self.font_XL.LoadFont("fonts/texgyre-27.bdf")
-        self.font_L = graphics.Font()
-        self.font_L.LoadFont("fonts/10x20.bdf")
-        self.font_M = graphics.Font()
-        self.font_M.LoadFont("fonts/9x15.bdf")
-        self.font_S = graphics.Font()
-        self.font_S.LoadFont("fonts/7x13.bdf")
-        self.font_XS = graphics.Font()
-        self.font_XS.LoadFont("fonts/5x8.bdf")
-        self.font_XXS = graphics.Font()
-        self.font_XXS.LoadFont("fonts/tom-thumb.bdf")
 
         panel_id = self.register()
         match = None
@@ -118,20 +122,18 @@ class SevenCourtsM1(SampleBase):
             time.sleep(1)
 
     def display_clock(self, canvas):
-        font = self.font_XL
-        color = self.color_grey        
         text = datetime.now().strftime('%H:%M:%S')
-        graphics.DrawText(canvas, font, 80, 60, color, text)
+        self.draw_text(80, 60, text, FONT_XL, COLOR_GREY)
 
     def display_match(self, match):
-        color = graphics.Color(64, 64, 64)
-        color_set = graphics.Color(0, 32, 32)
-        color_service = graphics.Color(32, 64, 0)
+        
+        color_set = COLOR_GREY
+        color_service = COLOR_YELLOW
 
         name1 = team_name(match["team1"]["name"])
         name2 = team_name(match["team2"]["name"])
-        self.draw_text(0, 10, color, name1)
-        self.draw_text(0, 30, color, name2)
+        self.draw_text(0, 10, name1)
+        self.draw_text(0, 30, name2)
 
         b = (0, 0 ,0)
         y = (96, 96, 0)
@@ -154,8 +156,8 @@ class SevenCourtsM1(SampleBase):
         game_score2 = str(game_score2 if game_score2 != None else "")
         game_score1X = 96 - (len(game_score1) * 7)
         game_score2X = 96 - (len(game_score2) * 7)
-        self.draw_text(game_score1X, 10, color, game_score1)
-        self.draw_text(game_score2X, 30, color, game_score2)
+        self.draw_text(game_score1X, 10, game_score1)
+        self.draw_text(game_score2X, 30, game_score2)
 
         set_scores1 = match["team1"]["setScores"]
         set_scores2 = match["team2"]["setScores"]
@@ -163,11 +165,11 @@ class SevenCourtsM1(SampleBase):
         set_scores2_x = 77 - (len(set_scores2) * 8)
         for score in [s for s in set_scores1 if s != None]:
             score = str(score)
-            self.draw_text(set_scores1_x, 10, color_set, score)
+            self.draw_text(set_scores1_x, 10, score)
             set_scores1_x = set_scores1_x + 8
         for score in [s for s in set_scores2 if s != None]:
             score = str(score)
-            self.draw_text(set_scores2_x, 30, color_set, score)
+            self.draw_text(set_scores2_x, 30, score)
             set_scores2_x = set_scores2_x + 8
 
         b = (0, 0 ,0)
@@ -212,8 +214,8 @@ class SevenCourtsM1(SampleBase):
             [b,r,r,b]]
         self.draw_matrix(red_dot, PANEL_WIDTH - 4, PANEL_HEIGHT - 4)
 
-    def draw_text(self, x, y, color, text):
-        return graphics.DrawText(self.canvas, self.font_S, x, y, color, text)
+    def draw_text(self, x, y, text, font=FONT_DEFAULT, color=COLOR_DEFAULT):
+        return graphics.DrawText(self.canvas, font, x, y, color, text)
 
     def draw_matrix(self, m, x0, y0):
         y = y0
