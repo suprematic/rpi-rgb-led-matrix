@@ -56,7 +56,12 @@ The panel should display current time.
 ## Set up 7c systemd service
 
 ```shell
-cp etc/7c.service /etc/systemd/system/7c.service
+cp etc/systemd/system/7c.service /etc/systemd/system/7c.service
+```
+
+Service start:
+```shell
+systemctl start 7c.service
 ```
 
 Service auto-start:
