@@ -1,4 +1,4 @@
-# 7c-M1 set-up
+# 7c-M0 set-up
 
 ## Install OS & dev tools
 
@@ -31,7 +31,7 @@ mkdir /opt/7c
 cd /opt/7c
 git clone https://github.com/suprematic/rpi-rgb-led-matrix.git
 cd rpi-rgb-led-matrix/
-git checkout 7c/m1/dev
+git checkout 7c/m0/dev
 make
 ```
 
