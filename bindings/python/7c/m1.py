@@ -97,7 +97,7 @@ class SevenCourtsM1(SampleBase):
             if match != None:
                 self.display_match(match)
             else:
-                self.display_time(self.canvas)
+                self.display_clock(self.canvas)
             self.canvas = self.matrix.SwapOnVSync(self.canvas)
             time.sleep(1)
 
@@ -113,12 +113,12 @@ class SevenCourtsM1(SampleBase):
             if panel_id != None:
                 return panel_id
             else:
-                self.display_time(self.canvas)
+                self.display_clock(self.canvas)
             self.canvas = self.matrix.SwapOnVSync(self.canvas)
             time.sleep(1)
 
-    def display_time(self, canvas):
-        font = self.font_XS
+    def display_clock(self, canvas):
+        font = self.font_XL
         color = self.color_grey        
         text = datetime.now().strftime('%H:%M:%S')
         graphics.DrawText(canvas, font, 80, 60, color, text)
