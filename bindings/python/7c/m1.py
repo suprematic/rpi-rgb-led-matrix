@@ -13,6 +13,10 @@ PANEL_NAME = "7c-m1-r1"
 BASE_URL = "https://staging.tableau.tennismath.com"
 REGISTRATION_URL = BASE_URL + "/panels/"
 
+# Constants for the 7C M1 panel (P5 192 x 64)
+PANEL_WIDTH = 192
+PANEL_HEIGHT = 64
+
 def match_url(panel_id):
     return BASE_URL + "/panels/" + panel_id + "/match"
 
@@ -41,16 +45,6 @@ def match_info(panel_id):
     except HTTPError as e:
         print(url, e)
     return None
-
-def draw_matrix(canvas, m, x0, y0):
-    y = y0
-    for row in m:
-        x = x0
-        for px in row:
-            (r, g, b) = px
-            canvas.SetPixel(x, y, r, g, b)
-            x = x + 1
-        y = y + 1
 
 def team_name(name):
     names = name.split(" ", 2)[0:2]
@@ -87,7 +81,7 @@ class SevenCourtsM1(SampleBase):
                 red_dot = [
                     [r,r],
                     [r,r]]
-                draw_matrix(self.canvas, red_dot, 94, 30)
+                self.draw_matrix(red_dot, 94, 30)
             if match != None:
                 self.display_match(match)
             else:
@@ -108,7 +102,7 @@ class SevenCourtsM1(SampleBase):
                 red_dot = [
                     [r,r],
                     [r,r]]
-                draw_matrix(self.canvas, red_dot, 94, 30)
+                self.draw_matrix(red_dot, 94, 30)
             if panel_id != None:
                 return panel_id
             else:
@@ -142,9 +136,9 @@ class SevenCourtsM1(SampleBase):
             [b,y,y,y,b]]
         if match.get("match_result", None) == None:
             if match["team1"]["serves"]:
-                draw_matrix(self.canvas, ball, 76, 3)
+                self.draw_matrix(ball, 76, 3)
             elif match["team2"]["serves"]:
-                draw_matrix(self.canvas, ball, 76, 23)
+                self.draw_matrix(ball, 76, 23)
 
         game_score1 = match["team1"].get("gameScore", "")
         game_score2 = match["team2"].get("gameScore", "")
@@ -196,12 +190,22 @@ class SevenCourtsM1(SampleBase):
             [b,b,y,y,y,y,y,b,b]]
         match_result = match.get("match_result", None)
         if match_result == "T1_WON":
-            draw_matrix(self.canvas, winner1, 80, 2)
+            self.draw_matrix(winner1, 80, 2)
         elif match_result == "T2_WON":
-            draw_matrix(self.canvas, winner1, 80, 20)
+            self.draw_matrix(winner1, 80, 20)
 
     def draw_text(self, x, y, color, text):
         return graphics.DrawText(self.canvas, self.font, x, y, color, text)
+
+    def draw_matrix(canvas, m, x0, y0):
+        y = y0
+        for row in m:
+            x = x0
+            for px in row:
+                (r, g, b) = px
+                self.canvas.SetPixel(x, y, r, g, b)
+                x = x + 1
+            y = y + 1
 
 # Main function
 if __name__ == "__main__":
