@@ -92,7 +92,7 @@ class SevenCourtsM1(SampleBase):
                 panel_id = register()
             except URLError as e:
                 print(e)
-                draw_error_indicator()                
+                self.draw_error_indicator()                
             if panel_id != None:
                 return panel_id
             else:
@@ -184,7 +184,7 @@ class SevenCourtsM1(SampleBase):
         elif match_result == "T2_WON":
             self.draw_matrix(winner1, 80, 20)
 
-    def draw_error_indicator(self)
+    def draw_error_indicator(self):
         b = (0, 0, 0)
         r = (255, 0, 0)
         red_dot = [
@@ -197,7 +197,7 @@ class SevenCourtsM1(SampleBase):
     def draw_text(self, x, y, color, text):
         return graphics.DrawText(self.canvas, self.font, x, y, color, text)
 
-    def draw_matrix(self, canvas, m, x0, y0):
+    def draw_matrix(self, m, x0, y0):
         y = y0
         for row in m:
             x = x0
