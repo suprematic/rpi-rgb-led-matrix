@@ -48,7 +48,7 @@ sudo make install-python PYTHON=$(command -v python3)
 
 ```shell
 cd /opt/7c/rpi-rgb-led-matrix/bindings/python/7c
-./m0.sh
+./m1.sh
 ```
 
 The panel should display current time.

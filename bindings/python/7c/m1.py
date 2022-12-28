@@ -7,11 +7,8 @@ from urllib.error import URLError, HTTPError
 from datetime import datetime
 import json
 
-#BASE_URL = "https://app.tennis-math.com"
 BASE_URL = "https://staging.tableau.tennismath.com"
-#BASE_URL = "http://192.168.114.45:5000"
-#PANEL_NAME = "p10_2"
-PANEL_NAME = "7c-m1-r4"
+PANEL_NAME = "7c-m1-r(x)"
 REGISTRATION_URL = BASE_URL + "/panels/"
 
 def matchUrl(panelId):
