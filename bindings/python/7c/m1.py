@@ -63,10 +63,27 @@ class SevenCourtsM1(SampleBase):
 
     def run(self):
         self.canvas = self.matrix.CreateFrameCanvas()
-        self.font = graphics.Font()
-        self.font.LoadFont("../../../fonts/7x13B.bdf")
-        self.font_clock = graphics.Font()
-        self.font_clock.LoadFont("./fonts/5x7.bdf")
+
+        self.color_white = graphics.Color(255, 255, 255)
+        self.color_grey = graphics.Color(128, 128, 128)
+        self.color_black = graphics.Color(0, 0, 0)
+
+        self.color_red = graphics.Color(255, 0, 0)
+        self.color_yellow = graphics.Color(255, 255, 0)
+        self.color_green = graphics.Color(0, 255, 0)
+        
+        self.font_XL = graphics.Font()
+        self.font_XL.LoadFont("fonts/texgyre-27.bdf")
+        self.font_L = graphics.Font()
+        self.font_L.LoadFont("fonts/10x20.bdf")
+        self.font_M = graphics.Font()
+        self.font_M.LoadFont("fonts/9x15.bdf")
+        self.font_S = graphics.Font()
+        self.font_S.LoadFont("fonts/7x13.bdf")
+        self.font_XS = graphics.Font()
+        self.font_XS.LoadFont("fonts/5x8.bdf")
+        self.font_XXS = graphics.Font()
+        self.font_XXS.LoadFont("fonts/tom-thumb.bdf")
 
         panel_id = self.register()
         match = None
@@ -101,9 +118,10 @@ class SevenCourtsM1(SampleBase):
             time.sleep(1)
 
     def display_time(self, canvas):
-        color = graphics.Color(64, 64, 64)
+        font = self.font_XS
+        color = self.color_grey        
         text = datetime.now().strftime('%H:%M:%S')
-        graphics.DrawText(canvas, self.font_clock, 54, 30, color, text)
+        graphics.DrawText(canvas, font, 80, 60, color, text)
 
     def display_match(self, match):
         color = graphics.Color(64, 64, 64)
@@ -195,7 +213,7 @@ class SevenCourtsM1(SampleBase):
         self.draw_matrix(red_dot, PANEL_WIDTH - 4, PANEL_HEIGHT - 4)
 
     def draw_text(self, x, y, color, text):
-        return graphics.DrawText(self.canvas, self.font, x, y, color, text)
+        return graphics.DrawText(self.canvas, self.font_S, x, y, color, text)
 
     def draw_matrix(self, m, x0, y0):
         y = y0

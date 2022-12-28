@@ -18,13 +18,13 @@ class M1_Demo(SampleBase):
         super(M1_Demo, self).__init__(*args, **kwargs)
         self.parser.add_argument("-d", "--delay", help="Delay between frames, seconds", default=8)
 
-        self.color_white = graphics.Color(255, 255, 255) 
+        self.color_white = graphics.Color(255, 255, 255)
         self.color_grey = graphics.Color(128, 128, 128)
         self.color_black = graphics.Color(0, 0, 0)
 
-        self.color_red = graphics.Color(255, 0, 0) 
-        self.color_yellow = graphics.Color(255, 255, 0) 
-        self.color_green = graphics.Color(0, 255, 0)        
+        self.color_red = graphics.Color(255, 0, 0)
+        self.color_yellow = graphics.Color(255, 255, 0)
+        self.color_green = graphics.Color(0, 255, 0)
 
         self.font_XL = graphics.Font()
         self.font_XL.LoadFont("fonts/texgyre-27.bdf")
