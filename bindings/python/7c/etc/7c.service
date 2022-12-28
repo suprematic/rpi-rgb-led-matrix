@@ -1,0 +1,23 @@
+[Unit]
+Description=TeMa Tableau
+
+Requires=local-fs.target
+After=local-fs.target
+DefaultDependencies=no
+
+[Service]
+Type=simple
+Restart=on-failure
+
+## Dirs
+ProtectSystem=strict
+ProtectHome=true
+WorkingDirectory=/opt/tema
+
+## Env
+#Environment=BLOCKING_MAX_THREADS=16
+
+ExecStart=/bin/sh rpi-rgb-led-matrix/bindings/python/samples/tennis-midi-p10.sh
+
+[Install]
+WantedBy=basic.target
