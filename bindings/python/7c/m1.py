@@ -7,12 +7,14 @@ from urllib.error import URLError, HTTPError
 from datetime import datetime
 import json
 
+# TODO change to the panel's name
+PANEL_NAME = "7c-m1-r1"
+
 BASE_URL = "https://staging.tableau.tennismath.com"
-PANEL_NAME = "7c-m1-r(x)"
 REGISTRATION_URL = BASE_URL + "/panels/"
 
-def matchUrl(panelId):
-    return BASE_URL + "/panels/" + panelId + "/match"
+def match_url(panel_id):
+    return BASE_URL + "/panels/" + panel_id + "/match"
 
 def register():
     data = json.dumps({"code": PANEL_NAME}).encode('utf-8')
@@ -27,8 +29,8 @@ def register():
         print(url, e)
         return None
 
-def matchInfo(panelId):
-    url = matchUrl(panelId)
+def match_info(panel_id):
+    url = match_url(panel_id)
     try:
         with urllib.request.urlopen(url) as response:
             if response.status == 200:
@@ -40,7 +42,7 @@ def matchInfo(panelId):
         print(url, e)
     return None
 
-def drawMatrix(canvas, m, x0, y0):
+def draw_matrix(canvas, m, x0, y0):
     y = y0
     for row in m:
         x = x0
@@ -50,7 +52,7 @@ def drawMatrix(canvas, m, x0, y0):
             x = x + 1
         y = y + 1
 
-def teamName(name):
+def team_name(name):
     names = name.split(" ", 2)[0:2]
     if len(names) > 1:
         [n1, n2] = names
@@ -61,74 +63,73 @@ def teamName(name):
         n = name
         return n if len(n) <= 6 else n[0:4] + "."
 
-class MyText(SampleBase):
+class SevenCourtsM1(SampleBase):
     def __init__(self, *args, **kwargs):
-        super(MyText, self).__init__(*args, **kwargs)
-        self.parser.add_argument("-t", "--text", help="The text to scroll on the RGB LED panel", default="Hello world!")
+        super(SevenCourtsM1, self).__init__(*args, **kwargs)        
 
     def run(self):
         self.canvas = self.matrix.CreateFrameCanvas()
         self.font = graphics.Font()
         self.font.LoadFont("../../../fonts/7x13B.bdf")
-        self.clockFont = graphics.Font()
-        self.clockFont.LoadFont("./fonts/5x7.bdf")
+        self.font_clock = graphics.Font()
+        self.font_clock.LoadFont("./fonts/5x7.bdf")
 
-        panelId = self.register()
+        panel_id = self.register()
         match = None
         while True:
             self.canvas.Clear()
             try:
-                match = matchInfo(panelId)
+                match = match_info(panel_id)
             except URLError as e:
                 print(e)
                 b = (0, 0, 0)
                 r = (255, 0, 0)
-                redDot = [
+                red_dot = [
                     [r,r],
                     [r,r]]
-                drawMatrix(self.canvas, redDot, 94, 30)
+                draw_matrix(self.canvas, red_dot, 94, 30)
             if match != None:
-                self.displayMatch(match)
+                self.display_match(match)
             else:
-                self.displayTime(self.canvas)
+                self.display_time(self.canvas)
             self.canvas = self.matrix.SwapOnVSync(self.canvas)
             time.sleep(1)
 
     def register(self):
-        panelId = None
+        panel_id = None
         while True:
             self.canvas.Clear()
             try:
-                panelId = register()
+                panel_id = register()
             except URLError as e:
                 print(e)
                 b = (0, 0, 0)
                 r = (255, 0, 0)
-                redDot = [
+                red_dot = [
                     [r,r],
                     [r,r]]
-                drawMatrix(self.canvas, redDot, 94, 30)
-            if panelId != None:
-                return panelId
+                draw_matrix(self.canvas, red_dot, 94, 30)
+            if panel_id != None:
+                return panel_id
             else:
-                self.displayTime(self.canvas)
+                self.display_time(self.canvas)
             self.canvas = self.matrix.SwapOnVSync(self.canvas)
             time.sleep(1)
 
-    def displayTime(self, canvas):
+    def display_time(self, canvas):
         color = graphics.Color(64, 64, 64)
         text = datetime.now().strftime('%H:%M:%S')
-        graphics.DrawText(canvas, self.clockFont, 54, 30, color, text)
+        graphics.DrawText(canvas, self.font_clock, 54, 30, color, text)
 
-    def displayMatch(self, match):
+    def display_match(self, match):
         color = graphics.Color(64, 64, 64)
-        setColor = graphics.Color(0, 32, 32)
-        servesColor = graphics.Color(32, 64, 0)
+        color_set = graphics.Color(0, 32, 32)
+        color_service = graphics.Color(32, 64, 0)
 
-        name1 = teamName(match["team1"]["name"])
-        name2 = teamName(match["team2"]["name"])
-        self.drawText(0, 10, color, name1)
-        self.drawText(0, 30, color, name2)
+        name1 = team_name(match["team1"]["name"])
+        name2 = team_name(match["team2"]["name"])
+        self.draw_text(0, 10, color, name1)
+        self.draw_text(0, 30, color, name2)
 
         b = (0, 0 ,0)
         y = (96, 96, 0)
@@ -139,33 +140,33 @@ class MyText(SampleBase):
             [y,y,w,y,y],
             [y,w,y,y,y],
             [b,y,y,y,b]]
-        if match.get("matchResult", None) == None:
+        if match.get("match_result", None) == None:
             if match["team1"]["serves"]:
-                drawMatrix(self.canvas, ball, 76, 3)
+                draw_matrix(self.canvas, ball, 76, 3)
             elif match["team2"]["serves"]:
-                drawMatrix(self.canvas, ball, 76, 23)
+                draw_matrix(self.canvas, ball, 76, 23)
 
-        gameScore1 = match["team1"].get("gameScore", "")
-        gameScore2 = match["team2"].get("gameScore", "")
-        gameScore1 = str(gameScore1 if gameScore1 != None else "")
-        gameScore2 = str(gameScore2 if gameScore2 != None else "")
-        gameScore1X = 96 - (len(gameScore1) * 7)
-        gameScore2X = 96 - (len(gameScore2) * 7)
-        self.drawText(gameScore1X, 10, color, gameScore1)
-        self.drawText(gameScore2X, 30, color, gameScore2)
+        game_score1 = match["team1"].get("gameScore", "")
+        game_score2 = match["team2"].get("gameScore", "")
+        game_score1 = str(game_score1 if game_score1 != None else "")
+        game_score2 = str(game_score2 if game_score2 != None else "")
+        game_score1X = 96 - (len(game_score1) * 7)
+        game_score2X = 96 - (len(game_score2) * 7)
+        self.draw_text(game_score1X, 10, color, game_score1)
+        self.draw_text(game_score2X, 30, color, game_score2)
 
-        setScores1 = match["team1"]["setScores"]
-        setScores2 = match["team2"]["setScores"]
-        setScore1X = 77 - (len(setScores1) * 8)
-        setScore2X = 77 - (len(setScores2) * 8)
-        for score in [s for s in setScores1 if s != None]:
+        set_scores1 = match["team1"]["setScores"]
+        set_scores2 = match["team2"]["setScores"]
+        set_scores1_x = 77 - (len(set_scores1) * 8)
+        set_scores2_x = 77 - (len(set_scores2) * 8)
+        for score in [s for s in set_scores1 if s != None]:
             score = str(score)
-            self.drawText(setScore1X, 10, setColor, score)
-            setScore1X = setScore1X + 8
-        for score in [s for s in setScores2 if s != None]:
+            self.draw_text(set_scores1_x, 10, color_set, score)
+            set_scores1_x = set_scores1_x + 8
+        for score in [s for s in set_scores2 if s != None]:
             score = str(score)
-            self.drawText(setScore2X, 30, setColor, score)
-            setScore2X = setScore2X + 8
+            self.draw_text(set_scores2_x, 30, color_set, score)
+            set_scores2_x = set_scores2_x + 8
 
         b = (0, 0 ,0)
         r = (128, 0, 0)
@@ -193,17 +194,17 @@ class MyText(SampleBase):
             [b,b,b,b,y,b,b,b,b],
             [b,b,y,y,y,y,y,b,b],
             [b,b,y,y,y,y,y,b,b]]
-        matchResult = match.get("matchResult", None)
-        if matchResult == "T1_WON":
-            drawMatrix(self.canvas, winner1, 80, 2)
-        elif matchResult == "T2_WON":
-            drawMatrix(self.canvas, winner1, 80, 20)
+        match_result = match.get("match_result", None)
+        if match_result == "T1_WON":
+            draw_matrix(self.canvas, winner1, 80, 2)
+        elif match_result == "T2_WON":
+            draw_matrix(self.canvas, winner1, 80, 20)
 
-    def drawText(self, x, y, color, text):
+    def draw_text(self, x, y, color, text):
         return graphics.DrawText(self.canvas, self.font, x, y, color, text)
 
 # Main function
 if __name__ == "__main__":
-    my_text = MyText()
-    if (not my_text.process()):
-        my_text.print_help()
+    infoboard = SevenCourtsM1()
+    if (not infoboard.process()):
+        infoboard.print_help()
