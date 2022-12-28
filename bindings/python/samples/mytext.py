@@ -8,16 +8,17 @@ from datetime import datetime
 import json
 
 #BASE_URL = "https://app.tennis-math.com"
-BASE_URL = "http://192.168.114.45:5000"
+BASE_URL = "https://staging.tableau.tennismath.com"
+#BASE_URL = "http://192.168.114.45:5000"
 #PANEL_NAME = "p10_2"
-PANEL_NAME = "p10_1"
+PANEL_NAME = "7c-m1-r4"
 REGISTRATION_URL = BASE_URL + "/panels/"
 
 def matchUrl(panelId):
     return BASE_URL + "/panels/" + panelId + "/match"
 
 def register():
-    data = json.dumps({"name": PANEL_NAME}).encode('utf-8')
+    data = json.dumps({"code": PANEL_NAME}).encode('utf-8')
     url = REGISTRATION_URL
     request = urllib.request.Request(url, data=data, method='POST')
     try:
@@ -75,7 +76,7 @@ class MyText(SampleBase):
         self.clockFont = graphics.Font()
         self.clockFont.LoadFont("./fonts/5x7.bdf")
 
-        panelId = self.register() 
+        panelId = self.register()
         match = None
         while True:
             self.canvas.Clear()
@@ -121,7 +122,7 @@ class MyText(SampleBase):
         color = graphics.Color(64, 64, 64)
         text = datetime.now().strftime('%H:%M:%S')
         graphics.DrawText(canvas, self.clockFont, 54, 30, color, text)
-    
+
     def displayMatch(self, match):
         color = graphics.Color(64, 64, 64)
         setColor = graphics.Color(0, 32, 32)
