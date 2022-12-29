@@ -29,15 +29,12 @@ def register():
 
 def matchInfo(panelId):
     url = matchUrl(panelId)
-    try:
-        with urllib.request.urlopen(url) as response:
-            if response.status == 200:
-                j = json.loads(response.read().decode('utf-8'))
-                print(url, "match:", j)
-                return j
-            print("url='" + url + "', status= " + str(response.status))
-    except HTTPError as e:
-        print(url, e)
+    with urllib.request.urlopen(url) as response:
+        if response.status == 200:
+            j = json.loads(response.read().decode('utf-8'))
+            print(url, "match:", j)
+            return j
+        print("url='" + url + "', status= " + str(response.status))
     return None
 
 def drawMatrix(canvas, m, x0, y0):
