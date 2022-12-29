@@ -171,9 +171,13 @@ class SevenCourtsM1(SampleBase):
         t1_set3 = match["team1"]["setScores"][2] if len(t1_set_scores)>2 else ""
         t2_set3 = match["team2"]["setScores"][2] if len(t2_set_scores)>2 else ""
 
+        t1_game = match["team1"].get("gameScore", "")
+        t2_game = match["team2"].get("gameScore", "")
+        t1_game = str(t1_game if t1_game != None else "")
+        t2_game = str(t2_game if t2_game != None else "")
+
         self.display_match_score(
-            match["team1"]["serves"], match["team1"]["serves"],
-            match["team1"].get("gameScore", ""), match["team2"].get("gameScore", ""),
+            match["team1"]["serves"], match["team2"]["serves"], t1_game, t2_game,
             t1_set1, t2_set1, t1_set2, t2_set2, t1_set3, t2_set3)
 
         color_set = COLOR_GREY
