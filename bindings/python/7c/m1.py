@@ -6,8 +6,9 @@ import urllib.request
 from urllib.error import URLError, HTTPError
 from datetime import datetime
 import json
+import socket
 
-PANEL_NAME = "7C-M1-R1"
+PANEL_NAME = socket.gethostname()
 
 BASE_URL = "https://staging.tableau.tennismath.com"
 REGISTRATION_URL = BASE_URL + "/panels/"
