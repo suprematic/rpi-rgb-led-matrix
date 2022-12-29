@@ -85,7 +85,9 @@ FONT_DEFAULT = FONT_S
 COLOR_SCORE_SET = COLOR_GREY
 COLOR_SCORE_GAME = COLOR_GREY
 COLOR_SCORE_SERVICE = COLOR_YELLOW
+COLOR_TEAM_NAME = COLOR_GREY
 FONT_SCORE = FONT_XL
+FONT_TEAM_NAME_L = FONT_XL
 
 class SevenCourtsM1(SampleBase):
     def __init__(self, *args, **kwargs):
@@ -192,27 +194,30 @@ class SevenCourtsM1(SampleBase):
         color_set = COLOR_GREY
         color_service = COLOR_YELLOW
 
-        name1 = team_name(match["team1"]["name"])
-        name2 = team_name(match["team2"]["name"])
-        self.draw_text(0, 10, name1)
-        self.draw_text(0, 30, name2)
+        name_t1 = team_name(match["team1"]["name"])
+        name_t2 = team_name(match["team2"]["name"])
+        
+        y_t1 = 26
+        y_t2 = 58
+        x_t = 2
+        font = FONT_TEAM_NAME_L
+        graphics.DrawText(canvas, font, x_t, y_t1, COLOR_TEAM_NAME, name_t1)
+        graphics.DrawText(canvas, font, x_t, y_t2, COLOR_TEAM_NAME, name_t2)
     
 
-
-
         
-        set_scores_t1 = match["team1"]["setScores"]
-        set_scores_t2 = match["team2"]["setScores"]
-        set_scores_t1_x = 77 - (len(set_scores_t1) * 8)
-        set_scores_t2_x = 77 - (len(set_scores_t2) * 8)
-        for score in [s for s in set_scores_t1 if s != None]:
-            score = str(score)
-            self.draw_text(set_scores_t1_x, 10, score)
-            set_scores_t1_x = set_scores_t1_x + 8
-        for score in [s for s in set_scores_t2 if s != None]:
-            score = str(score)
-            self.draw_text(set_scores_t2_x, 30, score)
-            set_scores_t2_x = set_scores_t2_x + 8
+        #set_scores_t1 = match["team1"]["setScores"]
+        #set_scores_t2 = match["team2"]["setScores"]
+        #set_scores_t1_x = 77 - (len(set_scores_t1) * 8)
+        #set_scores_t2_x = 77 - (len(set_scores_t2) * 8)
+        #for score in [s for s in set_scores_t1 if s != None]:
+        #    score = str(score)
+        #    self.draw_text(set_scores_t1_x, 10, score)
+        #    set_scores_t1_x = set_scores_t1_x + 8
+        #for score in [s for s in set_scores_t2 if s != None]:
+        #    score = str(score)
+        #    self.draw_text(set_scores_t2_x, 30, score)
+        #    set_scores_t2_x = set_scores_t2_x + 8
 
         # FIXME winner is not displayed
         b = (0, 0 ,0)
