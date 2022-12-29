@@ -82,6 +82,11 @@ FONT_XXS.LoadFont("fonts/tom-thumb.bdf")
 COLOR_DEFAULT = COLOR_GREY
 FONT_DEFAULT = FONT_S
 
+COLOR_SCORE_SET = COLOR_GREY
+COLOR_SCORE_GAME = COLOR_GREY
+COLOR_SCORE_SERVICE = COLOR_YELLOW
+FONT_SCORE = FONT_XL
+
 class SevenCourtsM1(SampleBase):
     def __init__(self, *args, **kwargs):
         super(SevenCourtsM1, self).__init__(*args, **kwargs)        
@@ -124,8 +129,53 @@ class SevenCourtsM1(SampleBase):
         text = datetime.now().strftime('%H:%M:%S')
         self.draw_text(80, 60, text, FONT_XL, COLOR_GREY)
 
-    def display_match(self, match):
+
+    def display_match_score(self, t1_on_serve=False, t2_on_serve=False, t1_game="0", t2_game="0", 
+        t1_set1="", t2_set1="", t1_set2="", t2_set2="", t1_set3="", t2_set3=""):
         
+        y_T1 = 26
+        y_T2 = 58
+        y_service_delta = 10
+
+        x_game = 163
+        x_service = 155
+        w_set = 20
+        x_set1 = 96
+        x_set2 = x_set1 + w_set
+        x_set3 = x_set2 + w_set
+
+        ### TODO nicer service indicator
+        t1_service = "." if t1_on_serve else ""
+        t2_service = "." if t2_on_serve else ""
+        
+        graphics.DrawText(canvas, FONT_SCORE, x_set1, y_T1, COLOR_SCORE_SET, t1_set1)
+        graphics.DrawText(canvas, FONT_SCORE, x_set2, y_T1, COLOR_SCORE_SET, t1_set2)
+        graphics.DrawText(canvas, FONT_SCORE, x_set3, y_T1, COLOR_SCORE_SET, t1_set3)
+        graphics.DrawText(canvas, FONT_SCORE, x_service, y_T1-y_service_delta, COLOR_SCORE_SERVICE, t1_service)
+        graphics.DrawText(canvas, FONT_SCORE, x_game, y_T1, COLOR_SCORE_GAME, t1_game)
+
+        graphics.DrawText(canvas, FONT_SCORE, x_set1, y_T2, COLOR_SCORE_SET, t2_set1)
+        graphics.DrawText(canvas, FONT_SCORE, x_set2, y_T2, COLOR_SCORE_SET, t2_set2)
+        graphics.DrawText(canvas, FONT_SCORE, x_set3, y_T2, COLOR_SCORE_SET, t2_set3)
+        graphics.DrawText(canvas, FONT_SCORE, x_service, y_T2-y_service_delta, COLOR_SCORE_SERVICE, t2_service)
+        graphics.DrawText(canvas, FONT_SCORE, x_game, y_T2, COLOR_SCORE_GAME, t2_game)
+
+    def display_match(self, match):
+
+        t1_set_scores = match["team1"]["setScores"]
+        t2_set_scores = match["team2"]["setScores"]
+        t1_set1 = match["team1"]["setScores"][0] if len(t1_set_scores)>0 else ""
+        t2_set1 = match["team2"]["setScores"][0] if len(t2_set_scores)>0 else ""
+        t1_set2 = match["team1"]["setScores"][1] if len(t1_set_scores)>1 else ""
+        t2_set2 = match["team2"]["setScores"][1] if len(t2_set_scores)>1 else ""
+        t1_set3 = match["team1"]["setScores"][2] if len(t1_set_scores)>2 else ""
+        t2_set3 = match["team2"]["setScores"][2] if len(t2_set_scores)>2 else ""
+
+        display_match_score(
+            match["team1"]["serves"], match["team1"]["serves"],
+            match["team1"].get("gameScore", ""), match["team2"].get("gameScore", ""),
+            t1_set1, t2_set1, t1_set2, t2_set2, t1_set3, t2_set3)
+
         color_set = COLOR_GREY
         color_service = COLOR_YELLOW
 
@@ -133,6 +183,7 @@ class SevenCourtsM1(SampleBase):
         name2 = team_name(match["team2"]["name"])
         self.draw_text(0, 10, name1)
         self.draw_text(0, 30, name2)
+    
 
         b = (0, 0 ,0)
         y = (96, 96, 0)
@@ -158,24 +209,26 @@ class SevenCourtsM1(SampleBase):
         self.draw_text(game_score1X, 10, game_score1)
         self.draw_text(game_score2X, 30, game_score2)
 
-        set_scores1 = match["team1"]["setScores"]
-        set_scores2 = match["team2"]["setScores"]
-        set_scores1_x = 77 - (len(set_scores1) * 8)
-        set_scores2_x = 77 - (len(set_scores2) * 8)
-        for score in [s for s in set_scores1 if s != None]:
+        
+        set_scores_t1 = match["team1"]["setScores"]
+        set_scores_t2 = match["team2"]["setScores"]
+        set_scores_t1_x = 77 - (len(set_scores_t1) * 8)
+        set_scores_t2_x = 77 - (len(set_scores_t2) * 8)
+        for score in [s for s in set_scores_t1 if s != None]:
             score = str(score)
-            self.draw_text(set_scores1_x, 10, score)
-            set_scores1_x = set_scores1_x + 8
-        for score in [s for s in set_scores2 if s != None]:
+            self.draw_text(set_scores_t1_x, 10, score)
+            set_scores_t1_x = set_scores_t1_x + 8
+        for score in [s for s in set_scores_t2 if s != None]:
             score = str(score)
-            self.draw_text(set_scores2_x, 30, score)
-            set_scores2_x = set_scores2_x + 8
+            self.draw_text(set_scores_t2_x, 30, score)
+            set_scores_t2_x = set_scores_t2_x + 8
 
+        # FIXME winner is not displayed
         b = (0, 0 ,0)
         r = (128, 0, 0)
         y = (128, 96, 0)
         w = (96, 64, 0)
-        winner1 = [
+        winner_t1 = [
             [b,r,b,b,b,b,b,r,b],
             [r,r,r,b,b,b,r,r,r],
             [b,r,r,b,b,b,r,r,b],
@@ -186,7 +239,8 @@ class SevenCourtsM1(SampleBase):
             [b,b,y,y,y,y,y,b,b],
             [b,b,y,y,y,y,y,b,b],
             [b,b,b,y,y,y,b,b,b]]
-        winner2 = [
+        # FIXME not used?
+        winner_t2 = [
             [b,b,y,y,y,y,y,b,b],
             [w,y,y,y,y,y,y,y,w],
             [w,b,y,y,y,y,y,b,w],
@@ -199,9 +253,9 @@ class SevenCourtsM1(SampleBase):
             [b,b,y,y,y,y,y,b,b]]
         match_result = match.get("match_result", None)
         if match_result == "T1_WON":
-            self.draw_matrix(winner1, 80, 2)
+            self.draw_matrix(winner_t1, 80, 2)
         elif match_result == "T2_WON":
-            self.draw_matrix(winner1, 80, 20)
+            self.draw_matrix(winner_t1, 80, 20)
 
     def draw_error_indicator(self):
         b = (0, 0, 0)
