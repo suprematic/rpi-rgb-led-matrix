@@ -98,7 +98,7 @@ class SevenCourtsM1(SampleBase):
                     if match != None:
                         self.display_match(match)
                     else:
-                        self.display_clock(self.canvas)
+                        self.display_clock()
                     self.canvas = self.matrix.SwapOnVSync(self.canvas)
                     time.sleep(1)
             except URLError as e:
@@ -116,11 +116,11 @@ class SevenCourtsM1(SampleBase):
             if panel_id != None:
                 return panel_id
             else:
-                self.display_clock(self.canvas)
+                self.display_clock()
             self.canvas = self.matrix.SwapOnVSync(self.canvas)
             time.sleep(1)
 
-    def display_clock(self, canvas):
+    def display_clock(self):
         text = datetime.now().strftime('%H:%M:%S')
         self.draw_text(80, 60, text, FONT_XL, COLOR_GREY)
 
