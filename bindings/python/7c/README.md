@@ -1,32 +1,40 @@
-# 7c-M1 set-up
+# 7C-M1 set-up
 
-## Install OS & dev tools
+## Pre-requisites
+
+1) Define PANEL_NAME (e.g. `7C-M1-R2`)
+
+2) Use SUPREMATIC_INTERNAL WiFi for initial set-up
+
+
+## Install firmware
+
+### OS & dev tools
 
 - Install [DietPI](https://dietpi.com/docs/install/)
-    - Setup WiFi (`dietpi.txt` and `dietpi-wifi.txt`)    
-- Log in with default login: `root`:`dietpi`
-  - (initial setup takes a couple of minutes, then a series of dialogs starts)  
-  - Change "global software password" to `7c`
-  - Change the login passwords for "root" and "dietpi" to `7c`
-  - Disable the serial console in the dialog
-  - `dietpi-software` dialog starts, search and install (same can be done with `apt`):
-    - `git`
-    - `vim`
-    - `build-essentials`
-  - Install Open-SSH server in `dietpi-software`
-  - Opt-out from sending usage statistics in DietPI-Survey dialog
-  - reboot
-  - in `dietpi-config`:    
-    - set time zone in "5 : Language/Regional Options"
-    - for devices, which do not require Internet (so far, we don't have any):
-        - set "Advanced Options" => "Time sync mode" to "0 - Custom"
-        - set "Network Options: Misc" => "Boot Net Wait" to "0 - Disabled" (Off)    
-  - reboot    
-    
-## Install and make SDK
+
+- Copy (overwrite) the prepared `dietpi/dietpi.txt` to the SD card
+    - change `AUTO_SETUP_NET_HOSTNAME` to PANEL_NAME
+- Setup WiFi credentials in `dietpi-wifi.txt`
+
+- Insert the SD card to Raspi and boot
+
+- Find out the IP address of the Raspi
+    - For SUPREMATIC Mikrotik router: http://192.168.114.1/webfig/#IP:DHCP_Server.Leases
+    - Or use any IP scanner available
+
+- Log in with `ssh root@<ip-address>`
+    - (The first boot will take some time)
+    - Leave `dietpi` software password    
+    - Disable the UART serial console in the dialog
+    - `dietpi-software` dialog starts, search and install (same can be done with `apt`):
+      - `git`
+      - `vim`
+      - `build-essential`
+      
+### Install and make rpi-rgb-led-matrix SDK
 
 ```shell
-cd ~
 mkdir /opt/7c
 cd /opt/7c
 git clone https://github.com/suprematic/rpi-rgb-led-matrix.git
@@ -35,7 +43,7 @@ git checkout 7c/m1/dev
 make
 ```
 
-## Install python3 bindings
+### Install and make python3 bindings
 
 ```shell
 sudo apt-get update --allow-releaseinfo-change && sudo apt-get install python3-dev python3-pillow -y
@@ -44,7 +52,7 @@ sudo make install-python PYTHON=$(command -v python3)
 ```
 
 
-### Smoke-test
+### Run smoke-test
 
 ```shell
 cd /opt/7c/rpi-rgb-led-matrix/bindings/python/7c
@@ -68,3 +76,29 @@ Service auto-start:
 ```shell
 systemctl enable 7c.service
 ```
+
+
+### Final test
+
+```shell
+reboot
+```
+
+The panel should display current time.
+
+
+## Change WiFi to customer network
+
+- Get WiFi SSID and key
+- In `dietpi-config`:
+    - Go to "7: Network Options: Adapters"
+    - Go to "WiFi"
+    - Go to "Scan"
+    - Select "SUPREMATIC_INTERNAL" and remove it
+    - Select the 0th slot
+    - Select "Manual"
+        - Enter SSID
+        - Enter key
+    - done, back, back, exit, ok
+
+    
