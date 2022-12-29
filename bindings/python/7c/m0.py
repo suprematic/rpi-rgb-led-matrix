@@ -73,12 +73,19 @@ class MyText(SampleBase):
         self.clockFont = graphics.Font()
         self.clockFont.LoadFont("./fonts/5x7.bdf")
 
-        panelId = self.register()
-        match = None
         while True:
-            self.canvas.Clear()
+            panelId = self.register()
+            match = None
             try:
-                match = matchInfo(panelId)
+                while True:
+                    self.canvas.Clear()
+                    match = matchInfo(panelId)
+                    if match != None:
+                        self.displayMatch(match)
+                    else:
+                        self.displayTime(self.canvas)
+                    self.canvas = self.matrix.SwapOnVSync(self.canvas)
+                    time.sleep(1)
             except URLError as e:
                 print(e)
                 b = (0, 0, 0)
@@ -87,12 +94,6 @@ class MyText(SampleBase):
                     [r,r],
                     [r,r]]
                 drawMatrix(self.canvas, redDot, 94, 30)
-            if match != None:
-                self.displayMatch(match)
-            else:
-                self.displayTime(self.canvas)
-            self.canvas = self.matrix.SwapOnVSync(self.canvas)
-            time.sleep(1)
 
     def register(self):
         panelId = None
