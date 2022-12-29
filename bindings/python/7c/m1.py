@@ -7,8 +7,7 @@ from urllib.error import URLError, HTTPError
 from datetime import datetime
 import json
 
-# TODO change to the panel's name
-PANEL_NAME = "7c-m1-r1"
+PANEL_NAME = "7C-M1-R1"
 
 BASE_URL = "https://staging.tableau.tennismath.com"
 REGISTRATION_URL = BASE_URL + "/panels/"
