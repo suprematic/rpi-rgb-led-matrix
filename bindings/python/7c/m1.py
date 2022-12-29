@@ -144,21 +144,30 @@ class SevenCourtsM1(SampleBase):
         x_set2 = x_set1 + w_set
         x_set3 = x_set2 + w_set
 
-        ### TODO nicer service indicator
-        t1_service = "." if t1_on_serve else ""
-        t2_service = "." if t2_on_serve else ""
-        
         graphics.DrawText(self.canvas, FONT_SCORE, x_set1, y_T1, COLOR_SCORE_SET, str(t1_set1))
         graphics.DrawText(self.canvas, FONT_SCORE, x_set2, y_T1, COLOR_SCORE_SET, str(t1_set2))
         graphics.DrawText(self.canvas, FONT_SCORE, x_set3, y_T1, COLOR_SCORE_SET, str(t1_set3))
-        graphics.DrawText(self.canvas, FONT_SCORE, x_service, y_T1-y_service_delta, COLOR_SCORE_SERVICE, t1_service)
         graphics.DrawText(self.canvas, FONT_SCORE, x_game, y_T1, COLOR_SCORE_GAME, str(t1_game))
 
         graphics.DrawText(self.canvas, FONT_SCORE, x_set1, y_T2, COLOR_SCORE_SET, str(t2_set1))
         graphics.DrawText(self.canvas, FONT_SCORE, x_set2, y_T2, COLOR_SCORE_SET, str(t2_set2))
         graphics.DrawText(self.canvas, FONT_SCORE, x_set3, y_T2, COLOR_SCORE_SET, str(t2_set3))
-        graphics.DrawText(self.canvas, FONT_SCORE, x_service, y_T2-y_service_delta, COLOR_SCORE_SERVICE, t2_service)
         graphics.DrawText(self.canvas, FONT_SCORE, x_game, y_T2, COLOR_SCORE_GAME, str(t2_game))
+
+        
+        b = (0, 0 ,0)
+        y = (96, 96, 0)
+        w = (96, 96, 96)
+        ball = [
+            [b,y,y,y,b],
+            [y,y,y,w,y],
+            [y,y,w,y,y],
+            [y,w,y,y,y],
+            [b,y,y,y,b]]        
+        if t1_on_serve:
+            self.draw_matrix(ball, x_service, y_T1-y_service_delta)
+        elif t2_on_serve:
+            self.draw_matrix(ball, x_service, y_T2-y_service_delta)
 
     def display_match(self, match):
 
@@ -189,29 +198,7 @@ class SevenCourtsM1(SampleBase):
         self.draw_text(0, 30, name2)
     
 
-        b = (0, 0 ,0)
-        y = (96, 96, 0)
-        w = (96, 96, 96)
-        ball = [
-            [b,y,y,y,b],
-            [y,y,y,w,y],
-            [y,y,w,y,y],
-            [y,w,y,y,y],
-            [b,y,y,y,b]]
-        if match.get("match_result", None) == None:
-            if match["team1"]["serves"]:
-                self.draw_matrix(ball, 76, 3)
-            elif match["team2"]["serves"]:
-                self.draw_matrix(ball, 76, 23)
 
-        game_score1 = match["team1"].get("gameScore", "")
-        game_score2 = match["team2"].get("gameScore", "")
-        game_score1 = str(game_score1 if game_score1 != None else "")
-        game_score2 = str(game_score2 if game_score2 != None else "")
-        game_score1X = 96 - (len(game_score1) * 7)
-        game_score2X = 96 - (len(game_score2) * 7)
-        self.draw_text(game_score1X, 10, game_score1)
-        self.draw_text(game_score2X, 30, game_score2)
 
         
         set_scores_t1 = match["team1"]["setScores"]
