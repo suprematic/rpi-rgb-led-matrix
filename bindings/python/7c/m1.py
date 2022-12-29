@@ -135,7 +135,7 @@ class SevenCourtsM1(SampleBase):
         
         y_T1 = 26
         y_T2 = 58
-        y_service_delta = 10
+        y_service_delta = 12
 
         x_game = 163
         x_service = 155
