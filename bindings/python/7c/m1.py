@@ -148,17 +148,17 @@ class SevenCourtsM1(SampleBase):
         t1_service = "." if t1_on_serve else ""
         t2_service = "." if t2_on_serve else ""
         
-        graphics.DrawText(canvas, FONT_SCORE, x_set1, y_T1, COLOR_SCORE_SET, t1_set1)
-        graphics.DrawText(canvas, FONT_SCORE, x_set2, y_T1, COLOR_SCORE_SET, t1_set2)
-        graphics.DrawText(canvas, FONT_SCORE, x_set3, y_T1, COLOR_SCORE_SET, t1_set3)
-        graphics.DrawText(canvas, FONT_SCORE, x_service, y_T1-y_service_delta, COLOR_SCORE_SERVICE, t1_service)
-        graphics.DrawText(canvas, FONT_SCORE, x_game, y_T1, COLOR_SCORE_GAME, t1_game)
+        graphics.DrawText(self.canvas, FONT_SCORE, x_set1, y_T1, COLOR_SCORE_SET, t1_set1)
+        graphics.DrawText(self.canvas, FONT_SCORE, x_set2, y_T1, COLOR_SCORE_SET, t1_set2)
+        graphics.DrawText(self.canvas, FONT_SCORE, x_set3, y_T1, COLOR_SCORE_SET, t1_set3)
+        graphics.DrawText(self.canvas, FONT_SCORE, x_service, y_T1-y_service_delta, COLOR_SCORE_SERVICE, t1_service)
+        graphics.DrawText(self.canvas, FONT_SCORE, x_game, y_T1, COLOR_SCORE_GAME, t1_game)
 
-        graphics.DrawText(canvas, FONT_SCORE, x_set1, y_T2, COLOR_SCORE_SET, t2_set1)
-        graphics.DrawText(canvas, FONT_SCORE, x_set2, y_T2, COLOR_SCORE_SET, t2_set2)
-        graphics.DrawText(canvas, FONT_SCORE, x_set3, y_T2, COLOR_SCORE_SET, t2_set3)
-        graphics.DrawText(canvas, FONT_SCORE, x_service, y_T2-y_service_delta, COLOR_SCORE_SERVICE, t2_service)
-        graphics.DrawText(canvas, FONT_SCORE, x_game, y_T2, COLOR_SCORE_GAME, t2_game)
+        graphics.DrawText(self.canvas, FONT_SCORE, x_set1, y_T2, COLOR_SCORE_SET, t2_set1)
+        graphics.DrawText(self.canvas, FONT_SCORE, x_set2, y_T2, COLOR_SCORE_SET, t2_set2)
+        graphics.DrawText(self.canvas, FONT_SCORE, x_set3, y_T2, COLOR_SCORE_SET, t2_set3)
+        graphics.DrawText(self.canvas, FONT_SCORE, x_service, y_T2-y_service_delta, COLOR_SCORE_SERVICE, t2_service)
+        graphics.DrawText(self.canvas, FONT_SCORE, x_game, y_T2, COLOR_SCORE_GAME, t2_game)
 
     def display_match(self, match):
 
@@ -171,7 +171,7 @@ class SevenCourtsM1(SampleBase):
         t1_set3 = match["team1"]["setScores"][2] if len(t1_set_scores)>2 else ""
         t2_set3 = match["team2"]["setScores"][2] if len(t2_set_scores)>2 else ""
 
-        display_match_score(
+        self.display_match_score(
             match["team1"]["serves"], match["team1"]["serves"],
             match["team1"].get("gameScore", ""), match["team2"].get("gameScore", ""),
             t1_set1, t2_set1, t1_set2, t2_set2, t1_set3, t2_set3)
