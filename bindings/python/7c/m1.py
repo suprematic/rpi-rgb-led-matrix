@@ -28,7 +28,7 @@ def register():
     url = REGISTRATION_URL
     request = urllib.request.Request(url, data=data, method='POST')
     try:
-        with urllib.request.urlopen(request) as response:
+        with urllib.request.urlopen(request, timeout=10) as response:
             j = json.loads(response.read().decode('utf-8'))
             log(url, "registered:", j)
             return j["id"]
@@ -39,7 +39,7 @@ def register():
 def match_info(panel_id):
     url = match_url(panel_id)
     try:
-        with urllib.request.urlopen(url) as response:
+        with urllib.request.urlopen(url, timeout=10) as response:
             if response.status == 200:
                 j = json.loads(response.read().decode('utf-8'))
                 log(url, "match:", j)
