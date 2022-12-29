@@ -87,22 +87,21 @@ class SevenCourtsM1(SampleBase):
 
     def run(self):
         self.canvas = self.matrix.CreateFrameCanvas()
-
-        panel_id = self.register()
-        match = None
         while True:
-            self.canvas.Clear()
+            panel_id = self.register()
+            match = None
             try:
-                match = match_info(panel_id)
+                while True:
+                    self.canvas.Clear()
+                    match = match_info(panel_id)
+                    if match != None:
+                        self.display_match(match)
+                    else:
+                        self.display_clock(self.canvas)
+                    self.canvas = self.matrix.SwapOnVSync(self.canvas)
+                    time.sleep(1)
             except URLError as e:
                 print(e)
-                self.draw_error_indicator()                
-            if match != None:
-                self.display_match(match)
-            else:
-                self.display_clock(self.canvas)
-            self.canvas = self.matrix.SwapOnVSync(self.canvas)
-            time.sleep(1)
 
     def register(self):
         panel_id = None
