@@ -17,7 +17,7 @@ WorkingDirectory=/opt/7c
 ## Env
 #Environment=BLOCKING_MAX_THREADS=16
 
-ExecStart=/bin/sh rpi-rgb-led-matrix/bindings/python/7c/m0.sh
+ExecStart=/bin/sh rpi-rgb-led-matrix/bindings/python/7c/m1.sh
 
 [Install]
 WantedBy=basic.target
