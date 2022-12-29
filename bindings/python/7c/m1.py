@@ -38,15 +38,12 @@ def register():
 
 def match_info(panel_id):
     url = match_url(panel_id)
-    try:
-        with urllib.request.urlopen(url, timeout=10) as response:
-            if response.status == 200:
-                j = json.loads(response.read().decode('utf-8'))
-                log(url, "match:", j)
-                return j
-            log("url='" + url + "', status= " + str(response.status))
-    except HTTPError as e:
-        log(url, e)
+    with urllib.request.urlopen(url, timeout=10) as response:
+        if response.status == 200:
+            j = json.loads(response.read().decode('utf-8'))
+            log(url, "match:", j)
+            return j
+        log("url='" + url + "', status= " + str(response.status))
     return None
 
 def team_name(name):
