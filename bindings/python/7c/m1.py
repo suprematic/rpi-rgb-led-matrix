@@ -201,8 +201,8 @@ class SevenCourtsM1(SampleBase):
         y_t2 = 58
         x_t = 2
         font = FONT_TEAM_NAME_L
-        graphics.DrawText(canvas, font, x_t, y_t1, COLOR_TEAM_NAME, name_t1)
-        graphics.DrawText(canvas, font, x_t, y_t2, COLOR_TEAM_NAME, name_t2)
+        graphics.DrawText(self.canvas, font, x_t, y_t1, COLOR_TEAM_NAME, name_t1)
+        graphics.DrawText(self.canvas, font, x_t, y_t2, COLOR_TEAM_NAME, name_t2)
     
 
         
