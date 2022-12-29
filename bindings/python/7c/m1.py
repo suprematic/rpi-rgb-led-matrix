@@ -17,6 +17,9 @@ REGISTRATION_URL = BASE_URL + "/panels/"
 PANEL_WIDTH = 192
 PANEL_HEIGHT = 64
 
+def log(*args):
+    print(*args, flush=True)    
+
 def match_url(panel_id):
     return BASE_URL + "/panels/" + panel_id + "/match"
 
@@ -27,10 +30,10 @@ def register():
     try:
         with urllib.request.urlopen(request) as response:
             j = json.loads(response.read().decode('utf-8'))
-            print(url, "registered:", j)
+            log(url, "registered:", j)
             return j["id"]
     except HTTPError as e:
-        print(url, e)
+        log(url, e)
         return None
 
 def match_info(panel_id):
@@ -39,11 +42,11 @@ def match_info(panel_id):
         with urllib.request.urlopen(url) as response:
             if response.status == 200:
                 j = json.loads(response.read().decode('utf-8'))
-                print(url, "match:", j)
+                log(url, "match:", j)
                 return j
-            print("url='" + url + "', status= " + str(response.status))
+            log("url='" + url + "', status= " + str(response.status))
     except HTTPError as e:
-        print(url, e)
+        log(url, e)
     return None
 
 def team_name(name):
@@ -102,7 +105,7 @@ class SevenCourtsM1(SampleBase):
                     self.canvas = self.matrix.SwapOnVSync(self.canvas)
                     time.sleep(1)
             except URLError as e:
-                print(e)
+                log(e)
 
     def register(self):
         panel_id = None
@@ -111,7 +114,7 @@ class SevenCourtsM1(SampleBase):
             try:
                 panel_id = register()
             except URLError as e:
-                print(e)
+                log(e)
                 self.draw_error_indicator()                
             if panel_id != None:
                 return panel_id
