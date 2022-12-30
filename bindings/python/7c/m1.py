@@ -47,17 +47,6 @@ def match_info(panel_id):
         log("url='" + url + "', status= " + str(response.status))
     return None
 
-def team_name(name):
-    names = name.split(" ", 2)[0:2]
-    if len(names) > 1:
-        [n1, n2] = names
-        n1 = n1 + " " if len(n1) <= 2 else n1[0:2] + "."
-        n2 = n2[0:1]
-        return n1 + n2
-    else:
-        n = name
-        return n if len(n) <= 6 else n[0:4] + "."
-
 # Style constants
 COLOR_WHITE = graphics.Color(255, 255, 255)
 COLOR_GREY = graphics.Color(128, 128, 128)
@@ -218,8 +207,8 @@ class SevenCourtsM1(SampleBase):
 
         if match["isTeamEvent"] or not match["isDoubles"]:
             if match["isTeamEvent"]:
-                t1p1 = team_name(match["team1"]["name"])
-                t2p1 = team_name(match["team2"]["name"])
+                t1p1 = match["team1"]["name"]
+                t2p1 = match["team2"]["name"]
             else:
                 t1p1 = match["team1"]["p1"]["lastname"]
                 t2p1 = match["team2"]["p1"]["lastname"]
