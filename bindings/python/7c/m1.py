@@ -229,15 +229,22 @@ class SevenCourtsM1(SampleBase):
             else:
                 font = FONT_TEAM_NAME_L
 
+            name_length_limit = 13
+
             y_t1p1 = 2 + flag_height 
             y_t1p2 = y_t1p1 + 2 + flag_height
             y_t2p1 = y_t1p2 + 18
             y_t2p2 = y_t2p1 + 2 + flag_height
+
+            t1p1 = t1p1[:name_length_limit].upper()
+            t1p2 = t1p2[:name_length_limit].upper()
+            t2p1 = t2p1[:name_length_limit].upper()
+            t2p2 = t2p2[:name_length_limit].upper()
             
-            graphics.DrawText(self.canvas, font, flag_width+2, y_t1p1, COLOR_TEAM_NAME, t1p1.upper())
-            graphics.DrawText(self.canvas, font, flag_width+2, y_t1p2, COLOR_TEAM_NAME, t1p2.upper())
-            graphics.DrawText(self.canvas, font, flag_width+2, y_t2p1, COLOR_TEAM_NAME, t2p1.upper())
-            graphics.DrawText(self.canvas, font, flag_width+2, y_t2p2, COLOR_TEAM_NAME, t2p2.upper())
+            graphics.DrawText(self.canvas, font, flag_width+2, y_t1p1, COLOR_TEAM_NAME, t1p1)
+            graphics.DrawText(self.canvas, font, flag_width+2, y_t1p2, COLOR_TEAM_NAME, t1p2)
+            graphics.DrawText(self.canvas, font, flag_width+2, y_t2p1, COLOR_TEAM_NAME, t2p1)
+            graphics.DrawText(self.canvas, font, flag_width+2, y_t2p2, COLOR_TEAM_NAME, t2p2)
 
         else:            
             if match["isTeamEvent"]:
