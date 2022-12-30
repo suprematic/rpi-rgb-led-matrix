@@ -10,7 +10,8 @@ import socket
 
 PANEL_NAME = socket.gethostname()
 
-BASE_URL = "https://staging.tableau.tennismath.com"
+#BASE_URL = "https://staging.tableau.tennismath.com"
+BASE_URL = "http://192.168.114.30:5000"
 REGISTRATION_URL = BASE_URL + "/panels/"
 
 # Constants for the 7C M1 panel (P5 192 x 64)
@@ -46,17 +47,6 @@ def match_info(panel_id):
         log("url='" + url + "', status= " + str(response.status))
     return None
 
-def team_name(name):
-    names = name.split(" ", 2)[0:2]
-    if len(names) > 1:
-        [n1, n2] = names
-        n1 = n1 + " " if len(n1) <= 2 else n1[0:2] + "."
-        n2 = n2[0:1]
-        return n1 + n2
-    else:
-        n = name
-        return n if len(n) <= 6 else n[0:4] + "."
-
 # Style constants
 COLOR_WHITE = graphics.Color(255, 255, 255)
 COLOR_GREY = graphics.Color(128, 128, 128)
@@ -89,7 +79,8 @@ COLOR_TEAM_NAME = COLOR_GREY
 FONT_SCORE = FONT_XL
 FONT_TEAM_NAME_S = FONT_S
 FONT_TEAM_NAME_M = FONT_M
-FONT_TEAM_NAME_L = FONT_XL
+FONT_TEAM_NAME_L = FONT_L
+FONT_TEAM_NAME_XL = FONT_XL
 
 class SevenCourtsM1(SampleBase):
     def __init__(self, *args, **kwargs):
@@ -100,6 +91,8 @@ class SevenCourtsM1(SampleBase):
         while True:
             panel_id = self.register()
             match = None
+
+            # FIXME fancy exception handling
             try:
                 while True:
                     self.canvas.Clear()
@@ -112,16 +105,29 @@ class SevenCourtsM1(SampleBase):
                     time.sleep(1)
             except URLError as e:
                 log(e)
+            except socket.timeout as e:
+                log('Socket timeout', e)
+            except Exception as e:
+                log(e)
 
     def register(self):
         panel_id = None
         while True:
             self.canvas.Clear()
+
+            # FIXME fancy exception handling
             try:
                 panel_id = register()
             except URLError as e:
                 log(e)
-                self.draw_error_indicator()                
+                self.draw_error_indicator()
+            except socket.timeout as e:
+                log('Socket timeout', e)
+                self.draw_error_indicator()
+            except Exception as e:
+                log(e)
+                self.draw_error_indicator()            
+
             if panel_id != None:
                 return panel_id
             else:
@@ -198,44 +204,52 @@ class SevenCourtsM1(SampleBase):
         flag_width = 0
         flag_height=12
 
-        if match["isDoubles"]:
+
+        if match["isTeamEvent"] or not match["isDoubles"]:
+            if match["isTeamEvent"]:
+                t1p1 = match["team1"]["name"]
+                t2p1 = match["team2"]["name"]
+            else:
+                t1p1 = match["team1"]["p1"]["lastname"]
+                t2p1 = match["team2"]["p1"]["lastname"]
+            t1p2 = ""
+            t2p2 = ""
+        elif match["isDoubles"]:
             t1p1 = match["team1"]["p1"]["lastname"]
             t1p2 = match["team1"]["p2"]["lastname"]
             t2p1 = match["team2"]["p1"]["lastname"]
             t2p2 = match["team2"]["p2"]["lastname"]
 
-            max_name_length = max(len(t1p1), len(t1p2), len(t2p1), len(t2p2))
-            if max_name_length > 8:
-                font = FONT_TEAM_NAME_S
-            elif max_name_length > 6:
-                font = FONT_TEAM_NAME_M
-            else:
-                font = FONT_TEAM_NAME_L
+        max_name_length = max(len(t1p1), len(t1p2), len(t2p1), len(t2p2))
+        if max_name_length > 8:
+            font = FONT_TEAM_NAME_S
+        elif max_name_length > 6:
+            font = FONT_TEAM_NAME_M
+        else:
+            font = FONT_TEAM_NAME_L
 
+        name_length_limit = 13
+        t1p1 = t1p1[:name_length_limit].upper()
+        t1p2 = t1p2[:name_length_limit].upper()
+        t2p1 = t2p1[:name_length_limit].upper()
+        t2p2 = t2p2[:name_length_limit].upper()
+
+        if match["isTeamEvent"] or not match["isDoubles"]:
+            y_t1 = 26
+            y_t2 = 58
+            x = flag_width + 2            
+            graphics.DrawText(self.canvas, font, x, y_t1, COLOR_TEAM_NAME, t1p1)
+            graphics.DrawText(self.canvas, font, x, y_t2, COLOR_TEAM_NAME, t2p1)
+        elif match["isDoubles"]:
             y_t1p1 = 2 + flag_height 
             y_t1p2 = y_t1p1 + 2 + flag_height
             y_t2p1 = y_t1p2 + 18
             y_t2p2 = y_t2p1 + 2 + flag_height
+            graphics.DrawText(self.canvas, font, flag_width+2, y_t1p1, COLOR_TEAM_NAME, t1p1)
+            graphics.DrawText(self.canvas, font, flag_width+2, y_t1p2, COLOR_TEAM_NAME, t1p2)
+            graphics.DrawText(self.canvas, font, flag_width+2, y_t2p1, COLOR_TEAM_NAME, t2p1)
+            graphics.DrawText(self.canvas, font, flag_width+2, y_t2p2, COLOR_TEAM_NAME, t2p2)
             
-            graphics.DrawText(canvas, font, flag_width+2, y_t1p1, COLOR_TEAM_NAME, t1p1.upper())
-            graphics.DrawText(canvas, font, flag_width+2, y_t1p2, COLOR_TEAM_NAME, t1p2.upper())
-            graphics.DrawText(canvas, font, flag_width+2, y_t2p1, COLOR_TEAM_NAME, t2p1.upper())
-            graphics.DrawText(canvas, font, flag_width+2, y_t2p2, COLOR_TEAM_NAME, t2p2.upper())
-
-        else:            
-            if match["isTeamEvent"]:
-                t1 = team_name(match["team1"]["name"])
-                t2 = team_name(match["team2"]["name"])            
-            else:
-                t1 = match["team1"]["p1"]["lastname"]
-                t2 = match["team2"]["p1"]["lastname"]            
-            y_t1 = 26
-            y_t2 = 58
-            x = flag_width + 2
-            font = FONT_TEAM_NAME_L
-            graphics.DrawText(self.canvas, font, x, y_t1, COLOR_TEAM_NAME, t1)
-            graphics.DrawText(self.canvas, font, x, y_t2, COLOR_TEAM_NAME, t2)
-
 
         #color_set = COLOR_GREY
         #color_service = COLOR_YELLOW        
@@ -257,7 +271,8 @@ class SevenCourtsM1(SampleBase):
         r = (128, 0, 0)
         y = (128, 96, 0)
         w = (96, 64, 0)
-        winner_t1 = [
+        # TODO decide what to use: medal or cup
+        winner_medal = [
             [b,r,b,b,b,b,b,r,b],
             [r,r,r,b,b,b,r,r,r],
             [b,r,r,b,b,b,r,r,b],
@@ -268,8 +283,7 @@ class SevenCourtsM1(SampleBase):
             [b,b,y,y,y,y,y,b,b],
             [b,b,y,y,y,y,y,b,b],
             [b,b,b,y,y,y,b,b,b]]
-        # FIXME not used?
-        winner_t2 = [
+        winner_cup = [
             [b,b,y,y,y,y,y,b,b],
             [w,y,y,y,y,y,y,y,w],
             [w,b,y,y,y,y,y,b,w],
@@ -280,11 +294,13 @@ class SevenCourtsM1(SampleBase):
             [b,b,b,b,y,b,b,b,b],
             [b,b,y,y,y,y,y,b,b],
             [b,b,y,y,y,y,y,b,b]]
-        match_result = match.get("match_result", None)
+        match_result = match.get("matchResult", None)
+        medal_delta=12
+        x_medal=PANEL_WIDTH - 3*medal_delta
         if match_result == "T1_WON":
-            self.draw_matrix(winner_t1, 80, 2)
+            self.draw_matrix(winner_medal, x_medal, medal_delta)
         elif match_result == "T2_WON":
-            self.draw_matrix(winner_t1, 80, 20)
+            self.draw_matrix(winner_cup, x_medal, PANEL_HEIGHT / 2 + medal_delta)
 
     def draw_error_indicator(self):
         b = (0, 0, 0)
