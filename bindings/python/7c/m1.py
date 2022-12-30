@@ -274,7 +274,8 @@ class SevenCourtsM1(SampleBase):
         r = (128, 0, 0)
         y = (128, 96, 0)
         w = (96, 64, 0)
-        winner_t1 = [
+        # TODO decide what to use: medal or cup
+        winner_medal = [
             [b,r,b,b,b,b,b,r,b],
             [r,r,r,b,b,b,r,r,r],
             [b,r,r,b,b,b,r,r,b],
@@ -285,8 +286,7 @@ class SevenCourtsM1(SampleBase):
             [b,b,y,y,y,y,y,b,b],
             [b,b,y,y,y,y,y,b,b],
             [b,b,b,y,y,y,b,b,b]]
-        # FIXME not used?
-        winner_t2 = [
+        winner_cup = [
             [b,b,y,y,y,y,y,b,b],
             [w,y,y,y,y,y,y,y,w],
             [w,b,y,y,y,y,y,b,w],
@@ -298,11 +298,11 @@ class SevenCourtsM1(SampleBase):
             [b,b,y,y,y,y,y,b,b],
             [b,b,y,y,y,y,y,b,b]]
         match_result = match.get("matchResult", None)
-        y_medal_delta=12
+        medal_delta=12
         if match_result == "T1_WON":
-            self.draw_matrix(winner_t1, 80, y_medal_delta)
+            self.draw_matrix(winner_medal, PANEL_WIDTH - medal_delta, medal_delta)
         elif match_result == "T2_WON":
-            self.draw_matrix(winner_t2, 80, PANEL_HEIGHT / 2 + y_medal_delta)
+            self.draw_matrix(winner_cup, PANEL_WIDTH - medal_delta, PANEL_HEIGHT / 2 + medal_delta)
 
     def draw_error_indicator(self):
         b = (0, 0, 0)
