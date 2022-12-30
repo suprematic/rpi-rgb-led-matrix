@@ -298,10 +298,11 @@ class SevenCourtsM1(SampleBase):
             [b,b,y,y,y,y,y,b,b],
             [b,b,y,y,y,y,y,b,b]]
         match_result = match.get("matchResult", None)
+        y_medal_delta=12
         if match_result == "T1_WON":
-            self.draw_matrix(winner_t1, 80, 4)
+            self.draw_matrix(winner_t1, 80, y_medal_delta)
         elif match_result == "T2_WON":
-            self.draw_matrix(winner_t2, 80, 40)
+            self.draw_matrix(winner_t2, 80, PANEL_HEIGHT / 2 + y_medal_delta)
 
     def draw_error_indicator(self):
         b = (0, 0, 0)
