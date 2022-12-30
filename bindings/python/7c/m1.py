@@ -215,51 +215,52 @@ class SevenCourtsM1(SampleBase):
         flag_width = 0
         flag_height=12
 
+
         if match["isTeamEvent"] or not match["isDoubles"]:
             if match["isTeamEvent"]:
-                t1 = team_name(match["team1"]["name"])
-                t2 = team_name(match["team2"]["name"])
+                t1p1 = team_name(match["team1"]["name"])
+                t2p1 = team_name(match["team2"]["name"])
             else:
-                t1 = match["team1"]["p1"]["lastname"]
-                t2 = match["team2"]["p1"]["lastname"]            
-            y_t1 = 26
-            y_t2 = 58
-            x = flag_width + 2
-            font = FONT_TEAM_NAME_XL
-            graphics.DrawText(self.canvas, font, x, y_t1, COLOR_TEAM_NAME, t1)
-            graphics.DrawText(self.canvas, font, x, y_t2, COLOR_TEAM_NAME, t2)
+                t1p1 = match["team1"]["p1"]["lastname"]
+                t2p1 = match["team2"]["p1"]["lastname"]
+            t1p2 = ""
+            t2p2 = ""
         elif match["isDoubles"]:
             t1p1 = match["team1"]["p1"]["lastname"]
             t1p2 = match["team1"]["p2"]["lastname"]
             t2p1 = match["team2"]["p1"]["lastname"]
             t2p2 = match["team2"]["p2"]["lastname"]
 
-            max_name_length = max(len(t1p1), len(t1p2), len(t2p1), len(t2p2))
-            if max_name_length > 8:
-                font = FONT_TEAM_NAME_S
-            elif max_name_length > 6:
-                font = FONT_TEAM_NAME_M
-            else:
-                font = FONT_TEAM_NAME_L
+        max_name_length = max(len(t1p1), len(t1p2), len(t2p1), len(t2p2))
+        if max_name_length > 8:
+            font = FONT_TEAM_NAME_S
+        elif max_name_length > 6:
+            font = FONT_TEAM_NAME_M
+        else:
+            font = FONT_TEAM_NAME_L
 
-            name_length_limit = 13
+        name_length_limit = 13
+        t1p1 = t1p1[:name_length_limit].upper()
+        t1p2 = t1p2[:name_length_limit].upper()
+        t2p1 = t2p1[:name_length_limit].upper()
+        t2p2 = t2p2[:name_length_limit].upper()
 
+        if match["isTeamEvent"] or not match["isDoubles"]:
+            y_t1 = 26
+            y_t2 = 58
+            x = flag_width + 2
+            font = FONT_TEAM_NAME_XL
+            graphics.DrawText(self.canvas, font, x, y_t1, COLOR_TEAM_NAME, t1p1)
+            graphics.DrawText(self.canvas, font, x, y_t2, COLOR_TEAM_NAME, t2p1)
+        elif match["isDoubles"]:
             y_t1p1 = 2 + flag_height 
             y_t1p2 = y_t1p1 + 2 + flag_height
             y_t2p1 = y_t1p2 + 18
             y_t2p2 = y_t2p1 + 2 + flag_height
-
-            t1p1 = t1p1[:name_length_limit].upper()
-            t1p2 = t1p2[:name_length_limit].upper()
-            t2p1 = t2p1[:name_length_limit].upper()
-            t2p2 = t2p2[:name_length_limit].upper()
-            
             graphics.DrawText(self.canvas, font, flag_width+2, y_t1p1, COLOR_TEAM_NAME, t1p1)
             graphics.DrawText(self.canvas, font, flag_width+2, y_t1p2, COLOR_TEAM_NAME, t1p2)
             graphics.DrawText(self.canvas, font, flag_width+2, y_t2p1, COLOR_TEAM_NAME, t2p1)
             graphics.DrawText(self.canvas, font, flag_width+2, y_t2p2, COLOR_TEAM_NAME, t2p2)
-
-        
             
 
         #color_set = COLOR_GREY
