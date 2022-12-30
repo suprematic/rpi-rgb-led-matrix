@@ -91,7 +91,7 @@ FONT_SCORE = FONT_XL
 FONT_TEAM_NAME_S = FONT_S
 FONT_TEAM_NAME_M = FONT_M
 FONT_TEAM_NAME_L = FONT_L
-FONT_TEAM_NAME_L = FONT_XL
+FONT_TEAM_NAME_XL = FONT_XL
 
 class SevenCourtsM1(SampleBase):
     def __init__(self, *args, **kwargs):
