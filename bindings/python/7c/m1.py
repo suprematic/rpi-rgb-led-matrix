@@ -90,6 +90,7 @@ COLOR_TEAM_NAME = COLOR_GREY
 FONT_SCORE = FONT_XL
 FONT_TEAM_NAME_S = FONT_S
 FONT_TEAM_NAME_M = FONT_M
+FONT_TEAM_NAME_L = FONT_L
 FONT_TEAM_NAME_L = FONT_XL
 
 class SevenCourtsM1(SampleBase):
@@ -248,7 +249,7 @@ class SevenCourtsM1(SampleBase):
             y_t1 = 26
             y_t2 = 58
             x = flag_width + 2
-            font = FONT_TEAM_NAME_L
+            font = FONT_TEAM_NAME_XL
             graphics.DrawText(self.canvas, font, x, y_t1, COLOR_TEAM_NAME, t1)
             graphics.DrawText(self.canvas, font, x, y_t2, COLOR_TEAM_NAME, t2)
 
