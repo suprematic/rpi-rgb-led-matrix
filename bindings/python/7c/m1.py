@@ -215,7 +215,20 @@ class SevenCourtsM1(SampleBase):
         flag_width = 0
         flag_height=12
 
-        if match["isDoubles"]:
+        if match["isTeamEvent"] or not match["isDoubles"]:
+            if match["isTeamEvent"]:
+                t1 = team_name(match["team1"]["name"])
+                t2 = team_name(match["team2"]["name"])
+            else:
+                t1 = match["team1"]["p1"]["lastname"]
+                t2 = match["team2"]["p1"]["lastname"]            
+            y_t1 = 26
+            y_t2 = 58
+            x = flag_width + 2
+            font = FONT_TEAM_NAME_XL
+            graphics.DrawText(self.canvas, font, x, y_t1, COLOR_TEAM_NAME, t1)
+            graphics.DrawText(self.canvas, font, x, y_t2, COLOR_TEAM_NAME, t2)
+        elif match["isDoubles"]:
             t1p1 = match["team1"]["p1"]["lastname"]
             t1p2 = match["team1"]["p2"]["lastname"]
             t2p1 = match["team2"]["p1"]["lastname"]
@@ -246,20 +259,8 @@ class SevenCourtsM1(SampleBase):
             graphics.DrawText(self.canvas, font, flag_width+2, y_t2p1, COLOR_TEAM_NAME, t2p1)
             graphics.DrawText(self.canvas, font, flag_width+2, y_t2p2, COLOR_TEAM_NAME, t2p2)
 
-        else:            
-            if match["isTeamEvent"]:
-                t1 = team_name(match["team1"]["name"])
-                t2 = team_name(match["team2"]["name"])            
-            else:
-                t1 = match["team1"]["p1"]["lastname"]
-                t2 = match["team2"]["p1"]["lastname"]            
-            y_t1 = 26
-            y_t2 = 58
-            x = flag_width + 2
-            font = FONT_TEAM_NAME_XL
-            graphics.DrawText(self.canvas, font, x, y_t1, COLOR_TEAM_NAME, t1)
-            graphics.DrawText(self.canvas, font, x, y_t2, COLOR_TEAM_NAME, t2)
-
+        
+            
 
         #color_set = COLOR_GREY
         #color_service = COLOR_YELLOW        
