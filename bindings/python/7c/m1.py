@@ -218,10 +218,10 @@ class SevenCourtsM1(SampleBase):
             y_t2p1 = y_t1p2 + 18
             y_t2p2 = y_t2p1 + 2 + flag_height
             
-            graphics.DrawText(canvas, font, flag_width+2, y_t1p1, COLOR_TEAM_NAME, t1p1.upper())
-            graphics.DrawText(canvas, font, flag_width+2, y_t1p2, COLOR_TEAM_NAME, t1p2.upper())
-            graphics.DrawText(canvas, font, flag_width+2, y_t2p1, COLOR_TEAM_NAME, t2p1.upper())
-            graphics.DrawText(canvas, font, flag_width+2, y_t2p2, COLOR_TEAM_NAME, t2p2.upper())
+            graphics.DrawText(self.canvas, font, flag_width+2, y_t1p1, COLOR_TEAM_NAME, t1p1.upper())
+            graphics.DrawText(self.canvas, font, flag_width+2, y_t1p2, COLOR_TEAM_NAME, t1p2.upper())
+            graphics.DrawText(self.canvas, font, flag_width+2, y_t2p1, COLOR_TEAM_NAME, t2p1.upper())
+            graphics.DrawText(self.canvas, font, flag_width+2, y_t2p2, COLOR_TEAM_NAME, t2p2.upper())
 
         else:            
             if match["isTeamEvent"]:
