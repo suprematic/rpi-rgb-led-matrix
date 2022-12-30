@@ -248,8 +248,7 @@ class SevenCourtsM1(SampleBase):
         if match["isTeamEvent"] or not match["isDoubles"]:
             y_t1 = 26
             y_t2 = 58
-            x = flag_width + 2
-            font = FONT_TEAM_NAME_XL
+            x = flag_width + 2            
             graphics.DrawText(self.canvas, font, x, y_t1, COLOR_TEAM_NAME, t1p1)
             graphics.DrawText(self.canvas, font, x, y_t2, COLOR_TEAM_NAME, t2p1)
         elif match["isDoubles"]:
