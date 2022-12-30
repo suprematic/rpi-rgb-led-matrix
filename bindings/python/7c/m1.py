@@ -101,6 +101,8 @@ class SevenCourtsM1(SampleBase):
         while True:
             panel_id = self.register()
             match = None
+
+            # FIXME fancy exception handling
             try:
                 while True:
                     self.canvas.Clear()
@@ -113,16 +115,34 @@ class SevenCourtsM1(SampleBase):
                     time.sleep(1)
             except URLError as e:
                 log(e)
+            except socket.timeout as e:
+                log('Socket timeout', e)
+            except Exception as e:
+                log(e)
+            except:
+                log('Unxpected exception')
 
     def register(self):
         panel_id = None
         while True:
             self.canvas.Clear()
+
+            # FIXME fancy exception handling
             try:
                 panel_id = register()
             except URLError as e:
                 log(e)
-                self.draw_error_indicator()                
+                self.draw_error_indicator()
+            except socket.timeout as e:
+                log('Socket timeout', e)
+                self.draw_error_indicator()
+            except Exception as e:
+                log(e)
+                self.draw_error_indicator()            
+            except:
+                log('Unxpected exception')
+                self.draw_error_indicator()
+
             if panel_id != None:
                 return panel_id
             else:
