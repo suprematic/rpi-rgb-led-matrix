@@ -119,8 +119,6 @@ class SevenCourtsM1(SampleBase):
                 log('Socket timeout', e)
             except Exception as e:
                 log(e)
-            except:
-                log('Unxpected exception')
 
     def register(self):
         panel_id = None
@@ -139,9 +137,6 @@ class SevenCourtsM1(SampleBase):
             except Exception as e:
                 log(e)
                 self.draw_error_indicator()            
-            except:
-                log('Unxpected exception')
-                self.draw_error_indicator()
 
             if panel_id != None:
                 return panel_id
