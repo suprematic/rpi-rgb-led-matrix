@@ -376,7 +376,7 @@ class M1_Demo(SampleBase):
         self.show_score_doubles_with_flags_short(canvas, True, duration)
         
         # 2.3. Match mode: point-by-point custom
-        self.show_title_text(canvas, "Custom style for your CI", title_duration)
+        self.show_title_text(canvas, "Custom style to match your CI", title_duration)
         self.show_score_doubles_with_flags_short(canvas, True, duration, True)
 
         
