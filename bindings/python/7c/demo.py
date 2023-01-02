@@ -155,9 +155,7 @@ class M1_Demo(SampleBase):
         canvas.SetImage(Image.open("images/flags/france.png").convert('RGB'),  0, 3+flag_height+2+flag_height+3+3)
         canvas.SetImage(Image.open("images/flags/ukraine.png").convert('RGB'), 0, 3+flag_height+2+flag_height+3+3+flag_height+2)
 
-
-
-        self.render_names_doubles(canvas, "Schiavionne", "Berrettini", "Shinkarenko", "Dolgopolov")
+        self.render_names_doubles(canvas, "Bianchi", "Rodríguez", "Lavigne", "Shinkarenko")
         
         self.render_score_3_sets(canvas)
 
@@ -174,32 +172,27 @@ class M1_Demo(SampleBase):
         canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'), 0, 6 + 3+flag_height+2+flag_height+3+3)
 
         # FIXME support accents, umlauts etc (Gonzalez)
-        self.render_names_doubles(canvas, "Rossi", "Bianchi", "Gonzalez", "Lopez")
+        self.render_names_doubles(canvas, "Rossi", "Bianchi", "González", "López")
         
         self.render_score_3_sets(canvas)
 
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
-    def show_clock_with_weather_and_announcement(self, canvas, duration):
+    def render_statics_for_announcement(self, canvas):
         canvas.Clear()
-
         self.render_weather(canvas)
         graphics.DrawText(canvas, FONT_S, 2, 20, COLOR_GREY, "Happy Wedding Day!")
         graphics.DrawText(canvas, FONT_M, 2, 40, COLOR_GREY, "John & Mary")
         canvas.SetImage(Image.open("images/clipart/heart_19x16.png").convert('RGB'), 42, 45)
-        
-        # draw statics also on the swapped canvas before starting clock
         canvas = self.matrix.SwapOnVSync(canvas)
+        return canvas
 
-        self.render_weather(canvas)
-        graphics.DrawText(canvas, FONT_S, 2, 20, COLOR_GREY, "Happy Wedding Day!")
-        graphics.DrawText(canvas, FONT_M, 2, 40, COLOR_GREY, "John & Mary")
-        canvas.SetImage(Image.open("images/clipart/heart_19x16.png").convert('RGB'), 42, 45)
-
+    def show_clock_with_weather_and_announcement(self, canvas, duration):
+        self.render_statics_for_announcement(canvas)        
+        # draw statics also on the swapped canvas before starting clock
+        self.render_statics_for_announcement(canvas)
         self.render_clock(canvas, '%H:%M', 140, 61, 104, 14, FONT_L, duration)
-
-
     
     def show_big_clock(self, canvas, duration):
         canvas.Clear()
