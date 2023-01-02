@@ -357,8 +357,9 @@ class M1_Demo(SampleBase):
         self.show_clock_with_weather_and_announcement(canvas, duration)
 
         # 2.1. Match mode: point-by-point
-        self.show_title_text(canvas, "Point-by-point score\n(pro mode)\n\nThe Grand Slam moment\nin your club!", title_duration)
+        self.show_title_text(canvas, "The Grand Slam moment\nin your club!", title_duration)
         self.show_score_singles_with_flags(canvas, True, duration)
+        self.show_title_text(canvas, "Point-by-point score\n(pro mode)", title_duration)
         self.show_score_doubles_with_flags_short(canvas, True, duration)
         self.show_score_doubles_with_flags_long(canvas, True, duration)
 
