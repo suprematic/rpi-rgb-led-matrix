@@ -53,6 +53,16 @@ class M1_Demo(SampleBase):
         for x in range(100000):
             self.run_slide_show(duration, title_duration)
 
+    def draw_matrix(self, canvas, m, x0, y0):
+        y = y0
+        for row in m:
+            x = x0
+            for px in row:
+                (r, g, b) = px
+                canvas.SetPixel(x, y, r, g, b)
+                x = x + 1
+            y = y + 1
+
     def render_score_3_sets(self, canvas, show_game_score):
         ## pseudo score in 3 sets:
         ## 7-6 3-6 7-4 *30-15
@@ -69,10 +79,24 @@ class M1_Demo(SampleBase):
         x_service = 155
 
         if show_game_score:
-            graphics.DrawText(canvas, FONT_XL, x_service, y_T2-y_service_delta, color_score_set, "")
+            #graphics.DrawText(canvas, FONT_XL, x_service, y_T2-y_service_delta, color_score_set, "")
             graphics.DrawText(canvas, FONT_XL, x_game, y_T2, color_score_set, "15")
-            graphics.DrawText(canvas, FONT_XL, x_service, y_T1-y_service_delta, color_score_set, ".")
+            #graphics.DrawText(canvas, FONT_XL, x_service, y_T1-y_service_delta, color_score_set, ".")
             graphics.DrawText(canvas, FONT_XL, x_game, y_T1, color_score_set, "30")
+
+            b = (0, 0 ,0)            
+            w = (96, 96, 96)
+            ball = [
+                [b,b,w,b,b],
+                [w,b,w,b,w],
+                [b,w,w,w,b],
+                [w,w,w,w,w],
+                [b,w,w,w,b],
+                [w,b,w,b,w],
+                [b,b,w,b,b]]
+        
+            self.draw_matrix(canvas, ball, x_service, y_T1-y_service_delta)
+
             x_service_and_game_delta = 0
         else:
             x_service_and_game_delta = PANEL_WIDTH - x_service            
