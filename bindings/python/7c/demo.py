@@ -191,20 +191,30 @@ class M1_Demo(SampleBase):
 
         self.render_clock(canvas, '%H:%M', 140, 61, 104, 14, self.font_L, duration)
 
-    def show_big_clock_with_weather(self, canvas, duration):
+
+    def render_statics_for_big_clock(self, canvas):
         canvas.Clear()
-
-        image = Image.open("images/logos/sevencourts_123x13.png")
-        canvas.SetImage(image.convert('RGB'), 0, 13)
-
         image = Image.open("images/logos/sevencourts_152x16.png")
-        canvas.SetImage(image.convert('RGB'), 0, 29)
-
-
-        self.render_weather(canvas)
-        # draw statics also on the swapped canvas before starting clock
+        canvas.SetImage(image.convert('RGB'), (PANEL_WIDTH-image.width)/2, 7)
         canvas = self.matrix.SwapOnVSync(canvas)
+        return canvas
+
+    def show_big_clock(self, canvas, duration):
+        self.render_statics_for_big_clock(canvas)
+        # draw statics also on the swapped canvas before starting clock
+        self.render_statics_for_big_clock(canvas)
+        self.render_clock(canvas, '%H:%M:%S', 80, 60, 104, 21, self.font_XL, duration)
+
+    def render_statics_for_big_clock_with_weather(self, canvas):
+        canvas.Clear()
         self.render_weather(canvas)
+        canvas = self.matrix.SwapOnVSync(canvas)
+        return canvas
+
+    def show_big_clock_with_weather(self, canvas, duration):
+        self.render_statics_for_big_clock_with_weather(canvas)
+        # draw statics also on the swapped canvas before starting clock
+        self.render_statics_for_big_clock_with_weather(canvas)
         self.render_clock(canvas, '%H:%M:%S', 80, 60, 104, 21, self.font_XL, duration)
 
     def render_weather(self, canvas):
@@ -318,6 +328,7 @@ class M1_Demo(SampleBase):
     def run_slide_show(self, duration):
         canvas = self.matrix.CreateFrameCanvas()
 
+        self.show_big_clock(canvas, duration)
         self.show_big_clock_with_weather(canvas, duration)
         
         self.show_image_centered(canvas, "images/sevencourts_2_192x21.png", duration)
