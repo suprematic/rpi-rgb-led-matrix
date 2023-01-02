@@ -370,9 +370,9 @@ class M1_Demo(SampleBase):
         self.show_title_text(canvas, "Customize style\nto match your CI", title_duration)
         self.show_score_doubles_with_flags_short(canvas, True, duration, True)
 
-        self.show_title_text(canvas, "XS 399€\n\nM1 999€\n\nAny other size: on request", title_duration)
+        self.show_title_text(canvas, "XS 399€\nM1 999€\n\nAny other size: on request", duration)
 
-        self.show_title_text(canvas, "Check the CAMPO 1\nto see in action!", title_duration)
+        self.show_title_text(canvas, "Check the CAMPO 1\nto see in action!", duration)
 
 
     def run_slide_show(self, duration, title_duration):
