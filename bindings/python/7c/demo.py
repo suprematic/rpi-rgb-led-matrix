@@ -342,7 +342,7 @@ class M1_Demo(SampleBase):
 
 
         # 1.1. Idle mode: sequence of logos of our references        
-        self.show_title_text(canvas, "Club, sponsor,\ntournament logo", title_duration)
+        self.show_title_text(canvas, "Sponsor, club,\nor tournament logo", title_duration)
         
         duration_logo = min(3, duration)
         self.show_image_centered(canvas, "images/logos/a-rete_160x43.png", duration_logo)
@@ -351,28 +351,30 @@ class M1_Demo(SampleBase):
         
 
         # 1.2. Idle mode: Clock + Weather + etc.
-        self.show_title_text(canvas, "Time, weather, etc.", title_duration)
-        self.show_big_clock(canvas, duration)        
+        self.show_title_text(canvas, "Time, weather,\npersonal greetings, etc.", title_duration)
+        #self.show_big_clock(canvas, duration)        
         self.show_big_clock_with_weather(canvas, duration)
         self.show_clock_with_weather_and_announcement(canvas, duration)
 
         # 2.1. Match mode: point-by-point
-        self.show_title_text(canvas, "Point-by-point score\n(pro mode)", title_duration)
+        self.show_title_text(canvas, "Point-by-point score\n(pro mode)\n\nThe Grand Slam moment\nin your club!", title_duration)
+        self.show_score_singles_with_flags(canvas, True, duration)
         self.show_score_doubles_with_flags_short(canvas, True, duration)
         self.show_score_doubles_with_flags_long(canvas, True, duration)
-        self.show_score_singles_with_flags(canvas, True, duration)
 
         # 2.2. Match mode: game-by-game
-        self.show_title_text(canvas, "Game-by-game score", title_duration)
+        self.show_title_text(canvas, "Game-by-game score\n(easy mode)", title_duration)
         self.show_score_doubles_with_flags_short(canvas, False, duration)
 
         # 2.3. Match mode: point-by-point custom
         self.show_title_text(canvas, "Customize style\nto match your CI", title_duration)
         self.show_score_doubles_with_flags_short(canvas, True, duration, True)
 
+        self.show_title_text(canvas, "Check the CAMPO 1\nto see in action", duration)
+
         self.show_title_text(canvas, "XS 399€\nM1 999€\n\nAny other size: on request", duration)
 
-        self.show_title_text(canvas, "Check the CAMPO 1\nto see in action!", duration)
+        
 
 
     def run_slide_show(self, duration, title_duration):
