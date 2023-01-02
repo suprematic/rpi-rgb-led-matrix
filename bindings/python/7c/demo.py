@@ -19,6 +19,9 @@ COLOR_RED = graphics.Color(255, 0, 0)
 COLOR_YELLOW = graphics.Color(255, 255, 0)
 COLOR_GREEN = graphics.Color(0, 255, 0)
 
+COLOR_GREEN_7c = graphics.Color(147, 196, 125)
+COLOR_BLUE_7c = graphics.Color(111, 168, 220)
+
 FONT_XL = graphics.Font()
 FONT_XL.LoadFont("fonts/texgyre-27.bdf")
 FONT_L = graphics.Font()
@@ -277,7 +280,7 @@ class M1_Demo(SampleBase):
             text_width+=font.CharacterWidth(ord(c))
         x = (PANEL_WIDTH-text_width)/2
 
-        graphics.DrawText(canvas, font, x, 32, COLOR_YELLOW, text)
+        graphics.DrawText(canvas, font, x, 32, COLOR_GREEN_7c, text)
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
