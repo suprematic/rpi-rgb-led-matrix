@@ -307,28 +307,19 @@ class M1_Demo(SampleBase):
 
     def show_title_text(self, canvas, text, duration):
         canvas.Clear()
+        color = COLOR_BLUE_7c
         font = FONT_S
 
         lines = text.split('\n')
         h_total = font.height * len(lines)
         for i in range(len(lines)):
             line = lines[i]
-
             y = (PANEL_HEIGHT-h_total)/2 + (i+1)*font.height - 2
-
-            print(PANEL_HEIGHT)
-            print(font.height)
-            print(y)
-            print('--')
-
             line_width = 0
             for c in line:
                 line_width+=font.CharacterWidth(ord(c))
-            x = (PANEL_WIDTH-line_width)/2
-            
-            graphics.DrawText(canvas, font, x, y, COLOR_GREEN_7c, line)
-
-
+            x = (PANEL_WIDTH-line_width)/2            
+            graphics.DrawText(canvas, font, x, y, color, line)
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
