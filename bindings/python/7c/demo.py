@@ -307,7 +307,7 @@ class M1_Demo(SampleBase):
 
     def show_title_text(self, canvas, text, duration):
         canvas.Clear()
-        color = COLOR_BLUE_7c
+        color = COLOR_GREEN_7c
         font = FONT_S
 
         lines = text.split('\n')
