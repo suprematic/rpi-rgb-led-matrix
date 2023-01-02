@@ -74,7 +74,7 @@ class M1_Demo(SampleBase):
         
         y_T1 = 26
         y_T2 = 58
-        y_service_delta = 10        
+        y_service_delta = 14
         x_game = 163
         x_service = 155
 
@@ -85,7 +85,7 @@ class M1_Demo(SampleBase):
             graphics.DrawText(canvas, FONT_XL, x_game, y_T1, color_score_set, "30")
 
             b = (0, 0 ,0)            
-            w = (96, 96, 96)
+            w = (COLOR_GREY.red, COLOR_GREY.green, COLOR_GREY.blue)
             ball = [
                 [b,b,w,b,b],
                 [w,b,w,b,w],
