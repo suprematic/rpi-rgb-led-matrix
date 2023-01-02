@@ -10,11 +10,14 @@ from PIL import Image
 # Constants for the 7C M1 panel (P5 192 x 64)
 PANEL_WIDTH = 192
 PANEL_HEIGHT = 64
+CAPTION_DURATION = 3
+FRAME_DURATION = 8
 
 class M1_Demo(SampleBase):
     def __init__(self, *args, **kwargs):
         super(M1_Demo, self).__init__(*args, **kwargs)
-        self.parser.add_argument("-d", "--delay", help="Delay between frames, seconds", default=8)
+        self.parser.add_argument("-d", "--duration", help="Duration of each frame, seconds", default=FRAME_DURATION)
+        self.parser.add_argument("-c", "--caption-duration", help="Duration of caption frame, seconds", default=CAPTION_DURATION)
 
         self.color_white = graphics.Color(255, 255, 255)
         self.color_grey = graphics.Color(128, 128, 128)
@@ -40,9 +43,10 @@ class M1_Demo(SampleBase):
 
 
     def run(self):
-        delay = int(self.args.delay)
+        duration = int(self.args.duration)
+        caption_duration = int(self.args.caption_duration)
         for x in range(100000):
-            self.run_slide_show(delay)
+            self.run_slide_show(duration, caption_duration)
 
     def render_score_3_sets(self, canvas):
         ## pseudo score in 3 sets:
@@ -267,13 +271,13 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
-    def show_caption(self, canvas, text):
+    def show_caption(self, canvas, text, duration):
         canvas.Clear()
 
         graphics.DrawText(canvas, self.font_S, 4, 32, self.color_yellow, text)
 
         canvas = self.matrix.SwapOnVSync(canvas)
-        time.sleep(3)
+        time.sleep(duration)
 
     def show_fonts(self, canvas, duration):
         canvas.Clear()
@@ -287,56 +291,47 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
-    def run_demo_sequence(self, canvas, duration):
+    def run_demo_sequence(self, canvas, duration, caption_duration):
         
         # 0. Title slide: SevenCourts logo + slogan
         self.show_title_slide(canvas, duration)
 
 
         # 1.1. Idle mode: sequence of logos of our references        
-        self.show_caption(canvas, "Club or sponsors logos")
-        
+        self.show_caption(canvas, "Club or sponsors logos", caption_duration)
         
         duration_logo = min(2, duration)
         self.show_image_centered(canvas, "images/logos/a-rete_192x51.png", duration_logo)
         self.show_image_centered(canvas, "images/logos/tom-schilke_192x55.png", duration_logo)
         self.show_image_centered(canvas, "images/logos/sv1845_101x64.png", duration_logo)
         
-        
 
         # 1.2. Idle mode: Clock + Weather + etc.
-        self.show_caption(canvas, "Time, weather, etc.")
+        self.show_caption(canvas, "Time, weather, etc.", caption_duration)
+        self.show_big_clock(canvas, duration)        
         self.show_big_clock_with_weather(canvas, duration)
         self.show_clock_with_weather_and_announcement(canvas, duration)
 
         # 2.1. Match mode: point-by-point
-        self.show_caption(canvas, "Point-by-point score (pro)")
+        self.show_caption(canvas, "Point-by-point score (pro)", caption_duration)
         self.show_score_doubles_with_flags_short(canvas, duration)
         self.show_score_doubles_with_flags_long(canvas, duration)
         self.show_score_singles_with_flags(canvas, duration)
 
 
         # 2.2. Match mode: game-by-game
-        self.show_caption(canvas, "Game-by-game score")
+        self.show_caption(canvas, "Game-by-game score", caption_duration)
         #self.show_score_doubles_with_flags_short(canvas, duration)
         #self.show_score_doubles_with_flags_long(canvas, duration)
         #self.show_score_singles_with_flags(canvas, duration)
 
-        self.show_caption(canvas, "Price: M1 999€ / XS 399€")
+        self.show_caption(canvas, "Price: M1 999€ / XS 399€", caption_duration)
 
 
-    def run_slide_show(self, duration):
+    def run_slide_show(self, duration, caption_duration):
         canvas = self.matrix.CreateFrameCanvas()
 
-        self.show_big_clock(canvas, duration)
-        self.show_big_clock_with_weather(canvas, duration)
-        
-        self.show_image_centered(canvas, "images/sevencourts_2_192x21.png", duration)
-        self.show_image_centered(canvas, "images/slide_caption_logos.png", duration)
-        self.show_image_centered(canvas, "images/slide_caption_logos2.png", duration)
-        self.show_image_centered(canvas, "images/slide_caption_logos3.png", duration)
-
-        self.run_demo_sequence(canvas, duration)        
+        self.run_demo_sequence(canvas, duration, caption_duration)        
 
         #self.show_flags(canvas, duration)
         #self.show_fonts(canvas, duration)
