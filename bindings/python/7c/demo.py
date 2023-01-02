@@ -309,12 +309,21 @@ class M1_Demo(SampleBase):
         canvas.Clear()
         font = FONT_S
 
-        text_width = 0
-        for c in text:
-            text_width+=font.CharacterWidth(ord(c))
-        x = (PANEL_WIDTH-text_width)/2
+        lines = text.split('\n')
+        h_total = font.height * len(lines)
+        for i in range(len(lines))
+            line = lines[i]
 
-        graphics.DrawText(canvas, font, x, 32, COLOR_GREEN_7c, text)
+            y = (PANEL_HEIGHT-h_total)/2 + i*font.height
+
+            line_width = 0
+            for c in line:
+                line_width+=font.CharacterWidth(ord(c))
+            x = (PANEL_WIDTH-line_width)/2
+            
+            graphics.DrawText(canvas, font, x, y, COLOR_GREEN_7c, line)
+
+
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
@@ -371,12 +380,17 @@ class M1_Demo(SampleBase):
     def run_slide_show(self, duration, title_duration):
         canvas = self.matrix.CreateFrameCanvas()
 
+        self.show_title_text(canvas, "Customize style", title_duration)
+        self.show_title_text(canvas, "Customize style\nto match your CI", title_duration)
+        self.show_title_text(canvas, "Customize style\nto match your CI\nwhatever it means", title_duration)
+        self.show_title_text(canvas, "Customize style\nto match your CI\nwhatever it means\nfor you", title_duration)
+
         # 2.1. Match mode: point-by-point
         self.show_title_text(canvas, "Point-by-point score (pro)", title_duration)
         self.show_score_doubles_with_flags_short(canvas, True, duration)
         
         # 2.3. Match mode: point-by-point custom
-        self.show_title_text(canvas, "Custom style to match your CI", title_duration)
+        self.show_title_text(canvas, "Customize style\nto match your CI", title_duration)
         self.show_score_doubles_with_flags_short(canvas, True, duration, True)
 
         
