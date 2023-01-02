@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# FIXME use python3 where utf-8 is default and there is no need to decode anything
-
 from samplebase import SampleBase
 from rgbmatrix import graphics
 import time
@@ -206,14 +204,13 @@ class M1_Demo(SampleBase):
         y_weather = 2
         image_weather = Image.open("images/weather/sunny_with_clouds_25x20.png").convert('RGB')
         canvas.SetImage(image_weather, x_weather, y_weather)
-        # FIXME use python3 where utf-8 is default and there is no need to decode anything
         graphics.DrawText(
                 canvas, 
                 self.font_L, 
                 x_weather + image_weather.width + 2, 
                 y_weather + image_weather.height - 4,
                 self.color_grey, 
-                '23°'.decode('utf-8'))
+                '23°')
 
     def clear_rect(self, canvas, x0, y0, w, h):
         for x in range (x0, x0+w):
@@ -255,7 +252,7 @@ class M1_Demo(SampleBase):
     def show_caption(self, canvas, text):
         canvas.Clear()
 
-        graphics.DrawText(canvas, self.font_S, 4, 32, self.color_yellow, text.decode('utf-8'))
+        graphics.DrawText(canvas, self.font_S, 4, 32, self.color_yellow, text)
 
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(3)
