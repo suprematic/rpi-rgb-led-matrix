@@ -17,7 +17,7 @@ class M1_Demo(SampleBase):
     def __init__(self, *args, **kwargs):
         super(M1_Demo, self).__init__(*args, **kwargs)
         self.parser.add_argument("-d", "--duration", help="Duration of each frame, seconds", default=FRAME_DURATION)
-        self.parser.add_argument("-c", "--caption-duration", help="Duration of caption frame, seconds", default=CAPTION_DURATION)
+        self.parser.add_argument("-t", "--title-duration", help="Duration of title frame, seconds", default=CAPTION_DURATION)
 
         self.color_white = graphics.Color(255, 255, 255)
         self.color_grey = graphics.Color(128, 128, 128)
@@ -44,7 +44,7 @@ class M1_Demo(SampleBase):
 
     def run(self):
         duration = int(self.args.duration)
-        caption_duration = int(self.args.caption_duration)
+        caption_duration = int(self.args.title_duration)
         for x in range(100000):
             self.run_slide_show(duration, caption_duration)
 
