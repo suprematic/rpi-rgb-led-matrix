@@ -10,6 +10,29 @@ from PIL import Image
 # Constants for the 7C M1 panel (P5 192 x 64)
 PANEL_WIDTH = 192
 PANEL_HEIGHT = 64
+
+# Style constants
+COLOR_WHITE = graphics.Color(255, 255, 255)
+COLOR_GREY = graphics.Color(128, 128, 128)
+COLOR_BLACK = graphics.Color(0, 0, 0)
+COLOR_RED = graphics.Color(255, 0, 0)
+COLOR_YELLOW = graphics.Color(255, 255, 0)
+COLOR_GREEN = graphics.Color(0, 255, 0)
+
+FONT_XL = graphics.Font()
+FONT_XL.LoadFont("fonts/texgyre-27.bdf")
+FONT_L = graphics.Font()
+FONT_L.LoadFont("fonts/10x20.bdf")
+FONT_M = graphics.Font()
+FONT_M.LoadFont("fonts/9x15.bdf")
+FONT_S = graphics.Font()
+FONT_S.LoadFont("fonts/7x13.bdf")
+FONT_XS = graphics.Font()
+FONT_XS.LoadFont("fonts/5x8.bdf")
+FONT_XXS = graphics.Font()
+FONT_XXS.LoadFont("fonts/tom-thumb.bdf")
+
+# Timing defaults
 TITLE_DURATION = 3
 FRAME_DURATION = 8
 
@@ -18,28 +41,6 @@ class M1_Demo(SampleBase):
         super(M1_Demo, self).__init__(*args, **kwargs)
         self.parser.add_argument("-d", "--duration", help="Duration of each frame, seconds", default=FRAME_DURATION)
         self.parser.add_argument("-t", "--title-duration", help="Duration of title frame, seconds", default=TITLE_DURATION)
-
-        self.color_white = graphics.Color(255, 255, 255)
-        self.color_grey = graphics.Color(128, 128, 128)
-        self.color_black = graphics.Color(0, 0, 0)
-
-        self.color_red = graphics.Color(255, 0, 0)
-        self.color_yellow = graphics.Color(255, 255, 0)
-        self.color_green = graphics.Color(0, 255, 0)
-
-        self.font_XL = graphics.Font()
-        self.font_XL.LoadFont("fonts/texgyre-27.bdf")
-        self.font_L = graphics.Font()
-        self.font_L.LoadFont("fonts/10x20.bdf")
-        self.font_M = graphics.Font()
-        self.font_M.LoadFont("fonts/9x15.bdf")
-        self.font_S = graphics.Font()
-        self.font_S.LoadFont("fonts/7x13.bdf")
-        self.font_XS = graphics.Font()
-        self.font_XS.LoadFont("fonts/5x8.bdf")
-        self.font_XXS = graphics.Font()
-        self.font_XXS.LoadFont("fonts/tom-thumb.bdf")
-        
 
 
     def run(self):
@@ -52,8 +53,8 @@ class M1_Demo(SampleBase):
         ## pseudo score in 3 sets:
         ## 7-6 3-6 7-4 *30-15
 
-        color_score_set = self.color_grey
-        color_score_game = self.color_grey
+        color_score_set = COLOR_GREY
+        color_score_game = COLOR_GREY
         
         y_T1 = 26
         y_T2 = 58
@@ -66,17 +67,17 @@ class M1_Demo(SampleBase):
         x_set2 = x_set1 + w_set
         x_set3 = x_set2 + w_set
         
-        graphics.DrawText(canvas, self.font_XL, x_set1, y_T1, color_score_set, "7")
-        graphics.DrawText(canvas, self.font_XL, x_set2, y_T1, color_score_set, "3")
-        graphics.DrawText(canvas, self.font_XL, x_set3, y_T1, color_score_set, "5")
-        graphics.DrawText(canvas, self.font_XL, x_service, y_T1-y_service_delta, color_score_set, ".")
-        graphics.DrawText(canvas, self.font_XL, x_game, y_T1, color_score_set, "30")
+        graphics.DrawText(canvas, FONT_XL, x_set1, y_T1, color_score_set, "7")
+        graphics.DrawText(canvas, FONT_XL, x_set2, y_T1, color_score_set, "3")
+        graphics.DrawText(canvas, FONT_XL, x_set3, y_T1, color_score_set, "5")
+        graphics.DrawText(canvas, FONT_XL, x_service, y_T1-y_service_delta, color_score_set, ".")
+        graphics.DrawText(canvas, FONT_XL, x_game, y_T1, color_score_set, "30")
 
-        graphics.DrawText(canvas, self.font_XL, x_set1, y_T2, color_score_set, "6")
-        graphics.DrawText(canvas, self.font_XL, x_set2, y_T2, color_score_set, "6")
-        graphics.DrawText(canvas, self.font_XL, x_set3, y_T2, color_score_set, "4")
-        graphics.DrawText(canvas, self.font_XL, x_service, y_T2-y_service_delta, color_score_set, "")
-        graphics.DrawText(canvas, self.font_XL, x_game, y_T2, color_score_set, "15")
+        graphics.DrawText(canvas, FONT_XL, x_set1, y_T2, color_score_set, "6")
+        graphics.DrawText(canvas, FONT_XL, x_set2, y_T2, color_score_set, "6")
+        graphics.DrawText(canvas, FONT_XL, x_set3, y_T2, color_score_set, "4")
+        graphics.DrawText(canvas, FONT_XL, x_service, y_T2-y_service_delta, color_score_set, "")
+        graphics.DrawText(canvas, FONT_XL, x_game, y_T2, color_score_set, "15")
 
     def show_flags(self, canvas, duration):
         canvas.Clear()
@@ -104,10 +105,10 @@ class M1_Demo(SampleBase):
         canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'),   0, 42)
         
         
-        color_name = self.color_grey
+        color_name = COLOR_GREY
         
-        graphics.DrawText(canvas, self.font_XL, flag_width+2, y_T1, color_name, "FED")
-        graphics.DrawText(canvas, self.font_XL, flag_width+2, y_T2, color_name, "NAD")
+        graphics.DrawText(canvas, FONT_XL, flag_width+2, y_T1, color_name, "FED")
+        graphics.DrawText(canvas, FONT_XL, flag_width+2, y_T2, color_name, "NAD")
         
         self.render_score_3_sets(canvas)
 
@@ -118,11 +119,11 @@ class M1_Demo(SampleBase):
 
         max_name_length = max(len(t1p1), len(t1p2), len(t2p1), len(t2p2))
         if max_name_length > 8:
-            font = self.font_S
+            font = FONT_S
         elif max_name_length > 6:
-            font = self.font_M
+            font = FONT_M
         else:
-            font = self.font_L  
+            font = FONT_L  
 
         flag_height=12
         flag_width=18
@@ -132,7 +133,7 @@ class M1_Demo(SampleBase):
         y_t2p1 = y_t1p2 + 18
         y_t2p2 = y_t2p1 + 2 + flag_height
         
-        color_name = self.color_grey
+        color_name = COLOR_GREY
         
         graphics.DrawText(canvas, font, flag_width+2, y_t1p1, color_name, t1p1.upper())
         graphics.DrawText(canvas, font, flag_width+2, y_t1p2, color_name, t1p2.upper())
@@ -181,19 +182,19 @@ class M1_Demo(SampleBase):
         canvas.Clear()
 
         self.render_weather(canvas)
-        graphics.DrawText(canvas, self.font_S, 2, 20, self.color_grey, "Happy Wedding Day!")
-        graphics.DrawText(canvas, self.font_M, 2, 40, self.color_grey, "John & Mary")
+        graphics.DrawText(canvas, FONT_S, 2, 20, COLOR_GREY, "Happy Wedding Day!")
+        graphics.DrawText(canvas, FONT_M, 2, 40, COLOR_GREY, "John & Mary")
         canvas.SetImage(Image.open("images/clipart/heart_19x16.png").convert('RGB'), 42, 45)
         
         # draw statics also on the swapped canvas before starting clock
         canvas = self.matrix.SwapOnVSync(canvas)
 
         self.render_weather(canvas)
-        graphics.DrawText(canvas, self.font_S, 2, 20, self.color_grey, "Happy Wedding Day!")
-        graphics.DrawText(canvas, self.font_M, 2, 40, self.color_grey, "John & Mary")
+        graphics.DrawText(canvas, FONT_S, 2, 20, COLOR_GREY, "Happy Wedding Day!")
+        graphics.DrawText(canvas, FONT_M, 2, 40, COLOR_GREY, "John & Mary")
         canvas.SetImage(Image.open("images/clipart/heart_19x16.png").convert('RGB'), 42, 45)
 
-        self.render_clock(canvas, '%H:%M', 140, 61, 104, 14, self.font_L, duration)
+        self.render_clock(canvas, '%H:%M', 140, 61, 104, 14, FONT_L, duration)
 
 
     def render_statics_for_big_clock(self, canvas):
@@ -207,7 +208,7 @@ class M1_Demo(SampleBase):
         self.render_statics_for_big_clock(canvas)
         # draw statics also on the swapped canvas before starting clock
         self.render_statics_for_big_clock(canvas)
-        self.render_clock(canvas, '%H:%M:%S', 80, 60, 104, 21, self.font_XL, duration)
+        self.render_clock(canvas, '%H:%M:%S', 80, 60, 104, 21, FONT_XL, duration)
 
     def render_statics_for_big_clock_with_weather(self, canvas):
         canvas.Clear()
@@ -219,7 +220,7 @@ class M1_Demo(SampleBase):
         self.render_statics_for_big_clock_with_weather(canvas)
         # draw statics also on the swapped canvas before starting clock
         self.render_statics_for_big_clock_with_weather(canvas)
-        self.render_clock(canvas, '%H:%M:%S', 80, 60, 104, 21, self.font_XL, duration)
+        self.render_clock(canvas, '%H:%M:%S', 80, 60, 104, 21, FONT_XL, duration)
 
     def render_weather(self, canvas):
         x_weather = 134
@@ -228,18 +229,18 @@ class M1_Demo(SampleBase):
         canvas.SetImage(image_weather, x_weather, y_weather)
         graphics.DrawText(
                 canvas, 
-                self.font_L, 
+                FONT_L, 
                 x_weather + image_weather.width + 2, 
                 y_weather + image_weather.height - 4,
-                self.color_grey, 
+                COLOR_GREY, 
                 '23°')
 
     def clear_rect(self, canvas, x0, y0, w, h):
         for x in range (x0, x0+w):
-            graphics.DrawLine(canvas, x, y0, x, y0+h, self.color_black)
+            graphics.DrawLine(canvas, x, y0, x, y0+h, COLOR_BLACK)
 
     def render_clock(self, canvas, format, x, y, w, h, font, duration):
-        color_clock = self.color_grey
+        color_clock = COLOR_GREY
         for _ in range(duration):
             self.clear_rect(canvas, x, y-h, w, h)
             current_time=datetime.now().strftime(format)
@@ -263,32 +264,32 @@ class M1_Demo(SampleBase):
         canvas.Clear()
         image = Image.open("images/logos/sevencourts_192x21.png")
         canvas.SetImage(image.convert('RGB'), 0, 20)
-        graphics.DrawText(canvas, self.font_XS, 4, 60, self.color_grey, "Interactive infoboards for EVERY club")
+        graphics.DrawText(canvas, FONT_XS, 4, 60, COLOR_GREY, "Interactive infoboards for EVERY club")
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
     def show_title_text(self, canvas, text, duration):
         canvas.Clear()
-        font = self.font_S
+        font = FONT_S
 
         text_width = 0
         for c in text:
             text_width+=font.CharacterWidth(ord(c))
         x = (PANEL_WIDTH-text_width)/2
-        
-        graphics.DrawText(canvas, font, x, 32, self.color_yellow, text)
+
+        graphics.DrawText(canvas, font, x, 32, COLOR_YELLOW, text)
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
     def show_fonts(self, canvas, duration):
         canvas.Clear()
         phrase = 'Quick brown fox jumps over the lazy dog'
-        graphics.DrawText(canvas, self.font_XL, 0, 20, self.color_grey, phrase)
-        graphics.DrawText(canvas, self.font_L, 0, 33, self.color_grey, phrase)
-        graphics.DrawText(canvas, self.font_M, 0, 44, self.color_grey, phrase)
-        graphics.DrawText(canvas, self.font_S, 0, 53, self.color_grey, phrase)
-        graphics.DrawText(canvas, self.font_XS, 0, 59, self.color_grey, phrase)
-        graphics.DrawText(canvas, self.font_XXS, 0, 64, self.color_grey, phrase)
+        graphics.DrawText(canvas, FONT_XL, 0, 20, COLOR_GREY, phrase)
+        graphics.DrawText(canvas, FONT_L, 0, 33, COLOR_GREY, phrase)
+        graphics.DrawText(canvas, FONT_M, 0, 44, COLOR_GREY, phrase)
+        graphics.DrawText(canvas, FONT_S, 0, 53, COLOR_GREY, phrase)
+        graphics.DrawText(canvas, FONT_XS, 0, 59, COLOR_GREY, phrase)
+        graphics.DrawText(canvas, FONT_XXS, 0, 64, COLOR_GREY, phrase)
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
