@@ -348,8 +348,10 @@ class M1_Demo(SampleBase):
         # 2.2. Match mode: game-by-game
         self.show_title_text(canvas, "Game-by-game score", title_duration)
         self.show_score_doubles_with_flags_short(canvas, False, duration)
-        self.show_score_doubles_with_flags_long(canvas, False, duration)
-        self.show_score_singles_with_flags(canvas, False, duration)        
+
+        # 2.3. Match mode: point-by-point custom
+        self.show_title_text(canvas, "Custom style for your CI", title_duration)
+        self.show_score_doubles_with_flags_short(canvas, True, duration, True)
 
         self.show_title_text(canvas, "M1 999€\nXS 399€\nAny other size: on request", title_duration)
 
@@ -360,16 +362,13 @@ class M1_Demo(SampleBase):
         # 2.1. Match mode: point-by-point
         self.show_title_text(canvas, "Point-by-point score (pro)", title_duration)
         self.show_score_doubles_with_flags_short(canvas, True, duration)
-        self.show_score_doubles_with_flags_long(canvas, True, duration)
-        self.show_score_singles_with_flags(canvas, True, duration)
-
-        # 2.2. Match mode: game-by-game
-        self.show_title_text(canvas, "Game-by-game score", title_duration)
-        self.show_score_doubles_with_flags_short(canvas, False, duration)
-
+        
         # 2.3. Match mode: point-by-point custom
         self.show_title_text(canvas, "Custom style for your CI", title_duration)
-        self.show_score_doubles_with_flags_short(canvas, False, duration, True)
+        self.show_score_doubles_with_flags_short(canvas, True, duration, True)
+
+
+
         
         
         #self.run_demo_sequence(canvas, duration, title_duration)        
