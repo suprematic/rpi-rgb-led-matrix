@@ -193,6 +193,14 @@ class M1_Demo(SampleBase):
 
     def show_big_clock_with_weather(self, canvas, duration):
         canvas.Clear()
+
+        image = Image.open("images/logos/sevencourts_123x13.png")
+        canvas.SetImage(image.convert('RGB'), 0, 13)
+
+        image = Image.open("images/logos/sevencourts_152x16.png")
+        canvas.SetImage(image.convert('RGB'), 0, 29)
+
+
         self.render_weather(canvas)
         # draw statics also on the swapped canvas before starting clock
         canvas = self.matrix.SwapOnVSync(canvas)
