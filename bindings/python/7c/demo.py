@@ -342,7 +342,7 @@ class M1_Demo(SampleBase):
 
 
         # 1.1. Idle mode: sequence of logos of our references        
-        self.show_title_text(canvas, "Club or sponsors logos", title_duration)
+        self.show_title_text(canvas, "Club, sponsor,\ntournament logo", title_duration)
         
         duration_logo = min(3, duration)
         self.show_image_centered(canvas, "images/logos/a-rete_160x43.png", duration_logo)
@@ -357,7 +357,7 @@ class M1_Demo(SampleBase):
         self.show_clock_with_weather_and_announcement(canvas, duration)
 
         # 2.1. Match mode: point-by-point
-        self.show_title_text(canvas, "Point-by-point score (pro)", title_duration)
+        self.show_title_text(canvas, "Point-by-point score\n(pro mode)", title_duration)
         self.show_score_doubles_with_flags_short(canvas, True, duration)
         self.show_score_doubles_with_flags_long(canvas, True, duration)
         self.show_score_singles_with_flags(canvas, True, duration)
@@ -367,32 +367,18 @@ class M1_Demo(SampleBase):
         self.show_score_doubles_with_flags_short(canvas, False, duration)
 
         # 2.3. Match mode: point-by-point custom
-        self.show_title_text(canvas, "Custom style for your CI", title_duration)
+        self.show_title_text(canvas, "Customize style\nto match your CI", title_duration)
         self.show_score_doubles_with_flags_short(canvas, True, duration, True)
 
-        self.show_title_text(canvas, "M1 999€\nXS 399€\nAny other size: on request", title_duration)
+        self.show_title_text(canvas, "XS 399€\n\nM1 999€\n\nAny other size: on request", title_duration)
+
+        self.show_title_text(canvas, "Check the CAMPO 1\nto see in action!", title_duration)
 
 
     def run_slide_show(self, duration, title_duration):
         canvas = self.matrix.CreateFrameCanvas()
 
-        self.show_title_text(canvas, "Customize style\nto match your CI\nwhatever\nit means\nfor you", title_duration)
-        self.show_title_text(canvas, "Customize style", title_duration)
-        self.show_title_text(canvas, "Customize style\nto match your CI", title_duration)
-        self.show_title_text(canvas, "Customize style\nto match your CI\nwhatever it means", title_duration)
-        self.show_title_text(canvas, "Customize style\nto match your CI\nwhatever it means\nfor you", title_duration)
-
-        # 2.1. Match mode: point-by-point
-        self.show_title_text(canvas, "Point-by-point score (pro)", title_duration)
-        self.show_score_doubles_with_flags_short(canvas, True, duration)
-        
-        # 2.3. Match mode: point-by-point custom
-        self.show_title_text(canvas, "Customize style\nto match your CI", title_duration)
-        self.show_score_doubles_with_flags_short(canvas, True, duration, True)
-
-        
-        
-        #self.run_demo_sequence(canvas, duration, title_duration)        
+        self.run_demo_sequence(canvas, duration, title_duration)        
 
         #self.show_flags(canvas, duration)
         #self.show_fonts(canvas, duration)
