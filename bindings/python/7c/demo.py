@@ -200,17 +200,8 @@ class M1_Demo(SampleBase):
         self.render_clock(canvas, '%H:%M', 140, 61, 104, 14, FONT_L, duration)
 
 
-    def render_statics_for_big_clock(self, canvas):
-        canvas.Clear()
-        image = Image.open("images/logos/sevencourts_152x16.png")
-        canvas.SetImage(image.convert('RGB'), (PANEL_WIDTH-image.width)/2, 7)
-        canvas = self.matrix.SwapOnVSync(canvas)
-        return canvas
-
-    def show_big_clock(self, canvas, duration):
-        self.render_statics_for_big_clock(canvas)
-        # draw statics also on the swapped canvas before starting clock
-        self.render_statics_for_big_clock(canvas)
+    
+    def show_big_clock(self, canvas, duration):        
         self.render_clock(canvas, '%H:%M:%S', 80, 60, 104, 21, FONT_XL, duration)
 
     def render_statics_for_big_clock_with_weather(self, canvas):
@@ -305,14 +296,10 @@ class M1_Demo(SampleBase):
         # 1.1. Idle mode: sequence of logos of our references        
         self.show_title_text(canvas, "Club or sponsors logos", title_duration)
         
-        duration_logo = min(2, duration)
+        duration_logo = min(3, duration)
         self.show_image_centered(canvas, "images/logos/a-rete_160x43.png", duration_logo)
         self.show_image_centered(canvas, "images/logos/tom-schilke_192x55.png", duration_logo)
         self.show_image_centered(canvas, "images/logos/sv1845_64x64.png", duration_logo)
-        self.show_image_centered(canvas, "images/logos/sv1845_101x64.png", duration_logo)
-
-        
-
         
 
         # 1.2. Idle mode: Clock + Weather + etc.
