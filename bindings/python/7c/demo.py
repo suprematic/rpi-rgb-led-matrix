@@ -373,7 +373,7 @@ class M1_Demo(SampleBase):
 
         self.show_title_text(canvas, "Check the CAMPO 1\nto see in action", duration)
 
-        self.show_title_text(canvas, "Special fair price:\nXS1 399€\nM1 999€\n\nAny other size: on request", duration)
+        self.show_title_text(canvas, "Special fair price:\n\nXS1 399€    M1 999€\n\nAny other size: on request", duration)
 
         
 
@@ -381,7 +381,6 @@ class M1_Demo(SampleBase):
     def run_slide_show(self, duration, title_duration):
         canvas = self.matrix.CreateFrameCanvas()
 
-        self.show_title_text(canvas, "Special fair price:\n\nXS1 399€    M1 999€\n\nAny other size: on request", duration)
         self.run_demo_sequence(canvas, duration, title_duration)        
 
         #self.show_flags(canvas, duration)
