@@ -381,6 +381,9 @@ class M1_Demo(SampleBase):
     def run_slide_show(self, duration, title_duration):
         canvas = self.matrix.CreateFrameCanvas()
 
+        self.show_image_centered(canvas, "images/qr64_antialiasing.png", duration)
+        self.show_image_centered(canvas, "images/qr64_no_antialiasing.png", duration)
+
         self.run_demo_sequence(canvas, duration, title_duration)        
 
         #self.show_flags(canvas, duration)
