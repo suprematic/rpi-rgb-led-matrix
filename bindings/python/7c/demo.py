@@ -201,7 +201,8 @@ class M1_Demo(SampleBase):
 
 
     
-    def show_big_clock(self, canvas, duration):        
+    def show_big_clock(self, canvas, duration):
+        canvas.Clear()
         self.render_clock(canvas, '%H:%M:%S', 80, 60, 104, 21, FONT_XL, duration)
 
     def render_statics_for_big_clock_with_weather(self, canvas):
