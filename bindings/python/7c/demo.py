@@ -20,6 +20,9 @@ COLOR_RED = graphics.Color(255, 0, 0)
 COLOR_YELLOW = graphics.Color(255, 255, 0)
 COLOR_GREEN = graphics.Color(0, 255, 0)
 
+COLOR_CLASSIC = graphics.Color(227, 253, 93)
+COLOR_CLASSIC_DARK = graphics.Color(113, 127, 47)
+
 COLOR_GREEN_7c = graphics.Color(147, 196, 125)
 COLOR_BLUE_7c = graphics.Color(111, 168, 220)
 
@@ -63,14 +66,14 @@ class M1_Demo(SampleBase):
                 x = x + 1
             y = y + 1
 
-    def render_score_3_sets(self, canvas, show_game_score):
+    def render_score_3_sets(self, canvas, show_game_score, custom_style=False):
         ## pseudo score in 3 sets:
         ## 7-6 3-6 7-4 *30-15
 
-        color_score_set = COLOR_GREY
-        color_score_set_won = COLOR_GREY
-        color_score_set_lost = COLOR_GREY_DARK
-        color_score_game = COLOR_GREY
+        color_score_set = COLOR_CLASSIC if custom_style else COLOR_GREY
+        color_score_set_won = COLOR_CLASSIC if custom_style else COLOR_GREY
+        color_score_set_lost = COLOR_CLASSIC_DARK if custom_style else COLOR_GREY_DARK
+        color_score_game = COLOR_CLASSIC if custom_style else COLOR_GREY
         
         y_T1 = 26
         y_T2 = 58
@@ -85,7 +88,7 @@ class M1_Demo(SampleBase):
             graphics.DrawText(canvas, FONT_XL, x_game, y_T1, color_score_set, "30")
 
             b = (0, 0 ,0)            
-            w = (COLOR_GREY.red, COLOR_GREY.green, COLOR_GREY.blue)
+            w = (color_score_game.red, color_score_game.green, color_score_game.blue)
             ball = [
                 [b,b,w,b,b],
                 [w,b,w,b,w],
@@ -152,7 +155,7 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
-    def render_names_doubles(self, canvas, t1p1, t1p2, t2p1, t2p2):
+    def render_names_doubles(self, canvas, t1p1, t1p2, t2p1, t2p2, custom_style=False):
 
         max_name_length = max(len(t1p1), len(t1p2), len(t2p1), len(t2p2))
         if max_name_length > 8:
@@ -170,7 +173,7 @@ class M1_Demo(SampleBase):
         y_t2p1 = y_t1p2 + 18
         y_t2p2 = y_t2p1 + 2 + flag_height
         
-        color_name = COLOR_GREY
+        color_name = COLOR_CLASSIC if custom_style else COLOR_GREY
         
         graphics.DrawText(canvas, font, flag_width+2, y_t1p1, color_name, t1p1.upper())
         graphics.DrawText(canvas, font, flag_width+2, y_t1p2, color_name, t1p2.upper())
@@ -196,7 +199,7 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
-    def show_score_doubles_with_flags_short(self, canvas, show_game_score, duration):
+    def show_score_doubles_with_flags_short(self, canvas, show_game_score, duration, custom_style=False):
         canvas.Clear()
 
         flag_height = 12
@@ -206,9 +209,9 @@ class M1_Demo(SampleBase):
         canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'), 0, 6 + 3+flag_height+2+flag_height+3+3)
 
         # FIXME support accents, umlauts etc (Gonzalez)
-        self.render_names_doubles(canvas, "Rossi", "Bianchi", "González", "López")
+        self.render_names_doubles(canvas, "Rossi", "Bianchi", "González", "López", custom_style)
         
-        self.render_score_3_sets(canvas, show_game_score)
+        self.render_score_3_sets(canvas, show_game_score, custom_style)
 
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
@@ -363,7 +366,11 @@ class M1_Demo(SampleBase):
         # 2.2. Match mode: game-by-game
         self.show_title_text(canvas, "Game-by-game score", title_duration)
         self.show_score_doubles_with_flags_short(canvas, False, duration)
-        self.show_score_doubles_with_flags_long(canvas, False, duration)
+
+        # 2.3. Match mode: point-by-point custom
+        self.show_title_text(canvas, "Custom style for your CI", title_duration)
+        self.show_score_doubles_with_flags_short(canvas, False, duration, True)
+        
         
         #self.run_demo_sequence(canvas, duration, title_duration)        
 
