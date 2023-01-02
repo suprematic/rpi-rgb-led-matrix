@@ -270,9 +270,13 @@ class M1_Demo(SampleBase):
     def show_title_text(self, canvas, text, duration):
         canvas.Clear()
         font = self.font_S
+
+        text_width = 0
         for c in text:
-            print (c, end=font.CharacterWidth(text[:1]))
-        graphics.DrawText(canvas, font, 4, 32, self.color_yellow, text)
+            text_width+=font.CharacterWidth(ord(c))
+        x = (PANEL_WIDTH-text_width)/2
+        
+        graphics.DrawText(canvas, font, x, 32, self.color_yellow, text)
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
