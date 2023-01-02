@@ -313,15 +313,15 @@ class M1_Demo(SampleBase):
 
         # 2.1. Match mode: point-by-point
         self.show_title_text(canvas, "Point-by-point score (pro)", title_duration)
-        self.show_score_doubles_with_flags_short(canvas, true, duration)
-        self.show_score_doubles_with_flags_long(canvas, true, duration)
-        self.show_score_singles_with_flags(canvas, true, duration)
+        self.show_score_doubles_with_flags_short(canvas, True, duration)
+        self.show_score_doubles_with_flags_long(canvas, True, duration)
+        self.show_score_singles_with_flags(canvas, True, duration)
 
         # 2.2. Match mode: game-by-game
         self.show_title_text(canvas, "Game-by-game score", title_duration)
-        self.show_score_doubles_with_flags_short(canvas, false, duration)
-        self.show_score_doubles_with_flags_long(canvas, false, duration)
-        self.show_score_singles_with_flags(canvas, false, duration)        
+        self.show_score_doubles_with_flags_short(canvas, False, duration)
+        self.show_score_doubles_with_flags_long(canvas, False, duration)
+        self.show_score_singles_with_flags(canvas, False, duration)        
 
         self.show_title_text(canvas, "M1 999€\nXS 399€\nAny other size: on request", title_duration)
 
