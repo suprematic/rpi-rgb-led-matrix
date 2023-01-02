@@ -13,8 +13,8 @@ PANEL_HEIGHT = 64
 
 # Style constants
 COLOR_WHITE = graphics.Color(255, 255, 255)
-COLOR_GREY = graphics.Color(128, 128, 128)
-COLOR_GREY_DARK = graphics.Color(64, 64, 64)
+COLOR_GREY = graphics.Color(192, 192, 192)
+COLOR_GREY_DARK = graphics.Color(96, 96, 96)
 COLOR_BLACK = graphics.Color(0, 0, 0)
 COLOR_RED = graphics.Color(255, 0, 0)
 COLOR_YELLOW = graphics.Color(255, 255, 0)
@@ -58,6 +58,7 @@ class M1_Demo(SampleBase):
         ## 7-6 3-6 7-4 *30-15
 
         color_score_set = COLOR_GREY
+        color_score_set_won = COLOR_GREY
         color_score_set_lost = COLOR_GREY_DARK
         color_score_game = COLOR_GREY
         
@@ -81,12 +82,12 @@ class M1_Demo(SampleBase):
         x_set2 = x_set1 + w_set
         x_set3 = x_set2 + w_set
         
-        graphics.DrawText(canvas, FONT_XL, x_set1, y_T1, color_score_set, "7")
+        graphics.DrawText(canvas, FONT_XL, x_set1, y_T1, color_score_set_won, "7")
         graphics.DrawText(canvas, FONT_XL, x_set2, y_T1, color_score_set_lost, "3")
         graphics.DrawText(canvas, FONT_XL, x_set3, y_T1, color_score_set, "5")        
 
         graphics.DrawText(canvas, FONT_XL, x_set1, y_T2, color_score_set_lost, "6")
-        graphics.DrawText(canvas, FONT_XL, x_set2, y_T2, color_score_set, "6")
+        graphics.DrawText(canvas, FONT_XL, x_set2, y_T2, color_score_set_won, "6")
         graphics.DrawText(canvas, FONT_XL, x_set3, y_T2, color_score_set, "4")
 
         
@@ -329,7 +330,18 @@ class M1_Demo(SampleBase):
     def run_slide_show(self, duration, title_duration):
         canvas = self.matrix.CreateFrameCanvas()
 
-        self.run_demo_sequence(canvas, duration, title_duration)        
+        # 2.1. Match mode: point-by-point
+        self.show_title_text(canvas, "Point-by-point score (pro)", title_duration)
+        self.show_score_doubles_with_flags_short(canvas, True, duration)
+        self.show_score_doubles_with_flags_long(canvas, True, duration)
+        self.show_score_singles_with_flags(canvas, True, duration)
+
+        # 2.2. Match mode: game-by-game
+        self.show_title_text(canvas, "Game-by-game score", title_duration)
+        self.show_score_doubles_with_flags_short(canvas, False, duration)
+        self.show_score_doubles_with_flags_long(canvas, False, duration)
+        
+        #self.run_demo_sequence(canvas, duration, title_duration)        
 
         #self.show_flags(canvas, duration)
         #self.show_fonts(canvas, duration)
