@@ -306,9 +306,13 @@ class M1_Demo(SampleBase):
         self.show_title_text(canvas, "Club or sponsors logos", title_duration)
         
         duration_logo = min(2, duration)
-        self.show_image_centered(canvas, "images/logos/a-rete_192x51.png", duration_logo)
+        self.show_image_centered(canvas, "images/logos/a-rete_160x43.png", duration_logo)
         self.show_image_centered(canvas, "images/logos/tom-schilke_192x55.png", duration_logo)
+        self.show_image_centered(canvas, "images/logos/sv1845_64x64.png", duration_logo)
         self.show_image_centered(canvas, "images/logos/sv1845_101x64.png", duration_logo)
+
+        
+
         
 
         # 1.2. Idle mode: Clock + Weather + etc.
