@@ -311,7 +311,7 @@ class M1_Demo(SampleBase):
 
         lines = text.split('\n')
         h_total = font.height * len(lines)
-        for i in range(len(lines))
+        for i in range(len(lines)):
             line = lines[i]
 
             y = (PANEL_HEIGHT-h_total)/2 + i*font.height
