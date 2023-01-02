@@ -14,7 +14,7 @@ PANEL_HEIGHT = 64
 # Style constants
 COLOR_WHITE = graphics.Color(255, 255, 255)
 COLOR_GREY = graphics.Color(128, 128, 128)
-COLOR_GREY_DARK = graphics.Color(32, 32, 32)
+COLOR_GREY_DARK = graphics.Color(64, 64, 64)
 COLOR_BLACK = graphics.Color(0, 0, 0)
 COLOR_RED = graphics.Color(255, 0, 0)
 COLOR_YELLOW = graphics.Color(255, 255, 0)
@@ -63,21 +63,21 @@ class M1_Demo(SampleBase):
         
         y_T1 = 26
         y_T2 = 58
-        y_service_delta = 10
-        
+        y_service_delta = 10        
+        x_game = 163
+        x_service = 155
+
         if show_game_score:
-            x_game = 163
-            x_service = 155
-            w_service_and_game = PANEL_WIDTH - x_service
             graphics.DrawText(canvas, FONT_XL, x_service, y_T2-y_service_delta, color_score_set, "")
             graphics.DrawText(canvas, FONT_XL, x_game, y_T2, color_score_set, "15")
             graphics.DrawText(canvas, FONT_XL, x_service, y_T1-y_service_delta, color_score_set, ".")
             graphics.DrawText(canvas, FONT_XL, x_game, y_T1, color_score_set, "30")
+            x_service_and_game_delta = 0
         else:
-            w_service_and_game = 0
+            x_service_and_game_delta = PANEL_WIDTH - x_service            
 
         w_set = 20
-        x_set1 = 96 + w_service_and_game
+        x_set1 = 96 + x_service_and_game_delta
         x_set2 = x_set1 + w_set
         x_set3 = x_set2 + w_set
         
