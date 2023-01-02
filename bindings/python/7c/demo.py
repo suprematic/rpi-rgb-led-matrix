@@ -32,6 +32,8 @@ FONT_L = graphics.Font()
 FONT_L.LoadFont("fonts/10x20.bdf")
 FONT_M = graphics.Font()
 FONT_M.LoadFont("fonts/9x15.bdf")
+FONT_M_B = graphics.Font()
+FONT_M_B.LoadFont("fonts/9x15B.bdf")
 FONT_S = graphics.Font()
 FONT_S.LoadFont("fonts/7x13.bdf")
 FONT_XS = graphics.Font()
@@ -89,14 +91,24 @@ class M1_Demo(SampleBase):
 
             b = (0, 0 ,0)            
             w = (color_score_game.red, color_score_game.green, color_score_game.blue)
-            ball = [
-                [b,b,w,b,b],
-                [w,b,w,b,w],
-                [b,w,w,w,b],
-                [w,w,w,w,w],
-                [b,w,w,w,b],
-                [w,b,w,b,w],
-                [b,b,w,b,b]]
+            if custom_style:
+                ball = [
+                    [b,b,w,b,b],
+                    [w,b,w,b,w],
+                    [b,w,w,w,b],
+                    [w,w,w,w,w],
+                    [b,w,w,w,b],
+                    [w,b,w,b,w],
+                    [b,b,w,b,b]]
+            else:
+                ball = [
+                    [b,b,b,b,b],
+                    [b,b,w,b,b],
+                    [b,w,w,w,b],
+                    [w,w,b,w,w],
+                    [b,w,w,w,b],
+                    [b,b,w,b,b],
+                    [b,b,b,b,b]]
         
             self.draw_matrix(canvas, ball, x_service, y_T1-y_service_delta)
 
@@ -161,9 +173,9 @@ class M1_Demo(SampleBase):
         if max_name_length > 8:
             font = FONT_S
         elif max_name_length > 6:
-            font = FONT_M
+            font = FONT_M_B if custom_style else FONT_M
         else:
-            font = FONT_L  
+            font = FONT_L 
 
         flag_height=12
         flag_width=18
@@ -366,8 +378,6 @@ class M1_Demo(SampleBase):
         # 2.3. Match mode: point-by-point custom
         self.show_title_text(canvas, "Custom style for your CI", title_duration)
         self.show_score_doubles_with_flags_short(canvas, True, duration, True)
-
-
 
         
         
