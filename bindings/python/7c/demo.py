@@ -314,7 +314,12 @@ class M1_Demo(SampleBase):
         for i in range(len(lines)):
             line = lines[i]
 
-            y = (PANEL_HEIGHT-h_total)/2 + i*font.height
+            y = (PANEL_HEIGHT-h_total)/2 + (i+1)*font.height - 2
+
+            print(PANEL_HEIGHT)
+            print(font.height)
+            print(y)
+            print('--')
 
             line_width = 0
             for c in line:
@@ -380,6 +385,7 @@ class M1_Demo(SampleBase):
     def run_slide_show(self, duration, title_duration):
         canvas = self.matrix.CreateFrameCanvas()
 
+        self.show_title_text(canvas, "Customize style\nto match your CI\nwhatever\nit means\nfor you", title_duration)
         self.show_title_text(canvas, "Customize style", title_duration)
         self.show_title_text(canvas, "Customize style\nto match your CI", title_duration)
         self.show_title_text(canvas, "Customize style\nto match your CI\nwhatever it means", title_duration)
