@@ -310,7 +310,7 @@ class SevenCourtsM1(SampleBase):
         elif match["isDoubles"]:
             y_t1p1 = 1 + flag_height 
             y_t1p2 = y_t1p1 + 1 + flag_height
-            y_t2p1 = y_t1p2 + 19
+            y_t2p1 = y_t1p2 + 6 + 1 + flag_height
             y_t2p2 = y_t2p1 + 1 + flag_height
             graphics.DrawText(self.canvas, font, flag_width+2, y_t1p1, COLOR_TEAM_NAME, t1p1)
             graphics.DrawText(self.canvas, font, flag_width+2, y_t1p2, COLOR_TEAM_NAME, t1p2)
