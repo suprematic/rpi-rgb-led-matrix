@@ -11,6 +11,9 @@ from PIL import Image
 PANEL_WIDTH = 192
 PANEL_HEIGHT = 64
 
+FLAG_HEIGHT = 12
+FLAG_WIDTH = 18
+
 # Style constants
 COLOR_WHITE = graphics.Color(255, 255, 255)
 COLOR_GREY = graphics.Color(192, 192, 192)
@@ -150,17 +153,16 @@ class M1_Demo(SampleBase):
         y_T1 = 26
         y_T2 = 58
 
-        flag_height = 12
-        flag_width = 18
-
         canvas.SetImage(Image.open("images/flags/switzerland.png").convert('RGB'),   0, 10)
         canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'),   0, 42)
         
         
         color_name = COLOR_GREY
+
+        flag_margin_r = 2
         
-        graphics.DrawText(canvas, FONT_XL, flag_width+2, y_T1, color_name, "FED")
-        graphics.DrawText(canvas, FONT_XL, flag_width+2, y_T2, color_name, "NAD")
+        graphics.DrawText(canvas, FONT_XL, FLAG_WIDTH+flag_margin_r, y_T1, color_name, "FED")
+        graphics.DrawText(canvas, FONT_XL, FLAG_WIDTH+flag_margin_r, y_T2, color_name, "NAD")
         
         self.render_score_3_sets(canvas, show_game_score)
 
@@ -170,39 +172,39 @@ class M1_Demo(SampleBase):
     def render_names_doubles(self, canvas, t1p1, t1p2, t2p1, t2p2, custom_style=False):
 
         max_name_length = max(len(t1p1), len(t1p2), len(t2p1), len(t2p2))
-        if max_name_length > 8:
+        if max_name_length > 10:
             font = FONT_S
+            flag_margin_r = 1
+        elif max_name_length > 8:
+            font = FONT_S
+            flag_margin_r = 2
         elif max_name_length > 6:
             font = FONT_M_B if custom_style else FONT_M
+            flag_margin_r = 2
         else:
-            font = FONT_L 
+            font = FONT_L
+            flag_margin_r = 2
 
-        flag_height=12
-        flag_width=18
-
-        y_t1p1 = 2 + flag_height 
-        y_t1p2 = y_t1p1 + 2 + flag_height
+        y_t1p1 = 2 + FLAG_HEIGHT 
+        y_t1p2 = y_t1p1 + 2 + FLAG_HEIGHT
         y_t2p1 = y_t1p2 + 18
-        y_t2p2 = y_t2p1 + 2 + flag_height
+        y_t2p2 = y_t2p1 + 2 + FLAG_HEIGHT
         
         color_name = COLOR_CLASSIC if custom_style else COLOR_GREY
         
-        graphics.DrawText(canvas, font, flag_width+2, y_t1p1, color_name, t1p1.upper())
-        graphics.DrawText(canvas, font, flag_width+2, y_t1p2, color_name, t1p2.upper())
-        graphics.DrawText(canvas, font, flag_width+2, y_t2p1, color_name, t2p1.upper())
-        graphics.DrawText(canvas, font, flag_width+2, y_t2p2, color_name, t2p2.upper())
+        graphics.DrawText(canvas, font, FLAG_WIDTH+flag_margin_r, y_t1p1, color_name, t1p1.upper())
+        graphics.DrawText(canvas, font, FLAG_WIDTH+flag_margin_r, y_t1p2, color_name, t1p2.upper())
+        graphics.DrawText(canvas, font, FLAG_WIDTH+flag_margin_r, y_t2p1, color_name, t2p1.upper())
+        graphics.DrawText(canvas, font, FLAG_WIDTH+flag_margin_r, y_t2p2, color_name, t2p2.upper())
 
 
     def show_score_doubles_with_flags_long(self, canvas, show_game_score, duration):
         canvas.Clear()
 
-        flag_height = 12
-        flag_width = 18
-
         canvas.SetImage(Image.open("images/flags/italy.png").convert('RGB'),   0, 3)
-        canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'),   0, 3+flag_height+2)
-        canvas.SetImage(Image.open("images/flags/france.png").convert('RGB'),  0, 3+flag_height+2+flag_height+3+3)
-        canvas.SetImage(Image.open("images/flags/ukraine.png").convert('RGB'), 0, 3+flag_height+2+flag_height+3+3+flag_height+2)
+        canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'),   0, 3+FLAG_HEIGHT+2)
+        canvas.SetImage(Image.open("images/flags/france.png").convert('RGB'),  0, 3+FLAG_HEIGHT+2+FLAG_HEIGHT+3+3)
+        canvas.SetImage(Image.open("images/flags/ukraine.png").convert('RGB'), 0, 3+FLAG_HEIGHT+2+FLAG_HEIGHT+3+3+FLAG_HEIGHT+2)
 
         self.render_names_doubles(canvas, "Bianchi", "Rodríguez", "Lavigne", "Shinkarenko")
         
@@ -214,11 +216,8 @@ class M1_Demo(SampleBase):
     def show_score_doubles_with_flags_short(self, canvas, show_game_score, duration, custom_style=False):
         canvas.Clear()
 
-        flag_height = 12
-        flag_width = 18
-
         canvas.SetImage(Image.open("images/flags/italy.png").convert('RGB'), 0, 6 + 3)
-        canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'), 0, 6 + 3+flag_height+2+flag_height+3+3)
+        canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'), 0, 6 + 3+FLAG_HEIGHT+2+FLAG_HEIGHT+3+3)
 
         # FIXME support accents, umlauts etc (Gonzalez)
         self.render_names_doubles(canvas, "Rossi", "Bianchi", "González", "López", custom_style)
@@ -381,8 +380,10 @@ class M1_Demo(SampleBase):
     def run_slide_show(self, duration, title_duration):
         canvas = self.matrix.CreateFrameCanvas()
 
+        self.show_score_singles_with_flags(canvas, True, duration)
+        self.show_score_doubles_with_flags_short(canvas, True, duration)
         self.show_score_doubles_with_flags_long(canvas, True, duration)
-        
+
         self.run_demo_sequence(canvas, duration, title_duration)        
 
         #self.show_flags(canvas, duration)
