@@ -435,7 +435,7 @@ class M1_Demo(SampleBase):
         self.show_title_text(canvas, "PREZZO SPECIALE PadelTrend\n\nXS1 399€    M1 999€\n\nAltre dimensioni: chiedici", COLOR_GOLD_7c, duration)
 
 
-    def run_demo_sequence_court_2(self, canvas, duration, title_duration):
+    def run_demo_sequence_court_2(self, canvas, duration):
             
         self.show_clock_with_sponsor_logo(canvas, "images/logos/gimpadel_119x32.png", duration)
         self.show_clock_with_sponsor_logo(canvas, "images/logos/italgreen_163x32.png", duration)
