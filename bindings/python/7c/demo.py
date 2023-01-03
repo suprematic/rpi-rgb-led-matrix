@@ -165,10 +165,10 @@ class M1_Demo(SampleBase):
 
         font = FONT_XL_CUSTOM if custom_style else FONT_XL
         
-        graphics.DrawText(canvas, FONT_XL, FLAG_WIDTH+flag_margin_r, y_T1, color_name, "FED")
-        graphics.DrawText(canvas, FONT_XL, FLAG_WIDTH+flag_margin_r, y_T2, color_name, "NAD")
+        graphics.DrawText(canvas, font, FLAG_WIDTH+flag_margin_r, y_T1, color_name, "FED")
+        graphics.DrawText(canvas, font, FLAG_WIDTH+flag_margin_r, y_T2, color_name, "NAD")
         
-        self.render_score_3_sets(canvas, show_game_score)
+        self.render_score_3_sets(canvas, show_game_score, custom_style)
 
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
