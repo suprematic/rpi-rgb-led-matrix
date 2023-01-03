@@ -140,7 +140,7 @@ class SevenCourtsM1(SampleBase):
         self.draw_text(80, 60, text, FONT_XL, COLOR_GREY)
 
 
-    def display_match_score(self, t1_on_serve=False, t2_on_serve=False, t1_game="0", t2_game="0", 
+    def display_score(self, t1_on_serve=False, t2_on_serve=False, t1_game="0", t2_game="0", 
         t1_set1="", t2_set1="", t1_set2="", t2_set2="", t1_set3="", t2_set3=""):
         
         y_T1 = 26
@@ -195,7 +195,7 @@ class SevenCourtsM1(SampleBase):
         t1_game = str(t1_game if t1_game != None else "")
         t2_game = str(t2_game if t2_game != None else "")
 
-        self.display_match_score(
+        self.display_score(
             match["team1"]["serves"], match["team2"]["serves"], t1_game, t2_game,
             t1_set1, t2_set1, t1_set2, t2_set2, t1_set3, t2_set3)
 
