@@ -449,6 +449,7 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.CreateFrameCanvas()
 
         self.run_demo_sequence_court_2(canvas, duration)
+        self.run_demo_sequence_court_1(canvas, duration)
 
         self.run_demo_sequence_italian(canvas, duration, title_duration)
         self.run_demo_sequence_english(canvas, duration, title_duration)
