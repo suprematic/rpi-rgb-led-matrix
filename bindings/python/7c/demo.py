@@ -231,19 +231,20 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
-    def render_statics_for_announcement(self, canvas):
+    def render_statics_for_announcement(self, canvas, text):
         canvas.Clear()
         self.render_weather(canvas)
-        graphics.DrawText(canvas, FONT_S, 2, 20, COLOR_GREY, "Happy Wedding Day!")
-        graphics.DrawText(canvas, FONT_M, 2, 40, COLOR_GREY, "John & Mary")
+        lines = text.split('\n')
+        graphics.DrawText(canvas, FONT_S, 2, 20, COLOR_GREY, lines[0])
+        graphics.DrawText(canvas, FONT_M, 2, 40, COLOR_GREY, lines[1])
         canvas.SetImage(Image.open("images/clipart/heart_19x16.png").convert('RGB'), 42, 45)
         canvas = self.matrix.SwapOnVSync(canvas)
         return canvas
 
-    def show_clock_with_weather_and_announcement(self, canvas, duration):
-        self.render_statics_for_announcement(canvas)        
+    def show_clock_with_weather_and_announcement(self, canvas, text, duration):
+        self.render_statics_for_announcement(canvas, text)        
         # draw statics also on the swapped canvas before starting clock
-        self.render_statics_for_announcement(canvas)
+        self.render_statics_for_announcement(canvas, text)
         self.render_clock(canvas, '%H:%M', 140, 61, 104, 14, FONT_L, duration)
     
     def show_big_clock(self, canvas, duration):
@@ -300,11 +301,11 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
-    def show_title_slide(self, canvas, duration):
+    def show_title_slide(self, canvas, text, duration):
         canvas.Clear()
         image = Image.open("images/logos/sevencourts_192x21.png")
         canvas.SetImage(image.convert('RGB'), 0, 20)
-        graphics.DrawText(canvas, FONT_XS, 4, 60, COLOR_GREY, "Interactive infoboards for EVERY club")
+        graphics.DrawText(canvas, FONT_XS, 4, 60, COLOR_GREY, text)
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
@@ -338,11 +339,10 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
-    def run_demo_sequence(self, canvas, duration, title_duration):
+    def run_demo_sequence_english(self, canvas, duration, title_duration):
         
         # 0. Title slide: SevenCourts logo + slogan
-        self.show_title_slide(canvas, duration)
-
+        self.show_title_slide(canvas, "Interactive infoboards for EVERY club", duration)
 
         # 1.1. Idle mode: sequence of logos of our references        
         self.show_title_text(canvas, "Sponsor, club,\nor tournament logo", COLOR_GREEN_7c, title_duration)
@@ -355,9 +355,8 @@ class M1_Demo(SampleBase):
 
         # 1.2. Idle mode: Clock + Weather + etc.
         self.show_title_text(canvas, "Time, weather,\npersonal greetings, etc.", COLOR_GREEN_7c, title_duration)
-        #self.show_big_clock(canvas, duration)        
         self.show_big_clock_with_weather(canvas, duration)
-        self.show_clock_with_weather_and_announcement(canvas, duration)
+        self.show_clock_with_weather_and_announcement(canvas, "Happy Wedding Day!\nJohn & Mary", duration)
 
         # 2.1. Match mode: point-by-point
         self.show_title_text(canvas, "The Grand Slam moment\nin your club!", COLOR_GREEN_7c, title_duration)
@@ -374,22 +373,62 @@ class M1_Demo(SampleBase):
         self.show_title_text(canvas, "Customize fonts and colors\nto match your style", COLOR_GREEN_7c, title_duration)
         self.show_score_doubles_with_flags_short(canvas, True, duration, True)
 
-        self.show_title_text(canvas, "Check the CAMPO 1\nto see in action", COLOR_BLUE_7c, duration)
-
+        # 3. Some texts
+        self.show_title_text(canvas, "Check the COURT 1\nto see in action", COLOR_BLUE_7c, duration)
         self.show_title_text(canvas, "API for integration with\nany scoring, tournament,\nor back-office system", COLOR_GREEN_7c, title_duration)
         self.show_title_text(canvas, "Web & Video\nlive broadcasting", COLOR_BLUE_7c, title_duration)
         self.show_title_text(canvas, "Operate via mobile app\nor a Bluetooth button", COLOR_GREEN_7c, title_duration)
-
         self.show_title_text(canvas, "SPECIAL PadelTrend PRICE\n\nXS1 399€    M1 999€\n\nAny other size: on request", COLOR_GOLD_7c, duration)
+
+    def run_demo_sequence_italian(self, canvas, duration, title_duration):
+        
+        # 0. Title slide: SevenCourts logo + slogan
+        self.show_title_slide(canvas, "Tabelloni informativi per OGNI club", duration)
+
+        # 1.1. Idle mode: sequence of logos of our references        
+        self.show_title_text(canvas, "Logo dello sponsor,\ndel club o del torneo", COLOR_GREEN_7c, title_duration)
+        
+        duration_logo = min(3, duration)
+        self.show_image_centered(canvas, "images/logos/a-rete_160x43.png", duration_logo)
+        self.show_image_centered(canvas, "images/logos/tom-schilke_192x55.png", duration_logo)
+        self.show_image_centered(canvas, "images/logos/sv1845_64x64.png", duration_logo)
+        
+
+        # 1.2. Idle mode: Clock + Weather + etc.
+        self.show_title_text(canvas, "Tempo, meteo,\nsaluti personali, ecc.", COLOR_GREEN_7c, title_duration)
+        self.show_big_clock_with_weather(canvas, duration)
+        self.show_clock_with_weather_and_announcement(canvas, "Evviva gli sposi!\nRomeo e Giulietta", duration)
+
+        # 2.1. Match mode: point-by-point
+        self.show_title_text(canvas, "Il momento del Grande Slam\nnel tuo club!", COLOR_GREEN_7c, title_duration)
+        self.show_score_singles_with_flags(canvas, True, duration)
+        self.show_title_text(canvas, "Punteggio punto per punto\n(modalità Pro)", COLOR_GREEN_7c, title_duration)
+        self.show_score_doubles_with_flags_short(canvas, True, duration)
+        self.show_score_doubles_with_flags_long(canvas, True, duration)
+
+        # 2.2. Match mode: game-by-game
+        self.show_title_text(canvas, "Punteggio game-by-game\n(modalità facile)", COLOR_GREEN_7c, title_duration)
+        self.show_score_doubles_with_flags_short(canvas, False, duration)
+
+        # 2.3. Match mode: point-by-point custom
+        self.show_title_text(canvas, "Caratteri e colori\npersonalizzabili\nper abbinarsi al tuo stile", COLOR_GREEN_7c, title_duration)
+        self.show_score_doubles_with_flags_short(canvas, True, duration, True)
+
+        # 3. Some texts
+        self.show_title_text(canvas, "Controlla il CAMPO 1\nper vederlo in azione", COLOR_BLUE_7c, duration)
+        self.show_title_text(canvas, "API per l'integrazione\nconqualsiasi sistema\ndi punteggio, torneo,\no back-office", COLOR_GREEN_7c, title_duration)
+        self.show_title_text(canvas, "Web e video in diretta", COLOR_BLUE_7c, title_duration)
+        self.show_title_text(canvas, "Operare tramite app mobile\no un pulsante Bluetooth", COLOR_GREEN_7c, title_duration)
+        self.show_title_text(canvas, "PREZZO SPECIALE PadelTrend\n\nXS1 399€    M1 999€\n\nAltre dimensioni: chiedici", COLOR_GOLD_7c, duration)
 
         
 
     def run_slide_show(self, duration, title_duration):
         canvas = self.matrix.CreateFrameCanvas()
 
-        self.show_score_doubles_with_flags_short(canvas, True, duration, True)
-
-        self.run_demo_sequence(canvas, duration, title_duration)        
+        self.run_demo_sequence_italian(canvas, duration, title_duration)
+        self.run_demo_sequence_english(canvas, duration, title_duration)
+        
 
         #self.show_flags(canvas, duration)
         #self.show_fonts(canvas, duration)
