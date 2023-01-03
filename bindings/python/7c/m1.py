@@ -49,7 +49,8 @@ def match_info(panel_id):
 
 # Style constants
 COLOR_WHITE = graphics.Color(255, 255, 255)
-COLOR_GREY = graphics.Color(128, 128, 128)
+COLOR_GREY = graphics.Color(192, 192, 192)
+COLOR_GREY_DARK = graphics.Color(96, 96, 96)
 COLOR_BLACK = graphics.Color(0, 0, 0)
 COLOR_RED = graphics.Color(255, 0, 0)
 COLOR_YELLOW = graphics.Color(255, 255, 0)
@@ -73,6 +74,8 @@ COLOR_DEFAULT = COLOR_GREY
 FONT_DEFAULT = FONT_S
 
 COLOR_SCORE_SET = COLOR_GREY
+COLOR_SCORE_SET_WON = COLOR_SCORE_SET
+COLOR_SCORE_SET_LOST = COLOR_GREY_DARK
 COLOR_SCORE_GAME = COLOR_GREY
 COLOR_SCORE_SERVICE = COLOR_YELLOW
 COLOR_TEAM_NAME = COLOR_GREY
@@ -146,12 +149,59 @@ class SevenCourtsM1(SampleBase):
         t2_on_serve=match["team2"]["serves"]
         t1_set_scores = match["team1"]["setScores"]
         t2_set_scores = match["team2"]["setScores"]
-        t1_set1 = match["team1"]["setScores"][0] if len(t1_set_scores)>0 else ""
-        t2_set1 = match["team2"]["setScores"][0] if len(t2_set_scores)>0 else ""
-        t1_set2 = match["team1"]["setScores"][1] if len(t1_set_scores)>1 else ""
-        t2_set2 = match["team2"]["setScores"][1] if len(t2_set_scores)>1 else ""
-        t1_set3 = match["team1"]["setScores"][2] if len(t1_set_scores)>2 else ""
-        t2_set3 = match["team2"]["setScores"][2] if len(t2_set_scores)>2 else ""
+
+        is_match_over = match["matchResult"] != None
+        
+        if (len(t1_set_scores)=0):
+            t1_set1 = t2_set1 = t1_set2 = t2_set2 = t1_set3 = t2_set3 = ""
+            c_t1_set1 = c_t2_set1 = c_t1_set2 = c_t2_set2 = c_t1_set3 = c_t2_set3 = COLOR_BLACK
+        elif (len(t1_set_scores)=1):
+            t1_set1 = match["team1"]["setScores"][0]
+            t2_set1 = match["team2"]["setScores"][0]
+            t1_set2 = t2_set2 = t1_set3 = t2_set3 = ""
+            
+            if is_match_over:
+                c_t1_set1 = COLOR_SCORE_SET_WON if t1_set1>t2_set1 else COLOR_SCORE_SET_LOST
+                c_t2_set1 = COLOR_SCORE_SET_WON if t2_set1>t1_set1 else COLOR_SCORE_SET_LOST
+            else
+                c_t1_set1 = c_t2_set1 = COLOR_SCORE_SET
+            c_t1_set2 = c_t2_set2 = c_t1_set3 = c_t2_set3 = COLOR_BLACK
+
+        elif (len(t1_set_scores)=2):
+            t1_set1 = match["team1"]["setScores"][0]
+            t2_set1 = match["team2"]["setScores"][0]
+            t1_set2 = match["team1"]["setScores"][1]
+            t2_set2 = match["team2"]["setScores"][1]
+            t1_set3 = t2_set3 = ""
+            
+            c_t1_set1 = COLOR_SCORE_SET_WON if t1_set1>t2_set1 else COLOR_SCORE_SET_LOST
+            c_t2_set1 = COLOR_SCORE_SET_WON if t2_set1>t1_set1 else COLOR_SCORE_SET_LOST
+            if is_match_over:
+                c_t1_set2 = COLOR_SCORE_SET_WON if t1_set2>t2_set2 else COLOR_SCORE_SET_LOST
+                c_t2_set2 = COLOR_SCORE_SET_WON if t2_set2>t1_set2 else COLOR_SCORE_SET_LOST
+            else
+                c_t1_set2 = c_t2_set2 = COLOR_SCORE_SET
+            c_t1_set3 = c_t2_set3 = COLOR_BLACK
+
+        elif (len(t1_set_scores)=3):
+            t1_set1 = match["team1"]["setScores"][0]
+            t2_set1 = match["team2"]["setScores"][0]
+            t1_set2 = match["team1"]["setScores"][1]
+            t2_set2 = match["team2"]["setScores"][1]
+            t1_set3 = match["team1"]["setScores"][2]
+            t2_set3 = match["team2"]["setScores"][2]
+            c_t1_set1 = COLOR_SCORE_SET_WON if t1_set1>t2_set1 else COLOR_SCORE_SET_LOST
+            c_t2_set1 = COLOR_SCORE_SET_WON if t2_set1>t1_set1 else COLOR_SCORE_SET_LOST
+            c_t1_set2 = COLOR_SCORE_SET_WON if t1_set2>t2_set2 else COLOR_SCORE_SET_LOST
+            c_t2_set2 = COLOR_SCORE_SET_WON if t2_set2>t1_set2 else COLOR_SCORE_SET_LOST
+            if is_match_over:
+                c_t1_set3 = COLOR_SCORE_SET_WON if t1_set3>t2_set3 else COLOR_SCORE_SET_LOST
+                c_t2_set3 = COLOR_SCORE_SET_WON if t2_set3>t1_set3 else COLOR_SCORE_SET_LOST
+            else
+                c_t1_set3 = c_t2_set3 = COLOR_SCORE_SET
+        else:
+            #4+ sets are not supported yet
+
 
         t1_game = match["team1"].get("gameScore", "")
         t2_game = match["team2"].get("gameScore", "")
@@ -167,9 +217,9 @@ class SevenCourtsM1(SampleBase):
         w_set = 20
         x_set1 = 96
         x_set2 = x_set1 + w_set
-        x_set3 = x_set2 + w_set
+        x_set3 = x_set2 + w_set        
 
-        graphics.DrawText(self.canvas, FONT_SCORE, x_set1, y_T1, COLOR_SCORE_SET, str(t1_set1))
+        graphics.DrawText(self.canvas, FONT_SCORE, x_set1, y_T1, c_t1_set1, str(t1_set1))
         graphics.DrawText(self.canvas, FONT_SCORE, x_set2, y_T1, COLOR_SCORE_SET, str(t1_set2))
         graphics.DrawText(self.canvas, FONT_SCORE, x_set3, y_T1, COLOR_SCORE_SET, str(t1_set3))
         graphics.DrawText(self.canvas, FONT_SCORE, x_game, y_T1, COLOR_SCORE_GAME, str(t1_game))
