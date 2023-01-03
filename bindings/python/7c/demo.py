@@ -246,6 +246,19 @@ class M1_Demo(SampleBase):
         # draw statics also on the swapped canvas before starting clock
         self.render_statics_for_announcement(canvas, text)
         self.render_clock(canvas, '%H:%M', 140, 61, 104, 14, FONT_L, duration)
+
+    def render_statics_for_sponsor_logo(self, canvas, image_path):
+        canvas.Clear()        
+        image = Image.open(image_path).convert('RGB')
+        canvas.SetImage(image, 0, 0)        
+        canvas = self.matrix.SwapOnVSync(canvas)
+        return canvas
+
+    def show_clock_with_sponsor_logo(self, canvas, image_path, duration):
+        self.render_statics_for_sponsor_logo(canvas, image_path)        
+        # draw statics also on the swapped canvas before starting clock
+        self.render_statics_for_sponsor_logo(canvas, image_path)
+        self.render_clock(canvas, '%H:%M', 140, 61, 104, 14, FONT_L, duration)
     
     def show_big_clock(self, canvas, duration):
         canvas.Clear()
@@ -421,10 +434,17 @@ class M1_Demo(SampleBase):
         self.show_title_text(canvas, "Operare tramite app mobile\no un pulsante Bluetooth", COLOR_GREEN_7c, title_duration)
         self.show_title_text(canvas, "PREZZO SPECIALE PadelTrend\n\nXS1 399€    M1 999€\n\nAltre dimensioni: chiedici", COLOR_GOLD_7c, duration)
 
-        
+
+    def run_demo_sequence_court_2(self, canvas, duration, title_duration):
+            
+        self.show_clock_with_sponsor_logo(canvas, "images/logos/gimpadel_119x32.png", duration)
+        self.show_clock_with_sponsor_logo(canvas, "images/logos/italgreen_163x32.png", duration)
+
 
     def run_slide_show(self, duration, title_duration):
         canvas = self.matrix.CreateFrameCanvas()
+
+        self.run_demo_sequence_court_2(canvas, duration)
 
         self.run_demo_sequence_italian(canvas, duration, title_duration)
         self.run_demo_sequence_english(canvas, duration, title_duration)
