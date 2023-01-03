@@ -35,7 +35,7 @@ COLOR_GOLD_7c = graphics.Color(255, 215, 0)
 
 FONT_XL = graphics.Font()
 #FONT_XL.LoadFont("fonts/texgyre-27.bdf")
-FONT_XL.LoadFont("fonts/NovaMono-Regular-27.bdf")
+FONT_XL.LoadFont("fonts/NovaMono-Regular-21.bdf")
 FONT_L = graphics.Font()
 FONT_L.LoadFont("fonts/10x20.bdf")
 FONT_M = graphics.Font()
