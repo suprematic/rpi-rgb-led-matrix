@@ -437,11 +437,12 @@ class M1_Demo(SampleBase):
 
     def run_demo_sequence_court_1(self, canvas, duration):
 
-        self.show_clock_with_sponsor_logo(canvas, "images/logos/gimpadel_111x28.png", duration)
-        
+        self.show_image_centered(canvas, "images/logos/padel_trend_expo_119x64.png", duration)
+        self.show_clock_with_sponsor_logo(canvas, "images/logos/gimpadel_111x28.png", duration)        
 
     def run_demo_sequence_court_2(self, canvas, duration):
 
+        self.show_image_centered(canvas, "images/logos/padel_trend_expo_119x64.png", duration)
         self.show_clock_with_sponsor_logo(canvas, "images/logos/italgreen_143x28.png", duration)
     
 
