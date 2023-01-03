@@ -257,8 +257,10 @@ class SevenCourtsM1(SampleBase):
             self.draw_matrix(ball, x_service, y_T2-y_service_delta)
 
     def display_names(self, match):
-        # flag_width = 18 # so far no flags or colors
-        flag_width = 0
+        
+        # FIXME so far no flags or colors
+        flag_width=0
+        #flag_width=18 
         flag_height=12
 
         if match["isTeamEvent"] or not match["isDoubles"]:
@@ -291,8 +293,8 @@ class SevenCourtsM1(SampleBase):
         t2p2 = t2p2[:name_length_limit].upper()
 
         if match["isTeamEvent"] or not match["isDoubles"]:
-            y_t1 = 26
-            y_t2 = 58
+            y_t1 = (PANEL_HEIGHT/2 - font.height) / 2
+            y_t2 = PANEL_HEIGHT/2 + y_t1
             x = flag_width + 2            
             graphics.DrawText(self.canvas, font, x, y_t1, COLOR_TEAM_NAME, t1p1)
             graphics.DrawText(self.canvas, font, x, y_t2, COLOR_TEAM_NAME, t2p1)
