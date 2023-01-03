@@ -223,8 +223,20 @@ class M1_Demo(SampleBase):
         canvas.SetImage(Image.open("images/flags/italy.png").convert('RGB'), 0, 6 + 3)
         canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'), 0, 6 + 3+FLAG_HEIGHT+2+FLAG_HEIGHT+3+3)
 
-        # FIXME support accents, umlauts etc (Gonzalez)
         self.render_names_doubles(canvas, "Rossi", "Bianchi", "González", "López", custom_style)
+        
+        self.render_score_3_sets(canvas, show_game_score, custom_style)
+
+        canvas = self.matrix.SwapOnVSync(canvas)
+        time.sleep(duration)
+
+    def show_score_doubles_with_flags_mixto(self, canvas, show_game_score, duration, custom_style=False):
+        canvas.Clear()
+
+        canvas.SetImage(Image.open("images/flags/vatican.png").convert('RGB'), 0, 6 + 3)
+        canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'), 0, 6 + 3+FLAG_HEIGHT+2+FLAG_HEIGHT+3+3)
+
+        self.render_names_doubles(canvas, "Salvatori", "Placidi", "Facchetti", "Galliano", custom_style)
         
         self.render_score_3_sets(canvas, show_game_score, custom_style)
 
@@ -434,17 +446,14 @@ class M1_Demo(SampleBase):
         self.show_title_text(canvas, "Operare tramite app mobile\no un pulsante Bluetooth", COLOR_GREEN_7c, title_duration)
         self.show_title_text(canvas, "PREZZO SPECIALE PadelTrend\n\nXS1 399€    M1 999€\n\nAltre dimensioni: chiedici", COLOR_GOLD_7c, duration)
 
-
     def run_demo_sequence_court_1(self, canvas, duration):
-
         self.show_image_centered(canvas, "images/logos/padel_trend_expo_119x64.png", duration)
         self.show_clock_with_sponsor_logo(canvas, "images/logos/gimpadel_111x28.png", duration)        
 
     def run_demo_sequence_court_2(self, canvas, duration):
-
         self.show_image_centered(canvas, "images/logos/padel_trend_expo_119x64.png", duration)
         self.show_clock_with_sponsor_logo(canvas, "images/logos/italgreen_143x28.png", duration)
-    
+        self.show_score_doubles_with_flags_mixto(canvas, True, duration)
 
     def run_slide_show(self, duration, title_duration):
         canvas = self.matrix.CreateFrameCanvas()
