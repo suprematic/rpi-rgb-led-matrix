@@ -308,6 +308,7 @@ class SevenCourtsM1(SampleBase):
             graphics.DrawText(self.canvas, font, x, y_t1, COLOR_TEAM_NAME, t1p1)
             graphics.DrawText(self.canvas, font, x, y_t2, COLOR_TEAM_NAME, t2p1)
         elif match["isDoubles"]:
+            # FIXME does not work well with big font
             y_t1p1 = 1 + flag_height 
             y_t1p2 = y_t1p1 + 2 + flag_height
             y_t2p1 = y_t1p2 + 5 + 1 + flag_height
