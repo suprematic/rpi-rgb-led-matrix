@@ -151,10 +151,13 @@ class SevenCourtsM1(SampleBase):
         t2_set_scores = match["team2"]["setScores"]
 
         is_match_over = match["matchResult"] != None
+
+        w_set = 20        
         
         if (len(t1_set_scores)==0):
             t1_set1 = t2_set1 = t1_set2 = t2_set2 = t1_set3 = t2_set3 = ""
             c_t1_set1 = c_t2_set1 = c_t1_set2 = c_t2_set2 = c_t1_set3 = c_t2_set3 = COLOR_BLACK
+            x_set1 = x_set2 = x_set3 = PANEL_WIDTH
         elif (len(t1_set_scores)==1):
             t1_set1 = match["team1"]["setScores"][0]
             t2_set1 = match["team2"]["setScores"][0]
@@ -166,6 +169,8 @@ class SevenCourtsM1(SampleBase):
             else:
                 c_t1_set1 = c_t2_set1 = COLOR_SCORE_SET
             c_t1_set2 = c_t2_set2 = c_t1_set3 = c_t2_set3 = COLOR_BLACK
+            x_set1 = 96 + w_set + w_set
+            x_set2 = x_set3 = PANEL_WIDTH
 
         elif (len(t1_set_scores)==2):
             t1_set1 = match["team1"]["setScores"][0]
@@ -182,6 +187,9 @@ class SevenCourtsM1(SampleBase):
             else:
                 c_t1_set2 = c_t2_set2 = COLOR_SCORE_SET
             c_t1_set3 = c_t2_set3 = COLOR_BLACK
+            x_set1 = 96 + w_set
+            x_set2 = x_set1 + w_set + w_set
+            x_set3 = PANEL_WIDTH
 
         else: # (len(t1_set_scores)==3) -- 4+ sets are not supported yet
             t1_set1 = match["team1"]["setScores"][0]
@@ -199,6 +207,9 @@ class SevenCourtsM1(SampleBase):
                 c_t2_set3 = COLOR_SCORE_SET_WON if t2_set3>t1_set3 else COLOR_SCORE_SET_LOST
             else:
                 c_t1_set3 = c_t2_set3 = COLOR_SCORE_SET
+            x_set1 = 96
+            x_set2 = x_set1 + w_set
+            x_set3 = x_set2 + w_set
 
 
         t1_game = match["team1"].get("gameScore", "")
@@ -211,11 +222,7 @@ class SevenCourtsM1(SampleBase):
         y_service_delta = 13
 
         x_game = 163
-        x_service = 155
-        w_set = 20
-        x_set1 = 96
-        x_set2 = x_set1 + w_set
-        x_set3 = x_set2 + w_set        
+        x_service = 155        
 
         graphics.DrawText(self.canvas, FONT_SCORE, x_set1, y_T1, c_t1_set1, str(t1_set1))
         graphics.DrawText(self.canvas, FONT_SCORE, x_set2, y_T1, c_t1_set2, str(t1_set2))
