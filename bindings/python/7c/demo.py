@@ -26,6 +26,9 @@ COLOR_GREEN = graphics.Color(0, 255, 0)
 COLOR_CLASSIC = graphics.Color(227, 253, 93)
 COLOR_CLASSIC_DARK = graphics.Color(113, 127, 47)
 
+COLOR_CLASSIC = graphics.Color(0, 177, 64)
+COLOR_CLASSIC_DARK = graphics.Color(0, 150, 54)
+
 COLOR_GREEN_7c = graphics.Color(147, 196, 125)
 COLOR_BLUE_7c = graphics.Color(111, 168, 220)
 COLOR_GOLD_7c = graphics.Color(255, 215, 0)
@@ -384,13 +387,7 @@ class M1_Demo(SampleBase):
     def run_slide_show(self, duration, title_duration):
         canvas = self.matrix.CreateFrameCanvas()
 
-        self.show_title_text(canvas, "Check the CAMPO 1\nto see in action", COLOR_BLUE_7c, duration)
-
-        self.show_title_text(canvas, "API for integration with\nany scoring, tournament,\nor back-office system", COLOR_GREEN_7c, title_duration)
-        self.show_title_text(canvas, "Web & Video\nlive broadcasting", COLOR_BLUE_7c, title_duration)
-        self.show_title_text(canvas, "Operate via mobile app\nor a Bluetooth button", COLOR_GREEN_7c, title_duration)
-
-        self.show_title_text(canvas, "SPECIAL PadelTrend PRICE\n\nXS1 399€    M1 999€\n\nAny other size: on request", COLOR_GOLD_7c, duration)
+        self.show_score_doubles_with_flags_short(canvas, True, duration, True)
 
         self.run_demo_sequence(canvas, duration, title_duration)        
 
