@@ -258,7 +258,7 @@ class M1_Demo(SampleBase):
         self.render_statics_for_sponsor_logo(canvas, image_path)        
         # draw statics also on the swapped canvas before starting clock
         self.render_statics_for_sponsor_logo(canvas, image_path)
-        self.render_clock(canvas, '%H:%M', 140, 61, 104, 14, FONT_L, duration)
+        self.render_clock(canvas, '%H:%M:%S', 80, 60, 104, 21, FONT_XL, duration)        
     
     def show_big_clock(self, canvas, duration):
         canvas.Clear()
