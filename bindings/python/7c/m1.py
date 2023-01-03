@@ -140,8 +140,23 @@ class SevenCourtsM1(SampleBase):
         self.draw_text(80, 60, text, FONT_XL, COLOR_GREY)
 
 
-    def display_score(self, t1_on_serve=False, t2_on_serve=False, t1_game="0", t2_game="0", 
-        t1_set1="", t2_set1="", t1_set2="", t2_set2="", t1_set3="", t2_set3=""):
+    def display_score(self, match):
+
+        t1_on_serve=match["team1"]["serves"]
+        t2_on_serve=match["team2"]["serves"]
+        t1_set_scores = match["team1"]["setScores"]
+        t2_set_scores = match["team2"]["setScores"]
+        t1_set1 = match["team1"]["setScores"][0] if len(t1_set_scores)>0 else ""
+        t2_set1 = match["team2"]["setScores"][0] if len(t2_set_scores)>0 else ""
+        t1_set2 = match["team1"]["setScores"][1] if len(t1_set_scores)>1 else ""
+        t2_set2 = match["team2"]["setScores"][1] if len(t2_set_scores)>1 else ""
+        t1_set3 = match["team1"]["setScores"][2] if len(t1_set_scores)>2 else ""
+        t2_set3 = match["team2"]["setScores"][2] if len(t2_set_scores)>2 else ""
+
+        t1_game = match["team1"].get("gameScore", "")
+        t2_game = match["team2"].get("gameScore", "")
+        t1_game = str(t1_game if t1_game != None else "")
+        t2_game = str(t2_game if t2_game != None else "")
         
         y_T1 = 26
         y_T2 = 58
@@ -164,6 +179,20 @@ class SevenCourtsM1(SampleBase):
         graphics.DrawText(self.canvas, FONT_SCORE, x_set3, y_T2, COLOR_SCORE_SET, str(t2_set3))
         graphics.DrawText(self.canvas, FONT_SCORE, x_game, y_T2, COLOR_SCORE_GAME, str(t2_game))
 
+        # FIXME shift set scores
+        #set_scores_t1 = match["team1"]["setScores"]
+        #set_scores_t2 = match["team2"]["setScores"]
+        #set_scores_t1_x = 77 - (len(set_scores_t1) * 8)
+        #set_scores_t2_x = 77 - (len(set_scores_t2) * 8)
+        #for score in [s for s in set_scores_t1 if s != None]:
+        #    score = str(score)
+        #    self.draw_text(set_scores_t1_x, 10, score)
+        #    set_scores_t1_x = set_scores_t1_x + 8
+        #for score in [s for s in set_scores_t2 if s != None]:
+        #    score = str(score)
+        #    self.draw_text(set_scores_t2_x, 30, score)
+        #    set_scores_t2_x = set_scores_t2_x + 8
+
         
         b = (0, 0 ,0)
         y = (96, 96, 0)
@@ -179,31 +208,10 @@ class SevenCourtsM1(SampleBase):
         elif t2_on_serve:
             self.draw_matrix(ball, x_service, y_T2-y_service_delta)
 
-    def display_match(self, match):
-
-        t1_set_scores = match["team1"]["setScores"]
-        t2_set_scores = match["team2"]["setScores"]
-        t1_set1 = match["team1"]["setScores"][0] if len(t1_set_scores)>0 else ""
-        t2_set1 = match["team2"]["setScores"][0] if len(t2_set_scores)>0 else ""
-        t1_set2 = match["team1"]["setScores"][1] if len(t1_set_scores)>1 else ""
-        t2_set2 = match["team2"]["setScores"][1] if len(t2_set_scores)>1 else ""
-        t1_set3 = match["team1"]["setScores"][2] if len(t1_set_scores)>2 else ""
-        t2_set3 = match["team2"]["setScores"][2] if len(t2_set_scores)>2 else ""
-
-        t1_game = match["team1"].get("gameScore", "")
-        t2_game = match["team2"].get("gameScore", "")
-        t1_game = str(t1_game if t1_game != None else "")
-        t2_game = str(t2_game if t2_game != None else "")
-
-        self.display_score(
-            match["team1"]["serves"], match["team2"]["serves"], t1_game, t2_game,
-            t1_set1, t2_set1, t1_set2, t2_set2, t1_set3, t2_set3)
-
-        
+    def display_names(self, match):
         # flag_width = 18 # so far no flags or colors
         flag_width = 0
         flag_height=12
-
 
         if match["isTeamEvent"] or not match["isDoubles"]:
             if match["isTeamEvent"]:
@@ -249,41 +257,14 @@ class SevenCourtsM1(SampleBase):
             graphics.DrawText(self.canvas, font, flag_width+2, y_t1p2, COLOR_TEAM_NAME, t1p2)
             graphics.DrawText(self.canvas, font, flag_width+2, y_t2p1, COLOR_TEAM_NAME, t2p1)
             graphics.DrawText(self.canvas, font, flag_width+2, y_t2p2, COLOR_TEAM_NAME, t2p2)
-            
 
-        #color_set = COLOR_GREY
-        #color_service = COLOR_YELLOW        
-        #set_scores_t1 = match["team1"]["setScores"]
-        #set_scores_t2 = match["team2"]["setScores"]
-        #set_scores_t1_x = 77 - (len(set_scores_t1) * 8)
-        #set_scores_t2_x = 77 - (len(set_scores_t2) * 8)
-        #for score in [s for s in set_scores_t1 if s != None]:
-        #    score = str(score)
-        #    self.draw_text(set_scores_t1_x, 10, score)
-        #    set_scores_t1_x = set_scores_t1_x + 8
-        #for score in [s for s in set_scores_t2 if s != None]:
-        #    score = str(score)
-        #    self.draw_text(set_scores_t2_x, 30, score)
-        #    set_scores_t2_x = set_scores_t2_x + 8
-
+    def display_winner(self, match):
         # FIXME winner is not displayed
         b = (0, 0 ,0)
         r = (128, 0, 0)
         y = (128, 96, 0)
         w = (96, 64, 0)
-        # TODO decide what to use: medal or cup
-        winner_medal = [
-            [b,r,b,b,b,b,b,r,b],
-            [r,r,r,b,b,b,r,r,r],
-            [b,r,r,b,b,b,r,r,b],
-            [b,r,r,r,b,r,r,r,b],
-            [b,b,r,r,r,r,r,b,b],
-            [b,b,b,y,y,y,b,b,b],
-            [b,b,y,y,y,y,y,b,b],
-            [b,b,y,y,y,y,y,b,b],
-            [b,b,y,y,y,y,y,b,b],
-            [b,b,b,y,y,y,b,b,b]]
-        winner_cup = [
+        cup = [
             [b,b,y,y,y,y,y,b,b],
             [w,y,y,y,y,y,y,y,w],
             [w,b,y,y,y,y,y,b,w],
@@ -298,9 +279,14 @@ class SevenCourtsM1(SampleBase):
         medal_delta=12
         x_medal=PANEL_WIDTH - 3*medal_delta
         if match_result == "T1_WON":
-            self.draw_matrix(winner_medal, x_medal, medal_delta)
+            self.draw_matrix(cup, x_medal, medal_delta)
         elif match_result == "T2_WON":
-            self.draw_matrix(winner_cup, x_medal, PANEL_HEIGHT / 2 + medal_delta)
+            self.draw_matrix(cup, x_medal, PANEL_HEIGHT / 2 + medal_delta)
+
+    def display_match(self, match):
+        self.display_names(match)
+        self.display_score(match)
+        self.display_winner(match)
 
     def draw_error_indicator(self):
         b = (0, 0, 0)
