@@ -250,7 +250,7 @@ class M1_Demo(SampleBase):
     def render_statics_for_sponsor_logo(self, canvas, image_path):
         canvas.Clear()        
         image = Image.open(image_path).convert('RGB')
-        canvas.SetImage(image, 2, 4)        
+        canvas.SetImage(image, 10, 4)        
         canvas = self.matrix.SwapOnVSync(canvas)
         return canvas
 
@@ -294,7 +294,7 @@ class M1_Demo(SampleBase):
             graphics.DrawLine(canvas, x, y0, x, y0+h, COLOR_BLACK)
 
     def render_clock(self, canvas, format, x, y, w, h, font, duration):
-        color_clock = COLOR_GREY
+        color_clock = COLOR_GREY_DARK
         for _ in range(duration):
             self.clear_rect(canvas, x, y-h, w, h)
             current_time=datetime.now().strftime(format)
@@ -438,11 +438,12 @@ class M1_Demo(SampleBase):
     def run_demo_sequence_court_2(self, canvas, duration):
 
         self.show_clock_with_sponsor_logo(canvas, "images/logos/gimpadel_111x28.png", duration)
-        self.show_clock_with_sponsor_logo(canvas, "images/logos/italgreen_143x28.png", duration)
-            
-        self.show_clock_with_sponsor_logo(canvas, "images/logos/gimpadel_119x32.png", duration)
-        self.show_clock_with_sponsor_logo(canvas, "images/logos/italgreen_163x32.png", duration)
+        
 
+    def run_demo_sequence_court_2(self, canvas, duration):
+
+        self.show_clock_with_sponsor_logo(canvas, "images/logos/italgreen_143x28.png", duration)
+    
 
     def run_slide_show(self, duration, title_duration):
         canvas = self.matrix.CreateFrameCanvas()
