@@ -234,7 +234,7 @@ class M1_Demo(SampleBase):
         canvas.Clear()
 
         canvas.SetImage(Image.open("images/flags/vatican.png").convert('RGB'), 0, 6 + 3)
-        canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'), 0, 6 + 3+FLAG_HEIGHT+2+FLAG_HEIGHT+3+3)
+        canvas.SetImage(Image.open("images/flags/italy.png").convert('RGB'), 0, 6 + 3+FLAG_HEIGHT+2+FLAG_HEIGHT+3+3)
 
         self.render_names_doubles(canvas, "Salvatori", "Placidi", "Facchetti", "Galliano", custom_style)
         
