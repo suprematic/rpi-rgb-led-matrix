@@ -28,6 +28,7 @@ COLOR_CLASSIC_DARK = graphics.Color(113, 127, 47)
 
 COLOR_GREEN_7c = graphics.Color(147, 196, 125)
 COLOR_BLUE_7c = graphics.Color(111, 168, 220)
+COLOR_GOLD_7c = graphics.Color(255, 215, 0)
 
 FONT_XL = graphics.Font()
 FONT_XL.LoadFont("fonts/texgyre-27.bdf")
