@@ -23,19 +23,17 @@ COLOR_RED = graphics.Color(255, 0, 0)
 COLOR_YELLOW = graphics.Color(255, 255, 0)
 COLOR_GREEN = graphics.Color(0, 255, 0)
 
-COLOR_CLASSIC = graphics.Color(227, 253, 93)
-COLOR_CLASSIC_DARK = graphics.Color(113, 127, 47)
-
-COLOR_CLASSIC = graphics.Color(0, 177, 64)
-COLOR_CLASSIC_DARK = graphics.Color(0, 150, 54)
+COLOR_CUSTOM = graphics.Color(0, 177, 64)
+COLOR_CUSTOM_DARK = graphics.Color(0, 150, 54)
 
 COLOR_GREEN_7c = graphics.Color(147, 196, 125)
 COLOR_BLUE_7c = graphics.Color(111, 168, 220)
 COLOR_GOLD_7c = graphics.Color(255, 215, 0)
 
 FONT_XL = graphics.Font()
-#FONT_XL.LoadFont("fonts/texgyre-27.bdf")
-FONT_XL.LoadFont("fonts/RozhaOne-Regular-21.bdf")
+FONT_XL.LoadFont("fonts/texgyre-27.bdf")
+FONT_XL_CUSTOM = graphics.Font()
+FONT_XL_CUSTOM.LoadFont("fonts/RozhaOne-Regular-21.bdf")
 FONT_L = graphics.Font()
 FONT_L.LoadFont("fonts/10x20.bdf")
 FONT_M = graphics.Font()
@@ -80,10 +78,11 @@ class M1_Demo(SampleBase):
         ## pseudo score in 3 sets:
         ## 7-6 3-6 7-4 *30-15
 
-        color_score_set = COLOR_CLASSIC if custom_style else COLOR_GREY
-        color_score_set_won = COLOR_CLASSIC if custom_style else COLOR_GREY
-        color_score_set_lost = COLOR_CLASSIC_DARK if custom_style else COLOR_GREY_DARK
-        color_score_game = COLOR_CLASSIC if custom_style else COLOR_GREY
+        color_score_set = COLOR_CUSTOM if custom_style else COLOR_GREY
+        color_score_set_won = COLOR_CUSTOM if custom_style else COLOR_GREY
+        color_score_set_lost = COLOR_CUSTOM_DARK if custom_style else COLOR_GREY_DARK
+        color_score_game = COLOR_CUSTOM if custom_style else COLOR_GREY
+        font = FONT_XL_CUSTOM if custom_style else FONT_XL
         
         y_T1 = 26
         y_T2 = 58
@@ -92,10 +91,8 @@ class M1_Demo(SampleBase):
         x_service = 155
 
         if show_game_score:
-            #graphics.DrawText(canvas, FONT_XL, x_service, y_T2-y_service_delta, color_score_set, "")
-            graphics.DrawText(canvas, FONT_XL, x_game, y_T2, color_score_set, "15")
-            #graphics.DrawText(canvas, FONT_XL, x_service, y_T1-y_service_delta, color_score_set, ".")
-            graphics.DrawText(canvas, FONT_XL, x_game, y_T1, color_score_set, "30")
+            graphics.DrawText(canvas, font, x_game, y_T2, color_score_set, "15")
+            graphics.DrawText(canvas, font, x_game, y_T1, color_score_set, "30")
 
             b = (0, 0 ,0)            
             w = (color_score_game.red, color_score_game.green, color_score_game.blue)
@@ -129,13 +126,13 @@ class M1_Demo(SampleBase):
         x_set2 = x_set1 + w_set
         x_set3 = x_set2 + w_set
         
-        graphics.DrawText(canvas, FONT_XL, x_set1, y_T1, color_score_set_won, "7")
-        graphics.DrawText(canvas, FONT_XL, x_set2, y_T1, color_score_set_lost, "3")
-        graphics.DrawText(canvas, FONT_XL, x_set3, y_T1, color_score_set, "5")        
+        graphics.DrawText(canvas, font, x_set1, y_T1, color_score_set_won, "7")
+        graphics.DrawText(canvas, font, x_set2, y_T1, color_score_set_lost, "3")
+        graphics.DrawText(canvas, font, x_set3, y_T1, color_score_set, "5")        
 
-        graphics.DrawText(canvas, FONT_XL, x_set1, y_T2, color_score_set_lost, "6")
-        graphics.DrawText(canvas, FONT_XL, x_set2, y_T2, color_score_set_won, "6")
-        graphics.DrawText(canvas, FONT_XL, x_set3, y_T2, color_score_set, "4")
+        graphics.DrawText(canvas, font, x_set1, y_T2, color_score_set_lost, "6")
+        graphics.DrawText(canvas, font, x_set2, y_T2, color_score_set_won, "6")
+        graphics.DrawText(canvas, font, x_set3, y_T2, color_score_set, "4")
 
         
 
@@ -152,7 +149,7 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
-    def show_score_singles_with_flags(self, canvas, show_game_score, duration):
+    def show_score_singles_with_flags(self, canvas, show_game_score, duration, custom_style=False):
         canvas.Clear()
 
         y_T1 = 26
@@ -165,6 +162,8 @@ class M1_Demo(SampleBase):
         color_name = COLOR_GREY
 
         flag_margin_r = 2
+
+        font = FONT_XL_CUSTOM if custom_style else FONT_XL
         
         graphics.DrawText(canvas, FONT_XL, FLAG_WIDTH+flag_margin_r, y_T1, color_name, "FED")
         graphics.DrawText(canvas, FONT_XL, FLAG_WIDTH+flag_margin_r, y_T2, color_name, "NAD")
@@ -195,7 +194,7 @@ class M1_Demo(SampleBase):
         y_t2p1 = y_t1p2 + 18
         y_t2p2 = y_t2p1 + 2 + FLAG_HEIGHT
         
-        color_name = COLOR_CLASSIC if custom_style else COLOR_GREY
+        color_name = COLOR_CUSTOM if custom_style else COLOR_GREY
         
         graphics.DrawText(canvas, font, FLAG_WIDTH+flag_margin_r, y_t1p1, color_name, t1p1.upper())
         graphics.DrawText(canvas, font, FLAG_WIDTH+flag_margin_r, y_t1p2, color_name, t1p2.upper())
@@ -398,6 +397,7 @@ class M1_Demo(SampleBase):
         # 2.3. Match mode: point-by-point custom
         self.show_title_text(canvas, "Customize fonts and colors\nto match your style", COLOR_GREEN_7c, title_duration)
         self.show_score_doubles_with_flags_short(canvas, True, duration, True)
+        self.show_score_singles_with_flags(canvas, True, duration, True)
 
         # 3. Some texts
         self.show_title_text(canvas, "Check the COURT 1\nto see in action", COLOR_BLUE_7c, duration)
@@ -439,6 +439,7 @@ class M1_Demo(SampleBase):
         # 2.3. Match mode: point-by-point custom
         self.show_title_text(canvas, "Caratteri e colori\npersonalizzabili\nper abbinarsi al tuo stile", COLOR_GREEN_7c, title_duration)
         self.show_score_doubles_with_flags_short(canvas, True, duration, True)
+        self.show_score_singles_with_flags(canvas, True, duration, True)
 
         # 3. Some texts
         self.show_title_text(canvas, "Controlla il CAMPO 1\nper vederlo in azione", COLOR_BLUE_7c, duration)
@@ -459,7 +460,9 @@ class M1_Demo(SampleBase):
     def run_slide_show(self, duration, title_duration):
         canvas = self.matrix.CreateFrameCanvas()
 
+        
         self.show_score_singles_with_flags(canvas, True, duration)
+        self.show_score_singles_with_flags(canvas, True, duration, True)
 
         self.run_demo_sequence_italian(canvas, duration, title_duration)
         self.run_demo_sequence_english(canvas, duration, title_duration)
