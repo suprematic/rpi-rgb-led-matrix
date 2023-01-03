@@ -367,7 +367,7 @@ class M1_Demo(SampleBase):
         self.show_score_doubles_with_flags_short(canvas, False, duration)
 
         # 2.3. Match mode: point-by-point custom
-        self.show_title_text(canvas, "Customize style\nto match your CI", title_duration)
+        self.show_title_text(canvas, "Customize fonts and colors\nto match your style", title_duration)
         self.show_score_doubles_with_flags_short(canvas, True, duration, True)
 
         self.show_title_text(canvas, "Check the CAMPO 1\nto see in action", duration)
@@ -380,9 +380,7 @@ class M1_Demo(SampleBase):
     def run_slide_show(self, duration, title_duration):
         canvas = self.matrix.CreateFrameCanvas()
 
-        self.show_score_singles_with_flags(canvas, True, duration)
-        self.show_score_doubles_with_flags_short(canvas, True, duration)
-        self.show_score_doubles_with_flags_long(canvas, True, duration)
+        self.show_title_text(canvas, "Customize fonts and colors\nto match your style", title_duration)
 
         self.run_demo_sequence(canvas, duration, title_duration)        
 
