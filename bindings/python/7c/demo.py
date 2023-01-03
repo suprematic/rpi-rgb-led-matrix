@@ -304,9 +304,9 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
-    def show_title_text(self, canvas, text, duration):
+    def show_title_text(self, canvas, text, color, duration):
         canvas.Clear()
-        color = COLOR_GREEN_7c
+
         font = FONT_S
 
         lines = text.split('\n')
@@ -341,7 +341,7 @@ class M1_Demo(SampleBase):
 
 
         # 1.1. Idle mode: sequence of logos of our references        
-        self.show_title_text(canvas, "Sponsor, club,\nor tournament logo", title_duration)
+        self.show_title_text(canvas, "Sponsor, club,\nor tournament logo", COLOR_GREEN_7c, title_duration)
         
         duration_logo = min(3, duration)
         self.show_image_centered(canvas, "images/logos/a-rete_160x43.png", duration_logo)
@@ -350,37 +350,46 @@ class M1_Demo(SampleBase):
         
 
         # 1.2. Idle mode: Clock + Weather + etc.
-        self.show_title_text(canvas, "Time, weather,\npersonal greetings, etc.", title_duration)
+        self.show_title_text(canvas, "Time, weather,\npersonal greetings, etc.", COLOR_GREEN_7c, title_duration)
         #self.show_big_clock(canvas, duration)        
         self.show_big_clock_with_weather(canvas, duration)
         self.show_clock_with_weather_and_announcement(canvas, duration)
 
         # 2.1. Match mode: point-by-point
-        self.show_title_text(canvas, "The Grand Slam moment\nin your club!", title_duration)
+        self.show_title_text(canvas, "The Grand Slam moment\nin your club!", COLOR_GREEN_7c, title_duration)
         self.show_score_singles_with_flags(canvas, True, duration)
-        self.show_title_text(canvas, "Point-by-point score\n(pro mode)", title_duration)
+        self.show_title_text(canvas, "Point-by-point score\n(pro mode)", COLOR_GREEN_7c, title_duration)
         self.show_score_doubles_with_flags_short(canvas, True, duration)
         self.show_score_doubles_with_flags_long(canvas, True, duration)
 
         # 2.2. Match mode: game-by-game
-        self.show_title_text(canvas, "Game-by-game score\n(easy mode)", title_duration)
+        self.show_title_text(canvas, "Game-by-game score\n(easy mode)", COLOR_GREEN_7c, title_duration)
         self.show_score_doubles_with_flags_short(canvas, False, duration)
 
         # 2.3. Match mode: point-by-point custom
-        self.show_title_text(canvas, "Customize fonts and colors\nto match your style", title_duration)
+        self.show_title_text(canvas, "Customize fonts and colors\nto match your style", COLOR_GREEN_7c, title_duration)
         self.show_score_doubles_with_flags_short(canvas, True, duration, True)
 
-        self.show_title_text(canvas, "Check the CAMPO 1\nto see in action", duration)
+        self.show_title_text(canvas, "Check the CAMPO 1\nto see in action", COLOR_BLUE_7c, duration)
 
-        self.show_title_text(canvas, "SPECIAL PadelTrend PRICE\n\nXS1 399€    M1 999€\n\nAny other size: on request", duration)
+        self.show_title_text(canvas, "API for integration with\nany scoring, tournament,\nor back-office system", COLOR_GREEN_7c, title_duration)
+        self.show_title_text(canvas, "Web & Video\nlive broadcasting", COLOR_BLUE_7c, title_duration)
+        self.show_title_text(canvas, "Operate via mobile app\nor a Bluetooth button", COLOR_GREEN_7c, title_duration)
+
+        self.show_title_text(canvas, "SPECIAL PadelTrend PRICE\n\nXS1 399€    M1 999€\n\nAny other size: on request", COLOR_GOLD_7c, duration)
 
         
-
 
     def run_slide_show(self, duration, title_duration):
         canvas = self.matrix.CreateFrameCanvas()
 
-        self.show_title_text(canvas, "Customize fonts and colors\nto match your style", title_duration)
+        self.show_title_text(canvas, "Check the CAMPO 1\nto see in action", COLOR_BLUE_7c, duration)
+
+        self.show_title_text(canvas, "API for integration with\nany scoring, tournament,\nor back-office system", COLOR_GREEN_7c, title_duration)
+        self.show_title_text(canvas, "Web & Video\nlive broadcasting", COLOR_BLUE_7c, title_duration)
+        self.show_title_text(canvas, "Operate via mobile app\nor a Bluetooth button", COLOR_GREEN_7c, title_duration)
+
+        self.show_title_text(canvas, "SPECIAL PadelTrend PRICE\n\nXS1 399€    M1 999€\n\nAny other size: on request", COLOR_GOLD_7c, duration)
 
         self.run_demo_sequence(canvas, duration, title_duration)        
 
