@@ -396,7 +396,7 @@ class M1_Demo(SampleBase):
 
         # 2.3. Match mode: point-by-point custom
         self.show_title_text(canvas, "Customize fonts and colors\nto match your style", COLOR_GREEN_7c, title_duration)
-        self.show_score_doubles_with_flags_short(canvas, True, duration, True)
+        #self.show_score_doubles_with_flags_short(canvas, True, duration, True)
         self.show_score_singles_with_flags(canvas, True, duration, True)
 
         # 3. Some texts
@@ -438,7 +438,7 @@ class M1_Demo(SampleBase):
 
         # 2.3. Match mode: point-by-point custom
         self.show_title_text(canvas, "Caratteri e colori\npersonalizzabili\nper abbinarsi al tuo stile", COLOR_GREEN_7c, title_duration)
-        self.show_score_doubles_with_flags_short(canvas, True, duration, True)
+        #self.show_score_doubles_with_flags_short(canvas, True, duration, True)
         self.show_score_singles_with_flags(canvas, True, duration, True)
 
         # 3. Some texts
