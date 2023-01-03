@@ -183,7 +183,7 @@ class SevenCourtsM1(SampleBase):
                 c_t1_set2 = c_t2_set2 = COLOR_SCORE_SET
             c_t1_set3 = c_t2_set3 = COLOR_BLACK
 
-        elif (len(t1_set_scores)==3):
+        else: # (len(t1_set_scores)==3) -- 4+ sets are not supported yet
             t1_set1 = match["team1"]["setScores"][0]
             t2_set1 = match["team2"]["setScores"][0]
             t1_set2 = match["team1"]["setScores"][1]
@@ -199,8 +199,6 @@ class SevenCourtsM1(SampleBase):
                 c_t2_set3 = COLOR_SCORE_SET_WON if t2_set3>t1_set3 else COLOR_SCORE_SET_LOST
             else:
                 c_t1_set3 = c_t2_set3 = COLOR_SCORE_SET
-        else:
-            #4+ sets are not supported yet
 
 
         t1_game = match["team1"].get("gameScore", "")
