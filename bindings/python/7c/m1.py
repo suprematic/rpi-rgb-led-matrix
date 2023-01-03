@@ -188,7 +188,7 @@ class SevenCourtsM1(SampleBase):
                 c_t1_set2 = c_t2_set2 = COLOR_SCORE_SET
             c_t1_set3 = c_t2_set3 = COLOR_BLACK
             x_set1 = 96 + w_set
-            x_set2 = x_set1 + w_set + w_set
+            x_set2 = x_set1 + w_set
             x_set3 = PANEL_WIDTH
 
         else: # (len(t1_set_scores)==3) -- 4+ sets are not supported yet
@@ -293,6 +293,8 @@ class SevenCourtsM1(SampleBase):
         else:
             font = FONT_TEAM_NAME_L
 
+        # FIXME make dependent on how many sets and font size
+        # TODO scoreboard could just cover names, then no need to cut
         name_length_limit = 13
         t1p1 = t1p1[:name_length_limit].upper()
         t1p2 = t1p2[:name_length_limit].upper()
