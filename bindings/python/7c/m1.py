@@ -152,10 +152,10 @@ class SevenCourtsM1(SampleBase):
 
         is_match_over = match["matchResult"] != None
         
-        if (len(t1_set_scores)=0):
+        if (len(t1_set_scores)==0):
             t1_set1 = t2_set1 = t1_set2 = t2_set2 = t1_set3 = t2_set3 = ""
             c_t1_set1 = c_t2_set1 = c_t1_set2 = c_t2_set2 = c_t1_set3 = c_t2_set3 = COLOR_BLACK
-        elif (len(t1_set_scores)=1):
+        elif (len(t1_set_scores)==1):
             t1_set1 = match["team1"]["setScores"][0]
             t2_set1 = match["team2"]["setScores"][0]
             t1_set2 = t2_set2 = t1_set3 = t2_set3 = ""
@@ -167,7 +167,7 @@ class SevenCourtsM1(SampleBase):
                 c_t1_set1 = c_t2_set1 = COLOR_SCORE_SET
             c_t1_set2 = c_t2_set2 = c_t1_set3 = c_t2_set3 = COLOR_BLACK
 
-        elif (len(t1_set_scores)=2):
+        elif (len(t1_set_scores)==2):
             t1_set1 = match["team1"]["setScores"][0]
             t2_set1 = match["team2"]["setScores"][0]
             t1_set2 = match["team1"]["setScores"][1]
@@ -183,7 +183,7 @@ class SevenCourtsM1(SampleBase):
                 c_t1_set2 = c_t2_set2 = COLOR_SCORE_SET
             c_t1_set3 = c_t2_set3 = COLOR_BLACK
 
-        elif (len(t1_set_scores)=3):
+        elif (len(t1_set_scores)==3):
             t1_set1 = match["team1"]["setScores"][0]
             t2_set1 = match["team2"]["setScores"][0]
             t1_set2 = match["team1"]["setScores"][1]
