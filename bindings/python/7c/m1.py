@@ -292,6 +292,8 @@ class SevenCourtsM1(SampleBase):
         t2p1 = t2p1[:name_length_limit].upper()
         t2p2 = t2p2[:name_length_limit].upper()
 
+        print(font.height)
+
         if match["isTeamEvent"] or not match["isDoubles"]:
             y_t1 = (PANEL_HEIGHT/2 - font.height) / 2
             y_t2 = PANEL_HEIGHT/2 + y_t1
