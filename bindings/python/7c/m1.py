@@ -10,7 +10,8 @@ import socket
 
 PANEL_NAME = socket.gethostname()
 
-BASE_URL = "https://staging.tableau.tennismath.com"
+#BASE_URL = "https://staging.tableau.tennismath.com"
+BASE_URL = "http://192.168.114.30:5000"
 REGISTRATION_URL = BASE_URL + "/panels/"
 
 # Constants for the 7C M1 panel (P5 192 x 64)
