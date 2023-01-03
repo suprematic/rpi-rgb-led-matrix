@@ -163,7 +163,7 @@ class SevenCourtsM1(SampleBase):
             if is_match_over:
                 c_t1_set1 = COLOR_SCORE_SET_WON if t1_set1>t2_set1 else COLOR_SCORE_SET_LOST
                 c_t2_set1 = COLOR_SCORE_SET_WON if t2_set1>t1_set1 else COLOR_SCORE_SET_LOST
-            else
+            else:
                 c_t1_set1 = c_t2_set1 = COLOR_SCORE_SET
             c_t1_set2 = c_t2_set2 = c_t1_set3 = c_t2_set3 = COLOR_BLACK
 
