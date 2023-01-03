@@ -48,7 +48,8 @@ def match_info(panel_id):
 
 # Style constants
 COLOR_WHITE = graphics.Color(255, 255, 255)
-COLOR_GREY = graphics.Color(128, 128, 128)
+COLOR_GREY = graphics.Color(192, 192, 192)
+COLOR_GREY_DARK = graphics.Color(96, 96, 96)
 COLOR_BLACK = graphics.Color(0, 0, 0)
 COLOR_RED = graphics.Color(255, 0, 0)
 COLOR_YELLOW = graphics.Color(255, 255, 0)
@@ -72,6 +73,8 @@ COLOR_DEFAULT = COLOR_GREY
 FONT_DEFAULT = FONT_S
 
 COLOR_SCORE_SET = COLOR_GREY
+COLOR_SCORE_SET_WON = COLOR_SCORE_SET
+COLOR_SCORE_SET_LOST = COLOR_GREY_DARK
 COLOR_SCORE_GAME = COLOR_GREY
 COLOR_SCORE_SERVICE = COLOR_YELLOW
 COLOR_TEAM_NAME = COLOR_GREY
@@ -139,29 +142,110 @@ class SevenCourtsM1(SampleBase):
         self.draw_text(80, 60, text, FONT_XL, COLOR_GREY)
 
 
-    def display_match_score(self, t1_on_serve=False, t2_on_serve=False, t1_game="0", t2_game="0", 
-        t1_set1="", t2_set1="", t1_set2="", t2_set2="", t1_set3="", t2_set3=""):
+    def display_score(self, match):
+
+        t1_on_serve=match["team1"]["serves"]
+        t2_on_serve=match["team2"]["serves"]
+        t1_set_scores = match["team1"]["setScores"]
+        t2_set_scores = match["team2"]["setScores"]
+
+        is_match_over = match["matchResult"] != None
+
+        w_set = 20        
+        
+        if (len(t1_set_scores)==0):
+            t1_set1 = t2_set1 = t1_set2 = t2_set2 = t1_set3 = t2_set3 = ""
+            c_t1_set1 = c_t2_set1 = c_t1_set2 = c_t2_set2 = c_t1_set3 = c_t2_set3 = COLOR_BLACK
+            x_set1 = x_set2 = x_set3 = PANEL_WIDTH
+        elif (len(t1_set_scores)==1):
+            t1_set1 = match["team1"]["setScores"][0]
+            t2_set1 = match["team2"]["setScores"][0]
+            t1_set2 = t2_set2 = t1_set3 = t2_set3 = ""
+            
+            if is_match_over:
+                c_t1_set1 = COLOR_SCORE_SET_WON if t1_set1>t2_set1 else COLOR_SCORE_SET_LOST
+                c_t2_set1 = COLOR_SCORE_SET_WON if t2_set1>t1_set1 else COLOR_SCORE_SET_LOST
+            else:
+                c_t1_set1 = c_t2_set1 = COLOR_SCORE_SET
+            c_t1_set2 = c_t2_set2 = c_t1_set3 = c_t2_set3 = COLOR_BLACK
+            x_set1 = 96 + w_set + w_set
+            x_set2 = x_set3 = PANEL_WIDTH
+
+        elif (len(t1_set_scores)==2):
+            t1_set1 = match["team1"]["setScores"][0]
+            t2_set1 = match["team2"]["setScores"][0]
+            t1_set2 = match["team1"]["setScores"][1]
+            t2_set2 = match["team2"]["setScores"][1]
+            t1_set3 = t2_set3 = ""
+            
+            c_t1_set1 = COLOR_SCORE_SET_WON if t1_set1>t2_set1 else COLOR_SCORE_SET_LOST
+            c_t2_set1 = COLOR_SCORE_SET_WON if t2_set1>t1_set1 else COLOR_SCORE_SET_LOST
+            if is_match_over:
+                c_t1_set2 = COLOR_SCORE_SET_WON if t1_set2>t2_set2 else COLOR_SCORE_SET_LOST
+                c_t2_set2 = COLOR_SCORE_SET_WON if t2_set2>t1_set2 else COLOR_SCORE_SET_LOST
+            else:
+                c_t1_set2 = c_t2_set2 = COLOR_SCORE_SET
+            c_t1_set3 = c_t2_set3 = COLOR_BLACK
+            x_set1 = 96 + w_set
+            x_set2 = x_set1 + w_set
+            x_set3 = PANEL_WIDTH
+
+        else: # (len(t1_set_scores)==3) -- 4+ sets are not supported yet
+            t1_set1 = match["team1"]["setScores"][0]
+            t2_set1 = match["team2"]["setScores"][0]
+            t1_set2 = match["team1"]["setScores"][1]
+            t2_set2 = match["team2"]["setScores"][1]
+            t1_set3 = match["team1"]["setScores"][2]
+            t2_set3 = match["team2"]["setScores"][2]
+            c_t1_set1 = COLOR_SCORE_SET_WON if t1_set1>t2_set1 else COLOR_SCORE_SET_LOST
+            c_t2_set1 = COLOR_SCORE_SET_WON if t2_set1>t1_set1 else COLOR_SCORE_SET_LOST
+            c_t1_set2 = COLOR_SCORE_SET_WON if t1_set2>t2_set2 else COLOR_SCORE_SET_LOST
+            c_t2_set2 = COLOR_SCORE_SET_WON if t2_set2>t1_set2 else COLOR_SCORE_SET_LOST
+            if is_match_over:
+                c_t1_set3 = COLOR_SCORE_SET_WON if t1_set3>t2_set3 else COLOR_SCORE_SET_LOST
+                c_t2_set3 = COLOR_SCORE_SET_WON if t2_set3>t1_set3 else COLOR_SCORE_SET_LOST
+            else:
+                c_t1_set3 = c_t2_set3 = COLOR_SCORE_SET
+            x_set1 = 96
+            x_set2 = x_set1 + w_set
+            x_set3 = x_set2 + w_set
+
+
+        t1_game = match["team1"].get("gameScore", "")
+        t2_game = match["team2"].get("gameScore", "")
+        t1_game = str(t1_game if t1_game != None else "")
+        t2_game = str(t2_game if t2_game != None else "")
         
         y_T1 = 26
         y_T2 = 58
-        y_service_delta = 12
+        y_service_delta = 13
 
         x_game = 163
-        x_service = 155
-        w_set = 20
-        x_set1 = 96
-        x_set2 = x_set1 + w_set
-        x_set3 = x_set2 + w_set
+        x_service = 155        
 
-        graphics.DrawText(self.canvas, FONT_SCORE, x_set1, y_T1, COLOR_SCORE_SET, str(t1_set1))
-        graphics.DrawText(self.canvas, FONT_SCORE, x_set2, y_T1, COLOR_SCORE_SET, str(t1_set2))
-        graphics.DrawText(self.canvas, FONT_SCORE, x_set3, y_T1, COLOR_SCORE_SET, str(t1_set3))
+        graphics.DrawText(self.canvas, FONT_SCORE, x_set1, y_T1, c_t1_set1, str(t1_set1))
+        graphics.DrawText(self.canvas, FONT_SCORE, x_set2, y_T1, c_t1_set2, str(t1_set2))
+        graphics.DrawText(self.canvas, FONT_SCORE, x_set3, y_T1, c_t1_set3, str(t1_set3))
         graphics.DrawText(self.canvas, FONT_SCORE, x_game, y_T1, COLOR_SCORE_GAME, str(t1_game))
 
-        graphics.DrawText(self.canvas, FONT_SCORE, x_set1, y_T2, COLOR_SCORE_SET, str(t2_set1))
-        graphics.DrawText(self.canvas, FONT_SCORE, x_set2, y_T2, COLOR_SCORE_SET, str(t2_set2))
-        graphics.DrawText(self.canvas, FONT_SCORE, x_set3, y_T2, COLOR_SCORE_SET, str(t2_set3))
+        graphics.DrawText(self.canvas, FONT_SCORE, x_set1, y_T2, c_t2_set1, str(t2_set1))
+        graphics.DrawText(self.canvas, FONT_SCORE, x_set2, y_T2, c_t2_set2, str(t2_set2))
+        graphics.DrawText(self.canvas, FONT_SCORE, x_set3, y_T2, c_t2_set3, str(t2_set3))
         graphics.DrawText(self.canvas, FONT_SCORE, x_game, y_T2, COLOR_SCORE_GAME, str(t2_game))
+
+        # FIXME shift set scores
+        #set_scores_t1 = match["team1"]["setScores"]
+        #set_scores_t2 = match["team2"]["setScores"]
+        #set_scores_t1_x = 77 - (len(set_scores_t1) * 8)
+        #set_scores_t2_x = 77 - (len(set_scores_t2) * 8)
+        #for score in [s for s in set_scores_t1 if s != None]:
+        #    score = str(score)
+        #    self.draw_text(set_scores_t1_x, 10, score)
+        #    set_scores_t1_x = set_scores_t1_x + 8
+        #for score in [s for s in set_scores_t2 if s != None]:
+        #    score = str(score)
+        #    self.draw_text(set_scores_t2_x, 30, score)
+        #    set_scores_t2_x = set_scores_t2_x + 8
 
         
         b = (0, 0 ,0)
@@ -178,31 +262,12 @@ class SevenCourtsM1(SampleBase):
         elif t2_on_serve:
             self.draw_matrix(ball, x_service, y_T2-y_service_delta)
 
-    def display_match(self, match):
-
-        t1_set_scores = match["team1"]["setScores"]
-        t2_set_scores = match["team2"]["setScores"]
-        t1_set1 = match["team1"]["setScores"][0] if len(t1_set_scores)>0 else ""
-        t2_set1 = match["team2"]["setScores"][0] if len(t2_set_scores)>0 else ""
-        t1_set2 = match["team1"]["setScores"][1] if len(t1_set_scores)>1 else ""
-        t2_set2 = match["team2"]["setScores"][1] if len(t2_set_scores)>1 else ""
-        t1_set3 = match["team1"]["setScores"][2] if len(t1_set_scores)>2 else ""
-        t2_set3 = match["team2"]["setScores"][2] if len(t2_set_scores)>2 else ""
-
-        t1_game = match["team1"].get("gameScore", "")
-        t2_game = match["team2"].get("gameScore", "")
-        t1_game = str(t1_game if t1_game != None else "")
-        t2_game = str(t2_game if t2_game != None else "")
-
-        self.display_match_score(
-            match["team1"]["serves"], match["team2"]["serves"], t1_game, t2_game,
-            t1_set1, t2_set1, t1_set2, t2_set2, t1_set3, t2_set3)
-
+    def display_names(self, match):
         
-        # flag_width = 18 # so far no flags or colors
-        flag_width = 0
+        # FIXME so far no flags or colors
+        flag_width=0
+        #flag_width=18 
         flag_height=12
-
 
         if match["isTeamEvent"] or not match["isDoubles"]:
             if match["isTeamEvent"]:
@@ -227,6 +292,8 @@ class SevenCourtsM1(SampleBase):
         else:
             font = FONT_TEAM_NAME_L
 
+        # FIXME make dependent on how many sets and font size
+        # TODO scoreboard could just cover names, then no need to cut
         name_length_limit = 13
         t1p1 = t1p1[:name_length_limit].upper()
         t1p2 = t1p2[:name_length_limit].upper()
@@ -234,55 +301,28 @@ class SevenCourtsM1(SampleBase):
         t2p2 = t2p2[:name_length_limit].upper()
 
         if match["isTeamEvent"] or not match["isDoubles"]:
-            y_t1 = 26
-            y_t2 = 58
+            y_t1 = (PANEL_HEIGHT/2 - font.height)/2 + font.height
+            y_t2 = PANEL_HEIGHT/2 + y_t1
             x = flag_width + 2            
             graphics.DrawText(self.canvas, font, x, y_t1, COLOR_TEAM_NAME, t1p1)
             graphics.DrawText(self.canvas, font, x, y_t2, COLOR_TEAM_NAME, t2p1)
         elif match["isDoubles"]:
-            y_t1p1 = 2 + flag_height 
-            y_t1p2 = y_t1p1 + 2 + flag_height
-            y_t2p1 = y_t1p2 + 18
-            y_t2p2 = y_t2p1 + 2 + flag_height
+            y_t1p1 = 1 + flag_height 
+            y_t1p2 = y_t1p1 + 1 + flag_height
+            y_t2p1 = y_t1p2 + 6 + 1 + flag_height
+            y_t2p2 = y_t2p1 + 1 + flag_height
             graphics.DrawText(self.canvas, font, flag_width+2, y_t1p1, COLOR_TEAM_NAME, t1p1)
             graphics.DrawText(self.canvas, font, flag_width+2, y_t1p2, COLOR_TEAM_NAME, t1p2)
             graphics.DrawText(self.canvas, font, flag_width+2, y_t2p1, COLOR_TEAM_NAME, t2p1)
             graphics.DrawText(self.canvas, font, flag_width+2, y_t2p2, COLOR_TEAM_NAME, t2p2)
-            
 
-        #color_set = COLOR_GREY
-        #color_service = COLOR_YELLOW        
-        #set_scores_t1 = match["team1"]["setScores"]
-        #set_scores_t2 = match["team2"]["setScores"]
-        #set_scores_t1_x = 77 - (len(set_scores_t1) * 8)
-        #set_scores_t2_x = 77 - (len(set_scores_t2) * 8)
-        #for score in [s for s in set_scores_t1 if s != None]:
-        #    score = str(score)
-        #    self.draw_text(set_scores_t1_x, 10, score)
-        #    set_scores_t1_x = set_scores_t1_x + 8
-        #for score in [s for s in set_scores_t2 if s != None]:
-        #    score = str(score)
-        #    self.draw_text(set_scores_t2_x, 30, score)
-        #    set_scores_t2_x = set_scores_t2_x + 8
-
+    def display_winner(self, match):
         # FIXME winner is not displayed
         b = (0, 0 ,0)
         r = (128, 0, 0)
         y = (128, 96, 0)
         w = (96, 64, 0)
-        # TODO decide what to use: medal or cup
-        winner_medal = [
-            [b,r,b,b,b,b,b,r,b],
-            [r,r,r,b,b,b,r,r,r],
-            [b,r,r,b,b,b,r,r,b],
-            [b,r,r,r,b,r,r,r,b],
-            [b,b,r,r,r,r,r,b,b],
-            [b,b,b,y,y,y,b,b,b],
-            [b,b,y,y,y,y,y,b,b],
-            [b,b,y,y,y,y,y,b,b],
-            [b,b,y,y,y,y,y,b,b],
-            [b,b,b,y,y,y,b,b,b]]
-        winner_cup = [
+        cup = [
             [b,b,y,y,y,y,y,b,b],
             [w,y,y,y,y,y,y,y,w],
             [w,b,y,y,y,y,y,b,w],
@@ -295,11 +335,16 @@ class SevenCourtsM1(SampleBase):
             [b,b,y,y,y,y,y,b,b]]
         match_result = match.get("matchResult", None)
         medal_delta=12
-        x_medal=PANEL_WIDTH - 3*medal_delta
+        x_medal=PANEL_WIDTH - 2*medal_delta
         if match_result == "T1_WON":
-            self.draw_matrix(winner_medal, x_medal, medal_delta)
+            self.draw_matrix(cup, x_medal, medal_delta)
         elif match_result == "T2_WON":
-            self.draw_matrix(winner_cup, x_medal, PANEL_HEIGHT / 2 + medal_delta)
+            self.draw_matrix(cup, x_medal, PANEL_HEIGHT / 2 + medal_delta)
+
+    def display_match(self, match):
+        self.display_names(match)
+        self.display_score(match)
+        self.display_winner(match)
 
     def draw_error_indicator(self):
         b = (0, 0, 0)
