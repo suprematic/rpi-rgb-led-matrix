@@ -263,16 +263,6 @@ class SevenCourtsM1(SampleBase):
             self.draw_matrix(ball, x_service, y_T2-y_service_delta)
 
     def display_names(self, match):
-
-        t1p1_flag = match["team1"]["p1"]["flag"]
-        t1p2_flag = match["team1"]["p2"]["flag"]
-        t2p1_flag = match["team2"]["p1"]["flag"]
-        t2p2_flag = match["team2"]["p2"]["flag"]
-
-        print(t1p1_flag)
-        print(t1p2_flag)
-        print(t2p1_flag)
-        print(t2p2_flag)
         
         # FIXME so far no flags or colors
         flag_width=0
