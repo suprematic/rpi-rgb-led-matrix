@@ -1,4 +1,4 @@
-SET TIMEOUT_SECONDS=4
+SET TIMEOUT_SECONDS=2
 
 hurl 00_acquire.hurl
 00_singles_short.hurl

@@ -384,7 +384,7 @@ class M1_Demo(SampleBase):
         self.show_clock_with_weather_and_announcement(canvas, "Happy Wedding Day!\nJohn & Mary", duration)
 
         # 2.1. Match mode: point-by-point
-        self.show_title_text(canvas, "The Grand Slam moment\nin your club!", COLOR_GREEN_7c, title_duration)
+        self.show_title_text(canvas, "The Grand Slam moment\nfor your club!", COLOR_GREEN_7c, title_duration)
         self.show_score_singles_with_flags(canvas, True, duration)
         self.show_title_text(canvas, "Point-by-point score\n(pro mode)", COLOR_GREEN_7c, title_duration)
         self.show_score_doubles_with_flags_short(canvas, True, duration)
@@ -426,7 +426,7 @@ class M1_Demo(SampleBase):
         self.show_clock_with_weather_and_announcement(canvas, "Evviva gli sposi!\nRomeo e Giulietta", duration)
 
         # 2.1. Match mode: point-by-point
-        self.show_title_text(canvas, "Il momento del Grande Slam\nnel tuo club!", COLOR_GREEN_7c, title_duration)
+        self.show_title_text(canvas, "Il momento del Grande Slam\nper il tuo club!", COLOR_GREEN_7c, title_duration)        
         self.show_score_singles_with_flags(canvas, True, duration)
         self.show_title_text(canvas, "Punteggio punto per punto\n(modalità Pro)", COLOR_GREEN_7c, title_duration)
         self.show_score_doubles_with_flags_short(canvas, True, duration)
