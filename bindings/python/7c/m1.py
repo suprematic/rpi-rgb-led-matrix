@@ -291,8 +291,10 @@ class SevenCourtsM1(SampleBase):
         print(max(len(t1p1_flag), len(t1p2_flag), len(t2p1_flag), len(t2p2_flag)))
         print(display_flags)
             
-        flag_width = 0 if display_flags else 18
+        flag_width = 0 if display_flags else 18        
         flag_height=12
+
+        print(flag_width)
 
         if display_flags:
             t1p1_flag = load_flag_image(t1p1_flag)
