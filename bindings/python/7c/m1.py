@@ -5,6 +5,7 @@ import time
 import urllib.request
 from urllib.error import URLError, HTTPError
 from datetime import datetime
+from PIL import Image
 import json
 import socket
 
