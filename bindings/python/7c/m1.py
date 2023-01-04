@@ -51,7 +51,6 @@ def match_info(panel_id):
 COLOR_WHITE = graphics.Color(255, 255, 255)
 COLOR_GREY = graphics.Color(192, 192, 192)
 COLOR_GREY_DARK = graphics.Color(96, 96, 96)
-COLOR_GREY_DARKEST = graphics.Color(16, 16, 16)
 COLOR_BLACK = graphics.Color(0, 0, 0)
 COLOR_RED = graphics.Color(255, 0, 0)
 COLOR_YELLOW = graphics.Color(255, 255, 0)
@@ -141,7 +140,7 @@ class SevenCourtsM1(SampleBase):
 
     def display_clock(self):
         text = datetime.now().strftime('%H:%M:%S')
-        self.fill_rect(0, 0, PANEL_WIDTH, PANEL_HEIGHT, COLOR_GREY_DARKEST)
+        self.fill_rect(0, 0, PANEL_WIDTH, PANEL_HEIGHT, COLOR_GREY_DARK)
         self.draw_text(80, 60, text, FONT_XL, COLOR_GREY)
 
     def display_score(self, match):
