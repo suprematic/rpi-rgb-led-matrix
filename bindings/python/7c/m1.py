@@ -279,7 +279,7 @@ class SevenCourtsM1(SampleBase):
         else:
             t1p2_flag = t2p2_flag = ''
 
-        display_flags = max(len(t1p1), len(t1p2), len(t2p1), len(t2p2)) > 0
+        display_flags = max(len(t1p1_flag), len(t1p2_flag), len(t2p1_flag), len(t2p2_flag)) > 0
             
         flag_width = 0 if display_flags else 18
         flag_height=12
