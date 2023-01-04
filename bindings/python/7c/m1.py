@@ -349,10 +349,10 @@ class SevenCourtsM1(SampleBase):
             graphics.DrawText(self.canvas, font, flag_width+2, y_t2p1, COLOR_TEAM_NAME, t2p1)
             graphics.DrawText(self.canvas, font, flag_width+2, y_t2p2, COLOR_TEAM_NAME, t2p2)
             if display_flags:
-                self.canvas.SetImage(t1p1_flag, 0, y_t1p1 - flag_height)
-                self.canvas.SetImage(t1p2_flag, 0, y_t1p2 - flag_height)
-                self.canvas.SetImage(t2p1_flag, 0, y_t2p1 - flag_height)
-                self.canvas.SetImage(t2p2_flag, 0, y_t2p2 - flag_height)
+                self.canvas.SetImage(t1p1_flag, 0, y_t1p1 - flag_height + 1)
+                self.canvas.SetImage(t1p2_flag, 0, y_t1p2 - flag_height + 1)
+                self.canvas.SetImage(t2p1_flag, 0, y_t2p1 - flag_height + 1)
+                self.canvas.SetImage(t2p2_flag, 0, y_t2p2 - flag_height + 1)
 
     def display_winner(self, match):
         # FIXME winner is not displayed
