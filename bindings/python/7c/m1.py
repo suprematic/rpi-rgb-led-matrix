@@ -47,6 +47,9 @@ def match_info(panel_id):
         log("url='" + url + "', status= " + str(response.status))
     return None
 
+def load_flag_image(flag):
+    return Image.open("images/flags/" + flag + ".png").convert('RGB')
+
 # Style constants
 COLOR_WHITE = graphics.Color(255, 255, 255)
 COLOR_GREY = graphics.Color(192, 192, 192)
@@ -84,6 +87,7 @@ FONT_TEAM_NAME_S = FONT_S
 FONT_TEAM_NAME_M = FONT_M
 FONT_TEAM_NAME_L = FONT_L
 FONT_TEAM_NAME_XL = FONT_XL
+
 
 class SevenCourtsM1(SampleBase):
     def __init__(self, *args, **kwargs):
@@ -262,13 +266,33 @@ class SevenCourtsM1(SampleBase):
         elif t2_on_serve:
             self.draw_matrix(ball, x_service, y_T2-y_service_delta)
 
+    
     def display_names(self, match):
-        
-        # FIXME so far no flags or colors
-        flag_width=0
-        #flag_width=18 
+
+        # flags
+
+        t1p1_flag = match["team1"]["p1"]["flag"]            
+        t2p1_flag = match["team2"]["p1"]["flag"]
+        if match["isDoubles"]:
+            t1p2_flag = match["team1"]["p2"]["flag"]
+            t2p2_flag = match["team2"]["p2"]["flag"]
+        else
+            t1p2_flag = t2p2_flag = ''
+
+        display_flags = max(len(t1p1), len(t1p2), len(t2p1), len(t2p2)) > 0
+            
+        flag_width = 0 if display_flags else 18
         flag_height=12
 
+        if display_flags:
+            t1p1_flag = load_flag_image(t1p1_flag)
+            t1p2_flag = load_flag_image(t1p2_flag)
+            t2p1_flag = load_flag_image(t2p1_flag)
+            t2p2_flag = load_flag_image(t2p2_flag)
+
+
+        # names
+        
         if match["isTeamEvent"] or not match["isDoubles"]:
             if match["isTeamEvent"]:
                 t1p1 = match["team1"]["name"]
@@ -276,13 +300,12 @@ class SevenCourtsM1(SampleBase):
             else:
                 t1p1 = match["team1"]["p1"]["lastname"]
                 t2p1 = match["team2"]["p1"]["lastname"]
-            t1p2 = ""
-            t2p2 = ""
+            t1p2 = t2p2 = ''
         elif match["isDoubles"]:
             t1p1 = match["team1"]["p1"]["lastname"]
             t1p2 = match["team1"]["p2"]["lastname"]
             t2p1 = match["team2"]["p1"]["lastname"]
-            t2p2 = match["team2"]["p2"]["lastname"]
+            t2p2 = match["team2"]["p2"]["lastname"]            
 
         max_name_length = max(len(t1p1), len(t1p2), len(t2p1), len(t2p2))
         if max_name_length > 8:
@@ -306,6 +329,9 @@ class SevenCourtsM1(SampleBase):
             x = flag_width + 2            
             graphics.DrawText(self.canvas, font, x, y_t1, COLOR_TEAM_NAME, t1p1)
             graphics.DrawText(self.canvas, font, x, y_t2, COLOR_TEAM_NAME, t2p1)
+            canvas.SetImage(t1p1_flag, 0, y_t1)
+            canvas.SetImage(t2p1_flag, 0, y_t2)            
+
         elif match["isDoubles"]:
             # FIXME does not work well with big font
             y_t1p1 = 1 + flag_height 
@@ -316,6 +342,10 @@ class SevenCourtsM1(SampleBase):
             graphics.DrawText(self.canvas, font, flag_width+2, y_t1p2, COLOR_TEAM_NAME, t1p2)
             graphics.DrawText(self.canvas, font, flag_width+2, y_t2p1, COLOR_TEAM_NAME, t2p1)
             graphics.DrawText(self.canvas, font, flag_width+2, y_t2p2, COLOR_TEAM_NAME, t2p2)
+            canvas.SetImage(t1p1_flag, 0, y_t1p1)
+            canvas.SetImage(t1p2_flag, 0, y_t1p2)
+            canvas.SetImage(t2p1_flag, 0, y_t2p1)
+            canvas.SetImage(t2p2_flag, 0, y_t2p2)
 
     def display_winner(self, match):
         # FIXME winner is not displayed
