@@ -19,7 +19,7 @@ PANEL_WIDTH = 192
 PANEL_HEIGHT = 64
 
 def log(*args):
-    print(*args, flush=True)    
+    print(*args, flush=True)
 
 def match_url(panel_id):
     return BASE_URL + "/panels/" + panel_id + "/match"
@@ -48,7 +48,12 @@ def match_info(panel_id):
     return None
 
 def load_flag_image(flag):
-    return Image.open("images/flags/" + flag + ".png").convert('RGB')
+    try:
+        return Image.open("images/flags/" + flag + ".png").convert('RGB')
+    except Exception as e:
+        log(e)
+        return Image.open("images/flags/VOID.png").convert('RGB')
+
 
 # Style constants
 COLOR_WHITE = graphics.Color(255, 255, 255)
