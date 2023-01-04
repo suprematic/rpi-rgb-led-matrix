@@ -139,8 +139,8 @@ class SevenCourtsM1(SampleBase):
 
     def display_clock(self):
         text = datetime.now().strftime('%H:%M:%S')
+        self.fill_rect(0, 0, PANEL_WIDTH, PANEL_HEIGHT, COLOR_GREY_DARK)
         self.draw_text(80, 60, text, FONT_XL, COLOR_GREY)
-
 
     def display_score(self, match):
 
@@ -369,6 +369,10 @@ class SevenCourtsM1(SampleBase):
                 self.canvas.SetPixel(x, y, r, g, b)
                 x = x + 1
             y = y + 1
+
+    def fill_rect(self, x0, y0, w, h, color):
+        for x in range (x0, x0+w):
+            graphics.DrawLine(self.canvas, x, y0, x, y0+h, color)
 
 # Main function
 if __name__ == "__main__":
