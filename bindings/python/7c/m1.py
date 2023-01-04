@@ -139,8 +139,7 @@ class SevenCourtsM1(SampleBase):
             time.sleep(1)
 
     def display_clock(self):
-        text = datetime.now().strftime('%H:%M:%S')
-        self.fill_rect(0, 0, PANEL_WIDTH, PANEL_HEIGHT, COLOR_GREY_DARK)
+        text = datetime.now().strftime('%H:%M:%S')        
         self.draw_text(80, 60, text, FONT_XL, COLOR_GREY)
 
     def display_score(self, match):
