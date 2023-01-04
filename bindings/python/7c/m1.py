@@ -276,7 +276,7 @@ class SevenCourtsM1(SampleBase):
         if match["isDoubles"]:
             t1p2_flag = match["team1"]["p2"]["flag"]
             t2p2_flag = match["team2"]["p2"]["flag"]
-        else
+        else:
             t1p2_flag = t2p2_flag = ''
 
         display_flags = max(len(t1p1), len(t1p2), len(t2p1), len(t2p2)) > 0
