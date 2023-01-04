@@ -301,14 +301,14 @@ class M1_Demo(SampleBase):
                 COLOR_GREY, 
                 '23°')
 
-    def clear_rect(self, canvas, x0, y0, w, h):
+    def fill_rect(self, canvas, x0, y0, w, h, color):
         for x in range (x0, x0+w):
-            graphics.DrawLine(canvas, x, y0, x, y0+h, COLOR_BLACK)
+            graphics.DrawLine(canvas, x, y0, x, y0+h, color)
 
     def render_clock(self, canvas, format, x, y, w, h, font, duration):
         color_clock = COLOR_GREY_DARK
         for _ in range(duration):
-            self.clear_rect(canvas, x, y-h, w, h)
+            self.clear_rect(canvas, x, y-h, w, h, COLOR_BLACK)
             current_time=datetime.now().strftime(format)
             graphics.DrawText(canvas, font, x, y, color_clock, current_time)
             canvas = self.matrix.SwapOnVSync(canvas)
