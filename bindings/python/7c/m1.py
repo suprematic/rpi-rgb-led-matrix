@@ -287,14 +287,8 @@ class SevenCourtsM1(SampleBase):
 
         display_flags = max(len(t1p1_flag), len(t1p2_flag), len(t2p1_flag), len(t2p2_flag)) > 0
 
-        print(t1p1_flag + ' / ' + t1p2_flag + ' / ' + t2p1_flag + ' / ' + t2p2_flag)
-        print(max(len(t1p1_flag), len(t1p2_flag), len(t2p1_flag), len(t2p2_flag)))
-        print(display_flags)
-            
-        flag_width = 0 if display_flags else 18        
+        flag_width = 18 if display_flags else 0
         flag_height=12
-
-        print(flag_width)
 
         if display_flags:
             t1p1_flag = load_flag_image(t1p1_flag)
@@ -341,8 +335,8 @@ class SevenCourtsM1(SampleBase):
             graphics.DrawText(self.canvas, font, x, y_t1, COLOR_TEAM_NAME, t1p1)
             graphics.DrawText(self.canvas, font, x, y_t2, COLOR_TEAM_NAME, t2p1)
             if display_flags:
-                self.canvas.SetImage(t1p1_flag, 0, y_t1)
-                self.canvas.SetImage(t2p1_flag, 0, y_t2)            
+                self.canvas.SetImage(t1p1_flag, 0, y_t1 - flag_height)
+                self.canvas.SetImage(t2p1_flag, 0, y_t2 - flag_height)
 
         elif match["isDoubles"]:
             # FIXME does not work well with big font
@@ -355,10 +349,10 @@ class SevenCourtsM1(SampleBase):
             graphics.DrawText(self.canvas, font, flag_width+2, y_t2p1, COLOR_TEAM_NAME, t2p1)
             graphics.DrawText(self.canvas, font, flag_width+2, y_t2p2, COLOR_TEAM_NAME, t2p2)
             if display_flags:
-                self.canvas.SetImage(t1p1_flag, 0, y_t1p1)
-                self.canvas.SetImage(t1p2_flag, 0, y_t1p2)
-                self.canvas.SetImage(t2p1_flag, 0, y_t2p1)
-                self.canvas.SetImage(t2p2_flag, 0, y_t2p2)
+                self.canvas.SetImage(t1p1_flag, 0, y_t1p1 - flag_height)
+                self.canvas.SetImage(t1p2_flag, 0, y_t1p2 - flag_height)
+                self.canvas.SetImage(t2p1_flag, 0, y_t2p1 - flag_height)
+                self.canvas.SetImage(t2p2_flag, 0, y_t2p2 - flag_height)
 
     def display_winner(self, match):
         # FIXME winner is not displayed
