@@ -295,7 +295,6 @@ class SevenCourtsM1(SampleBase):
             t2p1_flag = load_flag_image(t2p1_flag)
             t2p2_flag = load_flag_image(t2p2_flag)
 
-
         # names
         
         if match["isTeamEvent"] or not match["isDoubles"]:
@@ -334,8 +333,9 @@ class SevenCourtsM1(SampleBase):
             x = flag_width + 2            
             graphics.DrawText(self.canvas, font, x, y_t1, COLOR_TEAM_NAME, t1p1)
             graphics.DrawText(self.canvas, font, x, y_t2, COLOR_TEAM_NAME, t2p1)
-            self.canvas.SetImage(t1p1_flag, 0, y_t1)
-            self.canvas.SetImage(t2p1_flag, 0, y_t2)            
+            if display_flags:
+                self.canvas.SetImage(t1p1_flag, 0, y_t1)
+                self.canvas.SetImage(t2p1_flag, 0, y_t2)            
 
         elif match["isDoubles"]:
             # FIXME does not work well with big font
@@ -347,10 +347,11 @@ class SevenCourtsM1(SampleBase):
             graphics.DrawText(self.canvas, font, flag_width+2, y_t1p2, COLOR_TEAM_NAME, t1p2)
             graphics.DrawText(self.canvas, font, flag_width+2, y_t2p1, COLOR_TEAM_NAME, t2p1)
             graphics.DrawText(self.canvas, font, flag_width+2, y_t2p2, COLOR_TEAM_NAME, t2p2)
-            self.canvas.SetImage(t1p1_flag, 0, y_t1p1)
-            self.canvas.SetImage(t1p2_flag, 0, y_t1p2)
-            self.canvas.SetImage(t2p1_flag, 0, y_t2p1)
-            self.canvas.SetImage(t2p2_flag, 0, y_t2p2)
+            if display_flags:
+                self.canvas.SetImage(t1p1_flag, 0, y_t1p1)
+                self.canvas.SetImage(t1p2_flag, 0, y_t1p2)
+                self.canvas.SetImage(t2p1_flag, 0, y_t2p1)
+                self.canvas.SetImage(t2p2_flag, 0, y_t2p2)
 
     def display_winner(self, match):
         # FIXME winner is not displayed
