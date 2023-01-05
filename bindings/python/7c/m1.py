@@ -20,8 +20,6 @@ REGISTRATION_URL = BASE_URL + "/panels/"
 PANEL_WIDTH = 192
 PANEL_HEIGHT = 64
 
-
-
 # Style constants
 COLOR_WHITE = graphics.Color(255, 255, 255)
 COLOR_GREY = graphics.Color(192, 192, 192)
@@ -63,7 +61,7 @@ FONT_TEAM_NAME_S = FONT_S
 
 UPPER_CASE_NAMES = True
 
-X_MIN_SCOREBOARD = PANEL_WIDTH / 2
+X_MIN_SCOREBOARD = int(PANEL_WIDTH / 2)
 W_SCORE_SET = 20
 X_SCORE_GAME = 163
 X_SCORE_SERVICE = 155
@@ -112,6 +110,8 @@ def width_in_pixels(font, text):
     result = 0;
     for c in text:
         result+=font.CharacterWidth(ord(c))
+
+    print(font + ' ' + text + ' ' + result)
     return result
 
 def pick_font_that_fits(width, *names):
