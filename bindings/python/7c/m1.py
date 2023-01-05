@@ -8,6 +8,7 @@ from datetime import datetime
 from PIL import Image
 import json
 import socket
+import logging
 
 PANEL_NAME = socket.gethostname()
 
@@ -145,10 +146,13 @@ class SevenCourtsM1(SampleBase):
                     self.canvas = self.matrix.SwapOnVSync(self.canvas)
                     time.sleep(1)
             except URLError as e:
+                logging.exception(e)
                 log('URLError in #run', e)
             except socket.timeout as e:
+                logging.exception(e)
                 log('Socket timeout in #run', e)
             except Exception as e:
+                logging.exception(e)
                 log('Unexpected exception in #run', e)
 
     def register(self):
@@ -160,12 +164,15 @@ class SevenCourtsM1(SampleBase):
             try:
                 panel_id = register()
             except URLError as e:
+                logging.exception(e)
                 log('URLError in #register', e)
                 self.draw_error_indicator()
             except socket.timeout as e:
+                logging.exception(e)
                 log('Socket timeout in #register', e)
                 self.draw_error_indicator()
             except Exception as e:
+                logging.exception(e)
                 log('Unexpected exception in #register', e)
                 self.draw_error_indicator()            
 
