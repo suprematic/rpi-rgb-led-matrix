@@ -19,41 +19,6 @@ REGISTRATION_URL = BASE_URL + "/panels/"
 PANEL_WIDTH = 192
 PANEL_HEIGHT = 64
 
-def log(*args):
-    print(*args, flush=True)
-
-def match_url(panel_id):
-    return BASE_URL + "/panels/" + panel_id + "/match"
-
-def register():
-    data = json.dumps({"code": PANEL_NAME}).encode('utf-8')
-    url = REGISTRATION_URL
-    request = urllib.request.Request(url, data=data, method='POST')
-    try:
-        with urllib.request.urlopen(request, timeout=10) as response:
-            j = json.loads(response.read().decode('utf-8'))
-            log(url, "registered:", j)
-            return j["id"]
-    except HTTPError as e:
-        log(url, e)
-        return None
-
-def match_info(panel_id):
-    url = match_url(panel_id)
-    with urllib.request.urlopen(url, timeout=10) as response:
-        if response.status == 200:
-            j = json.loads(response.read().decode('utf-8'))
-            log(url, "match:", j)
-            return j
-        log("url='" + url + "', status= " + str(response.status))
-    return None
-
-def load_flag_image(flag):
-    try:
-        return Image.open("images/flags/" + flag + ".png").convert('RGB')
-    except Exception as e:
-        log(e)
-        return Image.open("images/flags/VOID.png").convert('RGB')
 
 
 # Style constants
@@ -90,13 +55,73 @@ COLOR_SCORE_SERVICE = COLOR_YELLOW
 COLOR_TEAM_NAME = COLOR_GREY
 COLOR_SCORE_BACKGROUND = COLOR_BLACK
 FONT_SCORE = FONT_XL
-FONT_TEAM_NAME_S = FONT_S
-FONT_TEAM_NAME_M = FONT_M
-FONT_TEAM_NAME_L = FONT_L
 FONT_TEAM_NAME_XL = FONT_XL
+FONT_TEAM_NAME_L = FONT_L
+FONT_TEAM_NAME_M = FONT_M
+FONT_TEAM_NAME_S = FONT_S
 
 UPPER_CASE_NAMES = True
 
+X_MIN_SCOREBOARD = PANEL_WIDTH / 2
+W_SCORE_SET = 20
+X_SCORE_GAME = 163
+X_SCORE_SERVICE = 155
+
+H_FLAG=12
+W_FLAG=18
+
+
+def log(*args):
+    print(*args, flush=True)
+
+def match_url(panel_id):
+    return BASE_URL + "/panels/" + panel_id + "/match"
+
+def register():
+    data = json.dumps({"code": PANEL_NAME}).encode('utf-8')
+    url = REGISTRATION_URL
+    request = urllib.request.Request(url, data=data, method='POST')
+    try:
+        with urllib.request.urlopen(request, timeout=10) as response:
+            j = json.loads(response.read().decode('utf-8'))
+            log(url, "registered:", j)
+            return j["id"]
+    except HTTPError as e:
+        log(url, e)
+        return None
+
+def match_info(panel_id):
+    url = match_url(panel_id)
+    with urllib.request.urlopen(url, timeout=10) as response:
+        if response.status == 200:
+            j = json.loads(response.read().decode('utf-8'))
+            log(url, "match:", j)
+            return j
+        log("url='" + url + "', status= " + str(response.status))
+    return None
+
+def load_flag_image(flag):
+    try:
+        return Image.open("images/flags/" + flag + ".png").convert('RGB')
+    except Exception as e:
+        log(e)
+        return Image.open("images/flags/VOID.png").convert('RGB')
+
+def width_in_pixels(font, text):
+    result = 0;
+    for c in text:
+        result+=font.CharacterWidth(ord(c))
+    return result
+
+def pick_font_that_fits(width, names*):
+    if width < max(map(partial(width_in_pixels, FONT_TEAM_NAME_XL),names)):
+        return FONT_TEAM_NAME_XL
+    elif width < max(map(partial(width_in_pixels, FONT_TEAM_NAME_L),names)):
+        return FONT_TEAM_NAME_L
+    elif width < max(map(partial(width_in_pixels, FONT_TEAM_NAME_M),names)):
+        return FONT_TEAM_NAME_M
+    else:
+        return FONT_TEAM_NAME_L
 
 class SevenCourtsM1(SampleBase):
     def __init__(self, *args, **kwargs):
@@ -164,8 +189,6 @@ class SevenCourtsM1(SampleBase):
 
         is_match_over = match["matchResult"] != None
 
-        w_set = 20        
-        
         if (len(t1_set_scores)==0):
             t1_set1 = t2_set1 = t1_set2 = t2_set2 = t1_set3 = t2_set3 = ""
             c_t1_set1 = c_t2_set1 = c_t1_set2 = c_t2_set2 = c_t1_set3 = c_t2_set3 = COLOR_BLACK
@@ -181,7 +204,7 @@ class SevenCourtsM1(SampleBase):
             else:
                 c_t1_set1 = c_t2_set1 = COLOR_SCORE_SET
             c_t1_set2 = c_t2_set2 = c_t1_set3 = c_t2_set3 = COLOR_BLACK
-            x_set1 = 96 + w_set + w_set
+            x_set1 = X_MIN_SCOREBOARD + W_SCORE_SET + W_SCORE_SET
             x_set2 = x_set3 = PANEL_WIDTH
 
         elif (len(t1_set_scores)==2):
@@ -199,8 +222,8 @@ class SevenCourtsM1(SampleBase):
             else:
                 c_t1_set2 = c_t2_set2 = COLOR_SCORE_SET
             c_t1_set3 = c_t2_set3 = COLOR_BLACK
-            x_set1 = 96 + w_set
-            x_set2 = x_set1 + w_set
+            x_set1 = X_MIN_SCOREBOARD + W_SCORE_SET
+            x_set2 = x_set1 + W_SCORE_SET
             x_set3 = PANEL_WIDTH
 
         else: # (len(t1_set_scores)==3) -- 4+ sets are not supported yet
@@ -219,9 +242,9 @@ class SevenCourtsM1(SampleBase):
                 c_t2_set3 = COLOR_SCORE_SET_WON if t2_set3>t1_set3 else COLOR_SCORE_SET_LOST
             else:
                 c_t1_set3 = c_t2_set3 = COLOR_SCORE_SET
-            x_set1 = 96
-            x_set2 = x_set1 + w_set
-            x_set3 = x_set2 + w_set
+            x_set1 = X_MIN_SCOREBOARD
+            x_set2 = x_set1 + W_SCORE_SET
+            x_set3 = x_set2 + W_SCORE_SET
 
 
         t1_game = match["team1"].get("gameScore", "")
@@ -233,22 +256,19 @@ class SevenCourtsM1(SampleBase):
         y_T2 = 58
         y_service_delta = 13
 
-        x_game = 163
-        x_service = 155
-
         # "cover" the score area so that names do not intersect
-        x_score = min(x_set1, x_service) - 1
+        x_score = min(x_set1, X_SCORE_SERVICE) - 1
         self.fill_rect(x_score, 0, PANEL_WIDTH - x_score, PANEL_HEIGHT, COLOR_SCORE_BACKGROUND)
 
         graphics.DrawText(self.canvas, FONT_SCORE, x_set1, y_T1, c_t1_set1, str(t1_set1))
         graphics.DrawText(self.canvas, FONT_SCORE, x_set2, y_T1, c_t1_set2, str(t1_set2))
         graphics.DrawText(self.canvas, FONT_SCORE, x_set3, y_T1, c_t1_set3, str(t1_set3))
-        graphics.DrawText(self.canvas, FONT_SCORE, x_game, y_T1, COLOR_SCORE_GAME, str(t1_game))
+        graphics.DrawText(self.canvas, FONT_SCORE, X_SCORE_GAME, y_T1, COLOR_SCORE_GAME, str(t1_game))
 
         graphics.DrawText(self.canvas, FONT_SCORE, x_set1, y_T2, c_t2_set1, str(t2_set1))
         graphics.DrawText(self.canvas, FONT_SCORE, x_set2, y_T2, c_t2_set2, str(t2_set2))
         graphics.DrawText(self.canvas, FONT_SCORE, x_set3, y_T2, c_t2_set3, str(t2_set3))
-        graphics.DrawText(self.canvas, FONT_SCORE, x_game, y_T2, COLOR_SCORE_GAME, str(t2_game))
+        graphics.DrawText(self.canvas, FONT_SCORE, X_SCORE_GAME, y_T2, COLOR_SCORE_GAME, str(t2_game))
 
         # service indicator
 
@@ -262,14 +282,16 @@ class SevenCourtsM1(SampleBase):
             [y,w,y,y,y],
             [b,y,y,y,b]]        
         if t1_on_serve:
-            self.draw_matrix(ball, x_service, y_T1-y_service_delta)
+            self.draw_matrix(ball, X_SCORE_SERVICE, y_T1-y_service_delta)
         elif t2_on_serve:
-            self.draw_matrix(ball, x_service, y_T2-y_service_delta)
+            self.draw_matrix(ball, X_SCORE_SERVICE, y_T2-y_service_delta)
+
+
 
     
     def display_names(self, match):
 
-        # flags
+        # 1. flags
 
         t1p1_flag = match["team1"]["p1"]["flag"]            
         t2p1_flag = match["team2"]["p1"]["flag"]
@@ -281,17 +303,28 @@ class SevenCourtsM1(SampleBase):
 
         display_flags = max(len(t1p1_flag), len(t1p2_flag), len(t2p1_flag), len(t2p2_flag)) > 0
 
-        flag_width = 18 if display_flags else 0
-        flag_height=12
-
         if display_flags:
             t1p1_flag = load_flag_image(t1p1_flag)
             t1p2_flag = load_flag_image(t1p2_flag)
             t2p1_flag = load_flag_image(t2p1_flag)
             t2p2_flag = load_flag_image(t2p2_flag)
+            flag_width = W_FLAG
+        else:
+            flag_width = 0
 
-        # names
-        
+
+        # 2. names
+
+        if (len(t1_set_scores)==0):
+            x_scoreboard = X_SCORE_SERVICE
+        elif (len(t1_set_scores)==1):
+            x_scoreboard = X_MIN_SCOREBOARD + W_SCORE_SET + W_SCORE_SET
+        elif (len(t1_set_scores)==2):
+            x_scoreboard = X_MIN_SCOREBOARD + W_SCORE_SET
+        else: # (len(t1_set_scores)==3) -- 4+ sets are not supported yet
+            x_scoreboard = X_MIN_SCOREBOARD
+        w_name_max = PANEL_WIDTH - flag_width - x_scoreboard - 1
+
         if match["isTeamEvent"] or not match["isDoubles"]:
             if match["isTeamEvent"]:
                 t1p1 = match["team1"]["name"]
@@ -306,19 +339,13 @@ class SevenCourtsM1(SampleBase):
             t2p1 = match["team2"]["p1"]["lastname"]
             t2p2 = match["team2"]["p2"]["lastname"]            
 
-        max_name_length = max(len(t1p1), len(t1p2), len(t2p1), len(t2p2))
-        if max_name_length > 8:
-            font = FONT_TEAM_NAME_S
-        elif max_name_length > 6:
-            font = FONT_TEAM_NAME_M
-        else:
-            font = FONT_TEAM_NAME_L
-
         if UPPER_CASE_NAMES:
             t1p1 = t1p1.upper()
             t1p2 = t1p2.upper()
             t2p1 = t2p1.upper()
             t2p2 = t2p2.upper()
+
+        font = pick_font_that_fits(t1p1, t1p2, t2p1, t2p2)
 
         if match["isTeamEvent"] or not match["isDoubles"]:
             y_t1 = (PANEL_HEIGHT/2 - font.height)/2 + font.height
@@ -327,24 +354,24 @@ class SevenCourtsM1(SampleBase):
             graphics.DrawText(self.canvas, font, x, y_t1, COLOR_TEAM_NAME, t1p1)
             graphics.DrawText(self.canvas, font, x, y_t2, COLOR_TEAM_NAME, t2p1)
             if display_flags:
-                self.canvas.SetImage(t1p1_flag, 0, y_t1 - flag_height)
-                self.canvas.SetImage(t2p1_flag, 0, y_t2 - flag_height)
+                self.canvas.SetImage(t1p1_flag, 0, y_t1 - H_FLAG)
+                self.canvas.SetImage(t2p1_flag, 0, y_t2 - H_FLAG)
 
         elif match["isDoubles"]:
             # FIXME does not work well with big font
-            y_t1p1 = 1 + flag_height 
-            y_t1p2 = y_t1p1 + 2 + flag_height
-            y_t2p1 = y_t1p2 + 5 + 1 + flag_height
-            y_t2p2 = y_t2p1 + 2 + flag_height
+            y_t1p1 = 1 + H_FLAG 
+            y_t1p2 = y_t1p1 + 2 + H_FLAG
+            y_t2p1 = y_t1p2 + 5 + 1 + H_FLAG
+            y_t2p2 = y_t2p1 + 2 + H_FLAG
             graphics.DrawText(self.canvas, font, flag_width+2, y_t1p1, COLOR_TEAM_NAME, t1p1)
             graphics.DrawText(self.canvas, font, flag_width+2, y_t1p2, COLOR_TEAM_NAME, t1p2)
             graphics.DrawText(self.canvas, font, flag_width+2, y_t2p1, COLOR_TEAM_NAME, t2p1)
             graphics.DrawText(self.canvas, font, flag_width+2, y_t2p2, COLOR_TEAM_NAME, t2p2)
             if display_flags:
-                self.canvas.SetImage(t1p1_flag, 0, y_t1p1 - flag_height + 1)
-                self.canvas.SetImage(t1p2_flag, 0, y_t1p2 - flag_height + 1)
-                self.canvas.SetImage(t2p1_flag, 0, y_t2p1 - flag_height + 1)
-                self.canvas.SetImage(t2p2_flag, 0, y_t2p2 - flag_height + 1)
+                self.canvas.SetImage(t1p1_flag, 0, y_t1p1 - H_FLAG + 1)
+                self.canvas.SetImage(t1p2_flag, 0, y_t1p2 - H_FLAG + 1)
+                self.canvas.SetImage(t2p1_flag, 0, y_t2p1 - H_FLAG + 1)
+                self.canvas.SetImage(t2p2_flag, 0, y_t2p2 - H_FLAG + 1)
 
     def display_winner(self, match):
         # FIXME winner is not displayed
