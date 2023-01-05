@@ -332,7 +332,7 @@ class SevenCourtsM1(SampleBase):
             x_scoreboard = X_MIN_SCOREBOARD + W_SCORE_SET
         else: # (len(t1_set_scores)==3) -- 4+ sets are not supported yet
             x_scoreboard = X_MIN_SCOREBOARD
-        w_name_max = PANEL_WIDTH - flag_width - x_scoreboard - 1
+        w_name_max = x_scoreboard - flag_width - 1
 
         if match["isTeamEvent"] or not match["isDoubles"]:
             if match["isTeamEvent"]:
