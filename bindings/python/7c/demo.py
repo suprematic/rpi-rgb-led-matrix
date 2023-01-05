@@ -308,7 +308,7 @@ class M1_Demo(SampleBase):
     def render_clock(self, canvas, format, x, y, w, h, font, duration):
         color_clock = COLOR_GREY_DARK
         for _ in range(duration):
-            self.clear_rect(canvas, x, y-h, w, h, COLOR_BLACK)
+            self.fill_rect(canvas, x, y-h, w, h, COLOR_BLACK)
             current_time=datetime.now().strftime(format)
             graphics.DrawText(canvas, font, x, y, color_clock, current_time)
             canvas = self.matrix.SwapOnVSync(canvas)
