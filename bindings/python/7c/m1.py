@@ -314,7 +314,8 @@ class SevenCourtsM1(SampleBase):
 
 
         # 2. names
-
+        t1_set_scores = match["team1"]["setScores"]
+        t2_set_scores = match["team2"]["setScores"]
         if (len(t1_set_scores)==0):
             x_scoreboard = X_SCORE_SERVICE
         elif (len(t1_set_scores)==1):
