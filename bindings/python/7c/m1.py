@@ -346,7 +346,7 @@ class SevenCourtsM1(SampleBase):
             t2p1 = t2p1.upper()
             t2p2 = t2p2.upper()
 
-        font = pick_font_that_fits(t1p1, t1p2, t2p1, t2p2)
+        font = pick_font_that_fits(w_name_max, t1p1, t1p2, t2p1, t2p2)
 
         if match["isTeamEvent"] or not match["isDoubles"]:
             y_t1 = (PANEL_HEIGHT/2 - font.height)/2 + font.height
