@@ -1,6 +1,6 @@
 from samplebase import SampleBase
 from rgbmatrix import graphics
-from functools import reduce
+from functools import reduce, partial
 import time
 import urllib.request
 from urllib.error import URLError, HTTPError
