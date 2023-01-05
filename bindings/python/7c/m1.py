@@ -116,11 +116,11 @@ def width_in_pixels(font, text):
 
 def pick_font_that_fits(width, *names):
     print('Available width: ' + str(width))
-    if width < max(map(partial(width_in_pixels, FONT_TEAM_NAME_XL),names)):
+    if width > max(map(partial(width_in_pixels, FONT_TEAM_NAME_XL),names)):
         return FONT_TEAM_NAME_XL
-    elif width < max(map(partial(width_in_pixels, FONT_TEAM_NAME_L),names)):
+    elif width > max(map(partial(width_in_pixels, FONT_TEAM_NAME_L),names)):
         return FONT_TEAM_NAME_L
-    elif width < max(map(partial(width_in_pixels, FONT_TEAM_NAME_M),names)):
+    elif width > max(map(partial(width_in_pixels, FONT_TEAM_NAME_M),names)):
         return FONT_TEAM_NAME_M
     else:
         return FONT_TEAM_NAME_L
