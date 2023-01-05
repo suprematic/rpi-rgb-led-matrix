@@ -434,7 +434,7 @@ class SevenCourtsM1(SampleBase):
                 x = x + 1
             y = y + 1
 
-    def fill_rect(self, x0, y0, w, h, color):
+    def fill_rect(self, x0: int, y0: int, w: int, h: int, color):
         for x in range (x0, x0+w):
             graphics.DrawLine(self.canvas, x, y0, x, y0+h, color)
 
