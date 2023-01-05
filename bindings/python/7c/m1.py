@@ -113,7 +113,7 @@ def width_in_pixels(font, text):
         result+=font.CharacterWidth(ord(c))
     return result
 
-def pick_font_that_fits(width, names*):
+def pick_font_that_fits(width, *names):
     if width < max(map(partial(width_in_pixels, FONT_TEAM_NAME_XL),names)):
         return FONT_TEAM_NAME_XL
     elif width < max(map(partial(width_in_pixels, FONT_TEAM_NAME_L),names)):
