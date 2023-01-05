@@ -231,7 +231,10 @@ class SevenCourtsM1(SampleBase):
         y_service_delta = 13
 
         x_game = 163
-        x_service = 155        
+        x_service = 155
+
+        # "cover" the score area so that names do not intersect
+        self.fill_rect(x_set1, 0, PANEL_WIDTH - x_set1, PANEL_HEIGHT, COLOR_GREEN)
 
         graphics.DrawText(self.canvas, FONT_SCORE, x_set1, y_T1, c_t1_set1, str(t1_set1))
         graphics.DrawText(self.canvas, FONT_SCORE, x_set2, y_T1, c_t1_set2, str(t1_set2))
