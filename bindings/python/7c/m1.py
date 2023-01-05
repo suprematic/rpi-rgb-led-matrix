@@ -111,7 +111,7 @@ def width_in_pixels(font, text):
     for c in text:
         result+=font.CharacterWidth(ord(c))
 
-    print(font + ' ' + text + ' ' + result)
+    print(text + ' ' + result)
     return result
 
 def pick_font_that_fits(width, *names):
