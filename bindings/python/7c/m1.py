@@ -88,6 +88,7 @@ COLOR_SCORE_SET_LOST = COLOR_GREY_DARK
 COLOR_SCORE_GAME = COLOR_GREY
 COLOR_SCORE_SERVICE = COLOR_YELLOW
 COLOR_TEAM_NAME = COLOR_GREY
+COLOR_SCORE_BACKGROUND = COLOR_BLACK
 FONT_SCORE = FONT_XL
 FONT_TEAM_NAME_S = FONT_S
 FONT_TEAM_NAME_M = FONT_M
@@ -235,7 +236,7 @@ class SevenCourtsM1(SampleBase):
 
         # "cover" the score area so that names do not intersect
         x_score = min(x_set1, x_service) - 1
-        self.fill_rect(x_score, 0, PANEL_WIDTH - x_score, PANEL_HEIGHT, COLOR_GREEN)
+        self.fill_rect(x_score, 0, PANEL_WIDTH - x_score, PANEL_HEIGHT, COLOR_SCORE_BACKGROUND)
 
         graphics.DrawText(self.canvas, FONT_SCORE, x_set1, y_T1, c_t1_set1, str(t1_set1))
         graphics.DrawText(self.canvas, FONT_SCORE, x_set2, y_T1, c_t1_set2, str(t1_set2))
