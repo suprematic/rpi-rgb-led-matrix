@@ -123,7 +123,7 @@ def pick_font_that_fits(width, *names):
     elif width > max(map(partial(width_in_pixels, FONT_TEAM_NAME_M),names)):
         return FONT_TEAM_NAME_M
     else:
-        return FONT_TEAM_NAME_L
+        return FONT_TEAM_NAME_S
 
 class SevenCourtsM1(SampleBase):
     def __init__(self, *args, **kwargs):
