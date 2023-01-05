@@ -354,12 +354,13 @@ class SevenCourtsM1(SampleBase):
             t2p1 = t2p1.upper()
             t2p2 = t2p2.upper()
 
+        # FIXME also take h_name_max into consideration!
         font = pick_font_that_fits(w_name_max, t1p1, t1p2, t2p1, t2p2)
 
+        x = flag_width + 1
         if match["isTeamEvent"] or not match["isDoubles"]:
             y_t1 = (PANEL_HEIGHT/2 - font.height)/2 + font.height
-            y_t2 = PANEL_HEIGHT/2 + y_t1
-            x = flag_width + 2            
+            y_t2 = PANEL_HEIGHT/2 + y_t1            
             graphics.DrawText(self.canvas, font, x, y_t1, COLOR_TEAM_NAME, t1p1)
             graphics.DrawText(self.canvas, font, x, y_t2, COLOR_TEAM_NAME, t2p1)
             if display_flags:
@@ -372,10 +373,10 @@ class SevenCourtsM1(SampleBase):
             y_t1p2 = y_t1p1 + 2 + H_FLAG
             y_t2p1 = y_t1p2 + 5 + 1 + H_FLAG
             y_t2p2 = y_t2p1 + 2 + H_FLAG
-            graphics.DrawText(self.canvas, font, flag_width+2, y_t1p1, COLOR_TEAM_NAME, t1p1)
-            graphics.DrawText(self.canvas, font, flag_width+2, y_t1p2, COLOR_TEAM_NAME, t1p2)
-            graphics.DrawText(self.canvas, font, flag_width+2, y_t2p1, COLOR_TEAM_NAME, t2p1)
-            graphics.DrawText(self.canvas, font, flag_width+2, y_t2p2, COLOR_TEAM_NAME, t2p2)
+            graphics.DrawText(self.canvas, font, x, y_t1p1, COLOR_TEAM_NAME, t1p1)
+            graphics.DrawText(self.canvas, font, x, y_t1p2, COLOR_TEAM_NAME, t1p2)
+            graphics.DrawText(self.canvas, font, x, y_t2p1, COLOR_TEAM_NAME, t2p1)
+            graphics.DrawText(self.canvas, font, x, y_t2p2, COLOR_TEAM_NAME, t2p2)
             if display_flags:
                 self.canvas.SetImage(t1p1_flag, 0, y_t1p1 - H_FLAG + 1)
                 self.canvas.SetImage(t1p2_flag, 0, y_t1p2 - H_FLAG + 1)
