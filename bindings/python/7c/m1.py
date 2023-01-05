@@ -234,7 +234,8 @@ class SevenCourtsM1(SampleBase):
         x_service = 155
 
         # "cover" the score area so that names do not intersect
-        self.fill_rect(x_set1, 0, PANEL_WIDTH - x_set1, PANEL_HEIGHT, COLOR_GREEN)
+        x_score = min(x_set1, x_service) - 1
+        self.fill_rect(x_score, 0, PANEL_WIDTH - x_score, PANEL_HEIGHT, COLOR_GREEN)
 
         graphics.DrawText(self.canvas, FONT_SCORE, x_set1, y_T1, c_t1_set1, str(t1_set1))
         graphics.DrawText(self.canvas, FONT_SCORE, x_set2, y_T1, c_t1_set2, str(t1_set2))
@@ -246,21 +247,8 @@ class SevenCourtsM1(SampleBase):
         graphics.DrawText(self.canvas, FONT_SCORE, x_set3, y_T2, c_t2_set3, str(t2_set3))
         graphics.DrawText(self.canvas, FONT_SCORE, x_game, y_T2, COLOR_SCORE_GAME, str(t2_game))
 
-        # FIXME shift set scores
-        #set_scores_t1 = match["team1"]["setScores"]
-        #set_scores_t2 = match["team2"]["setScores"]
-        #set_scores_t1_x = 77 - (len(set_scores_t1) * 8)
-        #set_scores_t2_x = 77 - (len(set_scores_t2) * 8)
-        #for score in [s for s in set_scores_t1 if s != None]:
-        #    score = str(score)
-        #    self.draw_text(set_scores_t1_x, 10, score)
-        #    set_scores_t1_x = set_scores_t1_x + 8
-        #for score in [s for s in set_scores_t2 if s != None]:
-        #    score = str(score)
-        #    self.draw_text(set_scores_t2_x, 30, score)
-        #    set_scores_t2_x = set_scores_t2_x + 8
+        # service indicator
 
-        
         b = (0, 0 ,0)
         y = (96, 96, 0)
         w = (96, 96, 96)
