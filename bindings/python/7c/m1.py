@@ -95,6 +95,8 @@ FONT_TEAM_NAME_M = FONT_M
 FONT_TEAM_NAME_L = FONT_L
 FONT_TEAM_NAME_XL = FONT_XL
 
+UPPER_CASE_NAMES = True
+
 
 class SevenCourtsM1(SampleBase):
     def __init__(self, *args, **kwargs):
@@ -312,13 +314,11 @@ class SevenCourtsM1(SampleBase):
         else:
             font = FONT_TEAM_NAME_L
 
-        # FIXME make dependent on how many sets and font size
-        # TODO scoreboard could just cover names, then no need to cut
-        name_length_limit = 13
-        t1p1 = t1p1[:name_length_limit].upper()
-        t1p2 = t1p2[:name_length_limit].upper()
-        t2p1 = t2p1[:name_length_limit].upper()
-        t2p2 = t2p2[:name_length_limit].upper()
+        if UPPER_CASE_NAMES:
+            t1p1 = t1p1.upper()
+            t1p2 = t1p2.upper()
+            t2p1 = t2p1.upper()
+            t2p2 = t2p2.upper()
 
         if match["isTeamEvent"] or not match["isDoubles"]:
             y_t1 = (PANEL_HEIGHT/2 - font.height)/2 + font.height
