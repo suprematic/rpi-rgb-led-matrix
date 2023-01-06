@@ -1,51 +1,26 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 
+# -----------------------------------------------------------------------------
+# Uncomment to use with real SDK https://github.com/hzeller/rpi-rgb-led-matrix
+#from rgbmatrix import graphics
+# Uncomment to use with emulator https://github.com/ty-porter/RGBMatrixEmulator
+from RGBMatrixEmulator import graphics
+# -----------------------------------------------------------------------------
 from samplebase import SampleBase
-from rgbmatrix import graphics
+from sevencourts import *
 import time
 from datetime import datetime
 from PIL import Image
 
-# Constants for the 7C M1 panel (P5 192 x 64)
-PANEL_WIDTH = 192
-PANEL_HEIGHT = 64
-
-FLAG_HEIGHT = 12
-FLAG_WIDTH = 18
-
 # Style constants
-COLOR_WHITE = graphics.Color(255, 255, 255)
-COLOR_GREY = graphics.Color(192, 192, 192)
-COLOR_GREY_DARK = graphics.Color(96, 96, 96)
-COLOR_BLACK = graphics.Color(0, 0, 0)
-COLOR_RED = graphics.Color(255, 0, 0)
-COLOR_YELLOW = graphics.Color(255, 255, 0)
-COLOR_GREEN = graphics.Color(0, 255, 0)
-
 COLOR_CUSTOM = graphics.Color(0, 177, 64)
 COLOR_CUSTOM_DARK = graphics.Color(0, 150, 54)
 
-COLOR_GREEN_7c = graphics.Color(147, 196, 125)
-COLOR_BLUE_7c = graphics.Color(111, 168, 220)
-COLOR_GOLD_7c = graphics.Color(255, 215, 0)
-
-FONT_XL = graphics.Font()
-FONT_XL.LoadFont("fonts/texgyre-27.bdf")
 FONT_XL_CUSTOM = graphics.Font()
 FONT_XL_CUSTOM.LoadFont("fonts/RozhaOne-Regular-21.bdf")
-FONT_L = graphics.Font()
-FONT_L.LoadFont("fonts/10x20.bdf")
-FONT_M = graphics.Font()
-FONT_M.LoadFont("fonts/9x15.bdf")
-FONT_M_B = graphics.Font()
-FONT_M_B.LoadFont("fonts/9x15B.bdf")
-FONT_S = graphics.Font()
-FONT_S.LoadFont("fonts/7x13.bdf")
-FONT_XS = graphics.Font()
-FONT_XS.LoadFont("fonts/5x8.bdf")
-FONT_XXS = graphics.Font()
-FONT_XXS.LoadFont("fonts/tom-thumb.bdf")
+FONT_M_CUSTOM = graphics.Font()
+FONT_M_CUSTOM.LoadFont("fonts/9x15B.bdf")
+
 
 # Timing defaults
 TITLE_DURATION = 3
@@ -63,16 +38,6 @@ class M1_Demo(SampleBase):
         title_duration = int(self.args.title_duration)
         for x in range(100000):
             self.run_slide_show(duration, title_duration)
-
-    def draw_matrix(self, canvas, m, x0, y0):
-        y = y0
-        for row in m:
-            x = x0
-            for px in row:
-                (r, g, b) = px
-                canvas.SetPixel(x, y, r, g, b)
-                x = x + 1
-            y = y + 1
 
     def render_score_3_sets(self, canvas, show_game_score, custom_style=False):
         ## pseudo score in 3 sets:
@@ -115,7 +80,7 @@ class M1_Demo(SampleBase):
                     [b,b,w,b,b],
                     [b,b,b,b,b]]
         
-            self.draw_matrix(canvas, ball, x_service, y_T1-y_service_delta)
+            draw_matrix(canvas, ball, x_service, y_T1-y_service_delta)
 
             x_service_and_game_delta = 0
         else:
@@ -183,7 +148,7 @@ class M1_Demo(SampleBase):
             font = FONT_S
             flag_margin_r = 2
         elif max_name_length > 6:
-            font = FONT_M_B if custom_style else FONT_M
+            font = FONT_M_CUSTOM if custom_style else FONT_M
             flag_margin_r = 2
         else:
             font = FONT_L
@@ -352,15 +317,46 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
+    def draw_grid(self, canvas):
+
+        color = COLOR_GREY_DARKEST
+        x_cells = 4
+        x_step_size = int (PANEL_WIDTH / x_cells)
+        for i in range(x_cells):
+            x = i * x_step_size
+            graphics.DrawLine(canvas, x, 0, x, PANEL_HEIGHT, color)
+
+        y_cells = 4
+        y_step_size = int (PANEL_HEIGHT / y_cells)
+        for i in range(y_cells):
+            y = i * y_step_size
+            graphics.DrawLine(canvas, 0, y, PANEL_WIDTH, y, color)
+
+
+
     def show_fonts(self, canvas, duration):
         canvas.Clear()
+        self.draw_grid(canvas)
         phrase = 'Quick brown fox jumps over the lazy dog'
-        graphics.DrawText(canvas, FONT_XL, 0, 20, COLOR_GREY, phrase)
-        graphics.DrawText(canvas, FONT_L, 0, 33, COLOR_GREY, phrase)
-        graphics.DrawText(canvas, FONT_M, 0, 44, COLOR_GREY, phrase)
-        graphics.DrawText(canvas, FONT_S, 0, 53, COLOR_GREY, phrase)
-        graphics.DrawText(canvas, FONT_XS, 0, 59, COLOR_GREY, phrase)
-        graphics.DrawText(canvas, FONT_XXS, 0, 64, COLOR_GREY, phrase)
+        phrase = 'NAD FED 15 A'
+        #phrase = '      765*40QABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        #phrase = '01530A765*40Q Nadal Federer NAD FED'
+
+        fonts = [FONT_XL, FONT_L, FONT_M, FONT_S, FONT_XS, FONT_XXS]
+        fonts = fonts[::-1] #reversing using list slicing
+        colors = [COLOR_GREY, COLOR_RED, COLOR_GREEN, COLOR_BLUE_7c, COLOR_CUSTOM, COLOR_WHITE]
+        
+        y=0
+        for i in range(len(fonts)):
+            f = fonts[i]
+            y += y_font_offset(f)
+            print('{} => w*h: {}*{} d/a {}/{} {}'.format(
+                y_font_offset(f),
+                f.CharacterWidth(ord(' ')), f.height,
+                f.props['font_ascent'], f.props['font_descent'],                
+                f.headers['fontname']))
+            graphics.DrawText(canvas, f, 0, y, colors[i], phrase)
+
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
@@ -459,6 +455,7 @@ class M1_Demo(SampleBase):
 
     def run_slide_show(self, duration, title_duration):
         canvas = self.matrix.CreateFrameCanvas()
+        self.show_fonts(canvas, duration)
         self.run_demo_sequence_italian(canvas, duration, title_duration)
         self.run_demo_sequence_english(canvas, duration, title_duration)
         
