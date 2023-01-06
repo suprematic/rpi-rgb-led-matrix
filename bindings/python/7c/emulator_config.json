@@ -1,5 +1,5 @@
 {
-    "pixel_size": 8,
+    "pixel_size": 4,
     "pixel_style": "circle",
     "display_adapter": "browser",
     "suppress_font_warnings": false,
@@ -10,6 +10,6 @@
         "fps_display": false,
         "quality": 70,
         "image_border": true,
-        "debug_text": true
+        "debug_text": false
     }
 }
