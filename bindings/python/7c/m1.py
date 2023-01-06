@@ -210,13 +210,9 @@ class SevenCourtsM1(SampleBase):
         t1_game = str(t1_game if t1_game != None else "")
         t2_game = str(t2_game if t2_game != None else "")
         
-
-
         # center score digits
         y_T1 = y_font_center(FONT_SCORE, PANEL_HEIGHT/2)
         y_T2 = y_T1 + (PANEL_HEIGHT/2)
-
-        y_service_delta = 13
 
         # "cover" the score area so that names do not intersect
         x_score = min(x_set1, X_SCORE_SERVICE) - 1
@@ -243,10 +239,12 @@ class SevenCourtsM1(SampleBase):
             [y,y,w,y,y],
             [y,w,y,y,y],
             [b,y,y,y,b]]        
-        if t1_on_serve:
-            draw_matrix(self.canvas, ball, X_SCORE_SERVICE, y_T1-y_service_delta)
-        elif t2_on_serve:
-            draw_matrix(self.canvas, ball, X_SCORE_SERVICE, y_T2-y_service_delta)
+        y_service_t1 = int(PANEL_HEIGHT/2/2 - len(ball)/2)
+        y_service_t2 = y_service_t1 + PANEL_HEIGHT/2
+        if t1_on_serve:            
+            draw_matrix(self.canvas, ball, X_SCORE_SERVICE, y_service_t1)
+        elif t2_on_serve:            
+            draw_matrix(self.canvas, ball, X_SCORE_SERVICE, y_service_t2)
 
     def display_names(self, match):
 
