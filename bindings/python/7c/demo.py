@@ -1,8 +1,12 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 
+# -----------------------------------------------------------------------------
+# Uncomment to use with real SDK https://github.com/hzeller/rpi-rgb-led-matrix
+#from rgbmatrix import graphics
+# Uncomment to use with emulator https://github.com/ty-porter/RGBMatrixEmulator
+from RGBMatrixEmulator import graphics
+# -----------------------------------------------------------------------------
 from samplebase import SampleBase
-from rgbmatrix import graphics
 import time
 from datetime import datetime
 from PIL import Image
