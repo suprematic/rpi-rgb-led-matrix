@@ -383,11 +383,11 @@ class M1_Demo(SampleBase):
         self.show_score_singles_with_flags(canvas, True, duration, True)
 
         # 3. Some texts
-        self.show_title_text(canvas, "See in action\non COURT #1", COLOR_BLUE_7c, duration)
+        self.show_title_text(canvas, "See in action\non COURT #1 and #6", COLOR_BLUE_7c, duration)
         self.show_title_text(canvas, "API for integration with\nany scoring, tournament,\nor back-office system", COLOR_GREEN_7c, title_duration)
         self.show_title_text(canvas, "Web & Video\nlive broadcasting", COLOR_BLUE_7c, title_duration)
         self.show_title_text(canvas, "Operate via mobile app\nor a Bluetooth button", COLOR_GREEN_7c, title_duration)
-        self.show_title_text(canvas, "SPECIAL PadelTrend PRICE\n\nXS1 399€    M1 999€\n\nAny other size: on request", COLOR_GOLD_7c, duration)
+        self.show_title_text(canvas, "SPECIAL PadelTrend PRICE\n\nXS1 399 EUR    M1 999 EUR\n\nAny other size: on request", COLOR_GOLD_7c, duration)
 
     def run_demo_sequence_italian(self, canvas, duration, title_duration):
         
@@ -429,7 +429,7 @@ class M1_Demo(SampleBase):
         self.show_title_text(canvas, "API per l'integrazione\ncon qualsiasi sistema\ndi punteggio, torneo,\no back-office", COLOR_GREEN_7c, title_duration)
         self.show_title_text(canvas, "Web e video in diretta", COLOR_BLUE_7c, title_duration)
         self.show_title_text(canvas, "Viene gestito tramite un'app\no un pulsante Bluetooth", COLOR_GREEN_7c, title_duration)
-        self.show_title_text(canvas, "PREZZO SPECIALE PadelTrend\n\nXS1 399€    M1 999€\nQualunque altro formato:\nsu richiesta", COLOR_GOLD_7c, duration)
+        self.show_title_text(canvas, "PREZZO SPECIALE PadelTrend\n\nXS1 399 EUR    M1 999 EUR\nQualunque altro formato:\nsu richiesta", COLOR_GOLD_7c, duration)
 
     def run_demo_sequence_court_1(self, canvas, duration):
         self.show_image_centered(canvas, "images/logos/padel_trend_expo_119x64.png", duration)
