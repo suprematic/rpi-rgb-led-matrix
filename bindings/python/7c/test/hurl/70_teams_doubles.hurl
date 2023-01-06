@@ -1,7 +1,7 @@
 POST http://192.168.114.30:5000/score/xyz
 Content-Type: application/json
 {"client-id":"hurl-test",
-"target-panels":["N0MtTTEtUjE=","N0MtTTEtUjI=","N0MtTTEtUjM=","N0MtTTEtUjQ=","N0MtTTEtUjU="],
+"target-panels":["{{7c_target_panel}}"],
 "isDoubles":true,
 "isTeamEvent":true,
 "t1name":"SV1845",
