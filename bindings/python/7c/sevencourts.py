@@ -78,18 +78,18 @@ Y_FONT_EXTRA_OFFSETS = {
 }
 
 Y_FONT_OFFSETS = {
-    FONTS_V0[0] : 20,
-    FONTS_V0[1] : 15,
-    FONTS_V0[2] : 10,
-    FONTS_V0[3] : 8,
-    FONTS_V0[4] : 6,
-    FONTS_V0[5] : 5,
     FONTS_V1[0] : 20,
-    FONTS_V1[1] : 13,
+    FONTS_V1[1] : 15,
     FONTS_V1[2] : 10,
-    FONTS_V1[3] : 9,
+    FONTS_V1[3] : 8,
     FONTS_V1[4] : 6,
-    FONTS_V1[5] : 5
+    FONTS_V1[5] : 5,
+    FONTS_V0[0] : 20,
+    FONTS_V0[1] : 13,
+    FONTS_V0[2] : 10,
+    FONTS_V0[3] : 9,
+    FONTS_V0[4] : 6,
+    FONTS_V0[5] : 5
 }
 
 def y_font_offset(font):
