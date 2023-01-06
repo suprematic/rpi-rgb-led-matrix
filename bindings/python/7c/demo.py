@@ -217,7 +217,7 @@ class M1_Demo(SampleBase):
         lines = text.split('\n')
         graphics.DrawText(canvas, FONT_S, 2, 20, COLOR_GREY, lines[0])
         graphics.DrawText(canvas, FONT_M, 2, 40, COLOR_GREY, lines[1])
-        canvas.SetImage(Image.open("images/clipart/heart_19x16.png").convert('RGB'), 42, 45)
+        canvas.SetImage(Image.open("images/clipart/heart_19x16.png").convert('RGB'), 35, 45)
         canvas = self.matrix.SwapOnVSync(canvas)
         return canvas
 
