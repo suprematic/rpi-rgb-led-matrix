@@ -21,6 +21,7 @@ FONT_XL_CUSTOM.LoadFont("fonts/RozhaOne-Regular-21.bdf")
 FONT_M_CUSTOM = graphics.Font()
 FONT_M_CUSTOM.LoadFont("fonts/9x15B.bdf")
 
+FONT_SCORE = FONTS_V0[0]
 
 # Timing defaults
 TITLE_DURATION = 3
@@ -50,7 +51,7 @@ class M1_Demo(SampleBase):
         color_score_set_won = COLOR_CUSTOM if custom_style else COLOR_GREY
         color_score_set_lost = COLOR_CUSTOM_DARK if custom_style else COLOR_GREY_DARK
         color_score_game = COLOR_CUSTOM if custom_style else COLOR_GREY
-        font = FONT_XL_CUSTOM if custom_style else FONT_XL
+        font = FONT_XL_CUSTOM if custom_style else FONT_SCORE
         
         y_T1 = 26
         y_T2 = 58
