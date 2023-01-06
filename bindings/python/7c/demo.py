@@ -225,7 +225,7 @@ class M1_Demo(SampleBase):
         self.render_statics_for_announcement(canvas, text)        
         # draw statics also on the swapped canvas before starting clock
         self.render_statics_for_announcement(canvas, text)
-        self.render_clock(canvas, '%H:%M', 140, 61, 104, 14, FONT_CLOCK, duration)
+        self.render_clock(canvas, '%H:%M', 124, 61, 104, 14, FONT_CLOCK, duration)
 
     def render_statics_for_sponsor_logo(self, canvas, image_path):
         canvas.Clear()        
@@ -442,9 +442,9 @@ class M1_Demo(SampleBase):
 
     def run_slide_show(self, duration, title_duration):
         canvas = self.matrix.CreateFrameCanvas()
-        
-        self.show_clock_with_weather_and_announcement(canvas, "Happy Wedding Day!\nJohn & Mary", duration)
 
+        self.show_clock_with_weather_and_announcement(canvas, "Evviva gli sposi!\nRomeo e Giulietta", duration)        
+        
         self.run_demo_sequence_italian(canvas, duration, title_duration)
         self.run_demo_sequence_english(canvas, duration, title_duration)
         
