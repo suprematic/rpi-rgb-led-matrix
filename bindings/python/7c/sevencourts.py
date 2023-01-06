@@ -1,8 +1,8 @@
 # -----------------------------------------------------------------------------
 # Uncomment to use with real SDK https://github.com/hzeller/rpi-rgb-led-matrix
-from rgbmatrix import graphics
+#from rgbmatrix import graphics
 # Uncomment to use with emulator https://github.com/ty-porter/RGBMatrixEmulator
-#from RGBMatrixEmulator import graphics
+from RGBMatrixEmulator import graphics
 # -----------------------------------------------------------------------------
 
 from PIL import Image
@@ -36,6 +36,7 @@ def load_font(path):
     result.LoadFont(path)
     return result
 
+# Initial fonts - all from SDK
 FONTS_V0 = [
     load_font("fonts/texgyre-27.bdf"),
     load_font("fonts/10x20.bdf"),
@@ -44,9 +45,19 @@ FONTS_V0 = [
     load_font("fonts/5x8.bdf"),
     load_font("fonts/tom-thumb.bdf")]
 
+# Spleen fonts
 FONTS_V1 = [
     load_font("fonts/spleen-16x32.bdf"),
     load_font("fonts/spleen-12x24.bdf"),
+    load_font("fonts/spleen-8x16.bdf"),
+    load_font("fonts/spleen-6x12.bdf"),
+    load_font("fonts/spleen-5x8.bdf"),
+    load_font("fonts/tom-thumb.bdf")]
+
+# Spleen with a compromise L font
+FONTS_V2 = [
+    load_font("fonts/spleen-16x32.bdf"),
+    load_font("fonts/10x20.bdf"),
     load_font("fonts/spleen-8x16.bdf"),
     load_font("fonts/spleen-6x12.bdf"),
     load_font("fonts/spleen-5x8.bdf"),
@@ -77,25 +88,38 @@ Y_FONT_EXTRA_OFFSETS = {
     '-FreeType-TeX Gyre Adventor-Medium-R-Normal--27-270-72-72-P-151-ISO10646-1' : 1
 }
 
-Y_FONT_OFFSETS = {
+Y_FONT_SYMBOL_NORMAL_HEIGHTS = {
+    FONTS_V0[0] : 20,
+    FONTS_V0[1] : 13,
+    FONTS_V0[2] : 10,
+    FONTS_V0[3] : 9,
+    FONTS_V0[4] : 6,
+    FONTS_V0[5] : 5,
+
     FONTS_V1[0] : 20,
     FONTS_V1[1] : 15,
     FONTS_V1[2] : 10,
     FONTS_V1[3] : 8,
     FONTS_V1[4] : 6,
     FONTS_V1[5] : 5,
-    FONTS_V0[0] : 20,
-    FONTS_V0[1] : 13,
-    FONTS_V0[2] : 10,
-    FONTS_V0[3] : 9,
-    FONTS_V0[4] : 6,
-    FONTS_V0[5] : 5
+
+    FONTS_V2[0] : 20,
+    FONTS_V2[1] : 13,
+    FONTS_V2[2] : 10,
+    FONTS_V2[3] : 8,
+    FONTS_V2[4] : 6,
+    FONTS_V2[5] : 5
 }
 
 def y_font_offset(font):
     ## This works only on emulator
     # return Y_FONT_EXTRA_OFFSETS.get(font.headers['fontname'], 0) + font.baseline + font.headers['fbbyoff']
-    return Y_FONT_OFFSETS.get(font)
+    return Y_FONT_SYMBOL_NORMAL_HEIGHTS.get(font)
+
+def y_font_center(font, container_height):
+    """Returns y position for the font to be placed vertically centered"""
+    y_offset_font = y_font_offset(font)
+    return (container_height - y_offset_font ) / 2 + y_offset_font
 
 def width_in_pixels(font, text):
     result = 0;
@@ -104,16 +128,40 @@ def width_in_pixels(font, text):
     print('<{}> => {}'.format(text,result))
     return result
 
-def pick_font_that_fits(width, *names):
-    print('Available width: {}'.format(width))
-    if width > max(map(partial(width_in_pixels, FONT_XL),names)):
-        return FONT_XL
-    elif width > max(map(partial(width_in_pixels, FONT_L),names)):
-        return FONT_L
-    elif width > max(map(partial(width_in_pixels, FONT_M),names)):
-        return FONT_M
+def font_fits(font, width, height, *texts):
+    
+    font_symbol_height = y_font_offset(font)
+    max_width_with_this_font = max(map(partial(width_in_pixels, font), *texts))
+    print('{}>={} {}>={} {}'.format(
+        height, font_symbol_height, width, max_width_with_this_font, *texts))
+
+    result = (height >= font_symbol_height) & (width >= max_width_with_this_font)
+    return result
+
+def pick_font_that_fits(width, height, *texts):
+    print('Available container: {}x{}'.format(width, height))
+    if font_fits(FONT_XL, width, height, texts):
+        result = FONT_XL
+    elif font_fits(FONT_L, width, height, texts):
+        result = FONT_L
+    elif font_fits(FONT_M, width, height, texts):
+        result = FONT_M
     else:
-        return FONT_S
+        result = FONT_S
+    
+    debug_font_info(FONT_XL, 'XL')
+    debug_font_info(FONT_L, 'L')
+    debug_font_info(FONT_M, 'M')
+    debug_font_info(FONT_S, 'S')
+    debug_font_info(result, "RES")
+    return result
+
+def debug_font_info(font, name=''):
+    print('Font {} h={} bl={} y_off={}'.format(
+        name,
+        font.height, 
+        font.baseline,
+        y_font_offset(font)))
 
 
 def load_flag_image(flag):
@@ -129,6 +177,16 @@ def log(*args):
 
 def draw_text(canvas, x, y, text, font=FONT_DEFAULT, color=COLOR_DEFAULT):
     return graphics.DrawText(canvas, font, x, y, color, text)
+
+def draw_grid(canvas, rows=4, cols=4, color=COLOR_GREY_DARKEST):
+    x_step_size = int (PANEL_WIDTH / cols)
+    for i in range(cols):
+        x = i * x_step_size
+        graphics.DrawLine(canvas, x, 0, x, PANEL_HEIGHT, color)
+    y_step_size = int (PANEL_HEIGHT / rows)
+    for i in range(rows):
+        y = i * y_step_size
+        graphics.DrawLine(canvas, 0, y, PANEL_WIDTH, y, color)
 
 def draw_matrix(canvas, m, x0, y0):
     y = y0
