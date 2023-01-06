@@ -31,36 +31,35 @@ COLOR_GOLD_7c = graphics.Color(255, 215, 0)
 
 COLOR_DEFAULT = COLOR_GREY
 
-FONT_PATHS_V0 = [
-    "fonts/texgyre-27.bdf",
-    "fonts/10x20.bdf",
-    "fonts/9x15.bdf",
-    "fonts/7x13.bdf",
-    "fonts/5x8.bdf",
-    "fonts/tom-thumb.bdf"]
+def load_font(path):
+    result = graphics.Font()
+    result.LoadFont(path)
+    return result
 
-FONT_PATHS_V1 = [
-    "fonts/spleen-16x32.bdf",
-    "fonts/spleen-12x24.bdf",
-    "fonts/spleen-8x16.bdf",
-    "fonts/spleen-6x12.bdf",
-    "fonts/spleen-5x8.bdf",
-    "fonts/tom-thumb.bdf"]
+FONTS_V0 = [
+    load_font("fonts/texgyre-27.bdf"),
+    load_font("fonts/10x20.bdf"),
+    load_font("fonts/9x15.bdf"),
+    load_font("fonts/7x13.bdf"),
+    load_font("fonts/5x8.bdf"),
+    load_font("fonts/tom-thumb.bdf")]
 
-FONT_PATHS = FONT_PATHS_V1
+FONTS_V1 = [
+    load_font("fonts/spleen-16x32.bdf"),
+    load_font("fonts/spleen-12x24.bdf"),
+    load_font("fonts/spleen-8x16.bdf"),
+    load_font("fonts/spleen-6x12.bdf"),
+    load_font("fonts/spleen-5x8.bdf"),
+    load_font("fonts/tom-thumb.bdf")]
 
-FONT_XL = graphics.Font()
-FONT_XL.LoadFont(FONT_PATHS[0])
-FONT_L = graphics.Font()
-FONT_L.LoadFont(FONT_PATHS[1])
-FONT_M = graphics.Font()
-FONT_M.LoadFont(FONT_PATHS[2])
-FONT_S = graphics.Font()
-FONT_S.LoadFont(FONT_PATHS[3])
-FONT_XS = graphics.Font()
-FONT_XS.LoadFont(FONT_PATHS[4])
-FONT_XXS = graphics.Font()
-FONT_XXS.LoadFont(FONT_PATHS[5])
+FONTS = FONTS_V1
+
+FONT_XL.LoadFont(FONTS[0])
+FONT_L.LoadFont(FONTS[1])
+FONT_M.LoadFont(FONTS[2])
+FONT_S.LoadFont(FONTS[3])
+FONT_XS.LoadFont(FONTS[4])
+FONT_XXS.LoadFont(FONTS[5])
 
 FONT_DEFAULT = FONT_S
 
@@ -79,25 +78,24 @@ Y_FONT_EXTRA_OFFSETS = {
 }
 
 Y_FONT_OFFSETS = {
-    '-misc-spleen-medium-r-normal--32-320-72-72-C-160-ISO10646-1' : 20,
-    '-misc-spleen-medium-r-normal--24-240-72-72-C-120-ISO10646-1' : 15,
-    '-misc-spleen-medium-r-normal--16-160-72-72-C-80-ISO10646-1' : 10,
-    '-misc-spleen-medium-r-normal--12-120-72-72-C-60-ISO10646-1' : 8,
-    '-misc-spleen-medium-r-normal--8-80-72-72-C-50-ISO10646-1' : 6,
-    '-Raccoon-Fixed4x6-Medium-R-Normal--6-60-75-75-P-40-ISO10646-1' : 5,
-    '-Misc-Fixed-Medium-R-Normal--8-80-75-75-C-50-ISO10646-1' : 0,
-    '-Misc-Fixed-Medium-R-Normal--13-120-75-75-C-70-ISO10646-1' : 0,
-    '-Misc-Fixed-Medium-R-Normal--15-140-75-75-C-90-ISO10646-1' : 1,
-    '-Misc-Fixed-Medium-R-Normal--20-200-75-75-C-100-ISO10646-1' : 1,
-    '-FreeType-TeX Gyre Adventor-Medium-R-Normal--27-270-72-72-P-151-ISO10646-1' : 1
+    FONTS_V0[0] : 20,
+    FONTS_V0[1] : 15,
+    FONTS_V0[2] : 10,
+    FONTS_V0[3] : 8,
+    FONTS_V0[4] : 6,
+    FONTS_V0[5] : 5,
+    FONTS_V1[0] : 20,
+    FONTS_V1[1] : 13,
+    FONTS_V1[2] : 10,
+    FONTS_V1[3] : 9,
+    FONTS_V1[4] : 6,
+    FONTS_V1[5] : 5
 }
 
-
 def y_font_offset(font):
-    print(str(font))
-    print(vars(font))
-    #return 0
-    return Y_FONT_EXTRA_OFFSETS.get(font.headers['fontname'], 0) + font.baseline + font.headers['fbbyoff']
+    ## This works only on emulator
+    # return Y_FONT_EXTRA_OFFSETS.get(font.headers['fontname'], 0) + font.baseline + font.headers['fbbyoff']
+    return Y_FONT_OFFSETS.get(font)
 
 def width_in_pixels(font, text):
     result = 0;
