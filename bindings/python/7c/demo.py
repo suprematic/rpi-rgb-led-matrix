@@ -350,11 +350,12 @@ class M1_Demo(SampleBase):
         for i in range(len(fonts)):
             f = fonts[i]
             y += y_font_offset(f)
-            print('{} => w*h: {}*{} d/a {}/{} {}'.format(
-                y_font_offset(f),
-                f.CharacterWidth(ord(' ')), f.height,
-                f.props['font_ascent'], f.props['font_descent'],                
-                f.headers['fontname']))
+            ## This works only in emulator
+            #print('{} => w*h: {}*{} d/a {}/{} {}'.format(
+            #    y_font_offset(f),
+            #    f.CharacterWidth(ord(' ')), f.height,
+            #    f.props['font_ascent'], f.props['font_descent'],                
+            #    f.headers['fontname']))
             graphics.DrawText(canvas, f, 0, y, colors[i], phrase)
 
         canvas = self.matrix.SwapOnVSync(canvas)
