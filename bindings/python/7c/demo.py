@@ -26,6 +26,9 @@ FONT_M_CUSTOM.LoadFont("fonts/9x15B.bdf")
 TITLE_DURATION = 3
 FRAME_DURATION = 8
 
+FONT_CLOCK = FONTS_V0[0]
+COLOR_CLOCK = COLOR_GREY
+
 class M1_Demo(SampleBase):
     def __init__(self, *args, **kwargs):
         super(M1_Demo, self).__init__(*args, **kwargs)
@@ -235,11 +238,11 @@ class M1_Demo(SampleBase):
         self.render_statics_for_sponsor_logo(canvas, image_path)        
         # draw statics also on the swapped canvas before starting clock
         self.render_statics_for_sponsor_logo(canvas, image_path)
-        self.render_clock(canvas, '%H:%M:%S', 80, 60, 104, 21, FONT_XL, duration)        
+        self.render_clock(canvas, '%H:%M:%S', 80, 60, 104, 21, FONT_CLOCK, duration)        
     
     def show_big_clock(self, canvas, duration):
         canvas.Clear()
-        self.render_clock(canvas, '%H:%M:%S', 80, 60, 104, 21, FONT_XL, duration)
+        self.render_clock(canvas, '%H:%M:%S', 80, 60, 104, 21, FONT_CLOCK, duration)
 
     def render_statics_for_big_clock_with_weather(self, canvas):
         canvas.Clear()
@@ -251,7 +254,7 @@ class M1_Demo(SampleBase):
         self.render_statics_for_big_clock_with_weather(canvas)
         # draw statics also on the swapped canvas before starting clock
         self.render_statics_for_big_clock_with_weather(canvas)
-        self.render_clock(canvas, '%H:%M:%S', 80, 60, 104, 21, FONT_XL, duration)
+        self.render_clock(canvas, '%H:%M:%S', 80, 60, 104, 21, FONT_CLOCK, duration)
 
     def render_weather(self, canvas):
         x_weather = 134
@@ -260,7 +263,7 @@ class M1_Demo(SampleBase):
         canvas.SetImage(image_weather, x_weather, y_weather)
         graphics.DrawText(
                 canvas, 
-                FONT_L, 
+                FONT_M, 
                 x_weather + image_weather.width + 2, 
                 y_weather + image_weather.height - 4,
                 COLOR_GREY, 
