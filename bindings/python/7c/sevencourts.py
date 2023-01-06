@@ -79,6 +79,7 @@ Y_FONT_OFFSETS = {
 }
 
 def y_font_offset(font):
+    print(str(font))
     print(vars(font))
     return 0
     #return Y_FONT_OFFSETS.get(font.headers['fontname'], 0) + font.baseline + font.headers['fbbyoff']
