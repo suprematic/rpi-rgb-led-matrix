@@ -97,6 +97,11 @@ def y_font_offset(font):
     # return Y_FONT_EXTRA_OFFSETS.get(font.headers['fontname'], 0) + font.baseline + font.headers['fbbyoff']
     return Y_FONT_OFFSETS.get(font)
 
+def y_font_center(font, container_height):
+    """Returns y position for the font to be placed vertically centered"""
+    y_offset_font = y_font_offset(font)
+    return (container_height - y_offset_font ) / 2 + y_offset_font
+
 def width_in_pixels(font, text):
     result = 0;
     for c in text:
@@ -129,6 +134,16 @@ def log(*args):
 
 def draw_text(canvas, x, y, text, font=FONT_DEFAULT, color=COLOR_DEFAULT):
     return graphics.DrawText(canvas, font, x, y, color, text)
+
+def draw_grid(canvas, rows=4, cols=4, color=COLOR_GREY_DARKEST):
+    x_step_size = int (PANEL_WIDTH / cols)
+    for i in range(cols):
+        x = i * x_step_size
+        graphics.DrawLine(canvas, x, 0, x, PANEL_HEIGHT, color)
+    y_step_size = int (PANEL_HEIGHT / rows)
+    for i in range(rows):
+        y = i * y_step_size
+        graphics.DrawLine(canvas, 0, y, PANEL_WIDTH, y, color)
 
 def draw_matrix(canvas, m, x0, y0):
     y = y0

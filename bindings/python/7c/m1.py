@@ -205,14 +205,17 @@ class SevenCourtsM1(SampleBase):
             x_set2 = x_set1 + W_SCORE_SET
             x_set3 = x_set2 + W_SCORE_SET
 
-
         t1_game = match["team1"].get("gameScore", "")
         t2_game = match["team2"].get("gameScore", "")
         t1_game = str(t1_game if t1_game != None else "")
         t2_game = str(t2_game if t2_game != None else "")
         
-        y_T1 = 26
-        y_T2 = 58
+
+
+        # center score digits
+        y_T1 = y_font_center(FONT_SCORE, PANEL_HEIGHT/2)
+        y_T2 = y_T1 + (PANEL_HEIGHT/2)
+
         y_service_delta = 13
 
         # "cover" the score area so that names do not intersect
@@ -355,6 +358,7 @@ class SevenCourtsM1(SampleBase):
             draw_matrix(self.canvas, cup, x_medal, PANEL_HEIGHT / 2 + medal_delta)
 
     def display_match(self, match):
+        draw_grid(self.canvas, 8, 8, COLOR_YELLOW)
         self.display_names(match)
         self.display_score(match)
         self.display_winner(match)

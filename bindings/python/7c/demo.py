@@ -317,26 +317,9 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
-    def draw_grid(self, canvas):
-
-        color = COLOR_GREY_DARKEST
-        x_cells = 4
-        x_step_size = int (PANEL_WIDTH / x_cells)
-        for i in range(x_cells):
-            x = i * x_step_size
-            graphics.DrawLine(canvas, x, 0, x, PANEL_HEIGHT, color)
-
-        y_cells = 4
-        y_step_size = int (PANEL_HEIGHT / y_cells)
-        for i in range(y_cells):
-            y = i * y_step_size
-            graphics.DrawLine(canvas, 0, y, PANEL_WIDTH, y, color)
-
-
-
     def show_fonts(self, canvas, duration):
         canvas.Clear()
-        self.draw_grid(canvas)
+        draw_grid(canvas)
         phrase = 'Quick brown fox jumps over the lazy dog'
         phrase = 'NAD FED 15 A'
         #phrase = '      765*40QABCDEFGHIJKLMNOPQRSTUVWXYZ'
