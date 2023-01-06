@@ -1,8 +1,8 @@
 # -----------------------------------------------------------------------------
 # Uncomment to use with real SDK https://github.com/hzeller/rpi-rgb-led-matrix
-#from rgbmatrix import graphics
+from rgbmatrix import graphics
 # Uncomment to use with emulator https://github.com/ty-porter/RGBMatrixEmulator
-from RGBMatrixEmulator import graphics
+#from RGBMatrixEmulator import graphics
 # -----------------------------------------------------------------------------
 
 from PIL import Image
@@ -31,40 +31,39 @@ COLOR_GOLD_7c = graphics.Color(255, 215, 0)
 
 COLOR_DEFAULT = COLOR_GREY
 
-FONT_PATHS_V0 = [
-    "fonts/texgyre-27.bdf",
-    "fonts/10x20.bdf",
-    "fonts/9x15.bdf",
-    "fonts/7x13.bdf",
-    "fonts/5x8.bdf",
-    "fonts/tom-thumb.bdf"]
+def load_font(path):
+    result = graphics.Font()
+    result.LoadFont(path)
+    return result
 
-FONT_PATHS_V1 = [
-    "fonts/spleen-16x32.bdf",
-    "fonts/spleen-12x24.bdf",
-    "fonts/spleen-8x16.bdf",
-    "fonts/spleen-6x12.bdf",
-    "fonts/spleen-5x8.bdf",
-    "fonts/tom-thumb.bdf"]
+FONTS_V0 = [
+    load_font("fonts/texgyre-27.bdf"),
+    load_font("fonts/10x20.bdf"),
+    load_font("fonts/9x15.bdf"),
+    load_font("fonts/7x13.bdf"),
+    load_font("fonts/5x8.bdf"),
+    load_font("fonts/tom-thumb.bdf")]
 
-FONT_PATHS = FONT_PATHS_V1
+FONTS_V1 = [
+    load_font("fonts/spleen-16x32.bdf"),
+    load_font("fonts/spleen-12x24.bdf"),
+    load_font("fonts/spleen-8x16.bdf"),
+    load_font("fonts/spleen-6x12.bdf"),
+    load_font("fonts/spleen-5x8.bdf"),
+    load_font("fonts/tom-thumb.bdf")]
 
-FONT_XL = graphics.Font()
-FONT_XL.LoadFont(FONT_PATHS[0])
-FONT_L = graphics.Font()
-FONT_L.LoadFont(FONT_PATHS[1])
-FONT_M = graphics.Font()
-FONT_M.LoadFont(FONT_PATHS[2])
-FONT_S = graphics.Font()
-FONT_S.LoadFont(FONT_PATHS[3])
-FONT_XS = graphics.Font()
-FONT_XS.LoadFont(FONT_PATHS[4])
-FONT_XXS = graphics.Font()
-FONT_XXS.LoadFont(FONT_PATHS[5])
+FONTS = FONTS_V1
+
+FONT_XL=FONTS[0]
+FONT_L=FONTS[1]
+FONT_M=FONTS[2]
+FONT_S=FONTS[3]
+FONT_XS=FONTS[4]
+FONT_XXS=FONTS[5]
 
 FONT_DEFAULT = FONT_S
 
-Y_FONT_OFFSETS = {
+Y_FONT_EXTRA_OFFSETS = {
     '-misc-spleen-medium-r-normal--32-320-72-72-C-160-ISO10646-1' : 0,
     '-misc-spleen-medium-r-normal--24-240-72-72-C-120-ISO10646-1' : 1,
     '-misc-spleen-medium-r-normal--16-160-72-72-C-80-ISO10646-1' : 2,
@@ -78,8 +77,25 @@ Y_FONT_OFFSETS = {
     '-FreeType-TeX Gyre Adventor-Medium-R-Normal--27-270-72-72-P-151-ISO10646-1' : 1
 }
 
+Y_FONT_OFFSETS = {
+    FONTS_V1[0] : 20,
+    FONTS_V1[1] : 15,
+    FONTS_V1[2] : 10,
+    FONTS_V1[3] : 8,
+    FONTS_V1[4] : 6,
+    FONTS_V1[5] : 5,
+    FONTS_V0[0] : 20,
+    FONTS_V0[1] : 13,
+    FONTS_V0[2] : 10,
+    FONTS_V0[3] : 9,
+    FONTS_V0[4] : 6,
+    FONTS_V0[5] : 5
+}
+
 def y_font_offset(font):
-    return Y_FONT_OFFSETS.get(font.headers['fontname'], 0) + font.baseline + font.headers['fbbyoff']
+    ## This works only on emulator
+    # return Y_FONT_EXTRA_OFFSETS.get(font.headers['fontname'], 0) + font.baseline + font.headers['fbbyoff']
+    return Y_FONT_OFFSETS.get(font)
 
 def width_in_pixels(font, text):
     result = 0;

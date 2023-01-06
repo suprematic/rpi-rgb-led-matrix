@@ -3,7 +3,8 @@ import time
 import sys
 import os
 
-from RGBMatrixEmulator import RGBMatrix, RGBMatrixOptions
+sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/..'))
+from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
 
 class SampleBase(object):
