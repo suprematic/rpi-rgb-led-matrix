@@ -7,6 +7,7 @@
 from RGBMatrixEmulator import graphics
 # -----------------------------------------------------------------------------
 from samplebase import SampleBase
+import m1_constants
 import time
 from datetime import datetime
 from PIL import Image
@@ -22,6 +23,7 @@ FLAG_WIDTH = 18
 COLOR_WHITE = graphics.Color(255, 255, 255)
 COLOR_GREY = graphics.Color(192, 192, 192)
 COLOR_GREY_DARK = graphics.Color(96, 96, 96)
+COLOR_GREY_DARKEST = graphics.Color(32, 32, 32)
 COLOR_BLACK = graphics.Color(0, 0, 0)
 COLOR_RED = graphics.Color(255, 0, 0)
 COLOR_YELLOW = graphics.Color(255, 255, 0)
@@ -35,25 +37,38 @@ COLOR_BLUE_7c = graphics.Color(111, 168, 220)
 COLOR_GOLD_7c = graphics.Color(255, 215, 0)
 
 FONT_XL = graphics.Font()
-FONT_XL.LoadFont("fonts/texgyre-27.bdf")
+FONT_XL.LoadFont("fonts/spleen-16x32.bdf")
 FONT_XL_CUSTOM = graphics.Font()
 FONT_XL_CUSTOM.LoadFont("fonts/RozhaOne-Regular-21.bdf")
 FONT_L = graphics.Font()
-FONT_L.LoadFont("fonts/10x20.bdf")
+FONT_L.LoadFont("fonts/spleen-12x24.bdf")
 FONT_M = graphics.Font()
-FONT_M.LoadFont("fonts/9x15.bdf")
+FONT_M.LoadFont("fonts/spleen-8x16.bdf")
 FONT_M_B = graphics.Font()
 FONT_M_B.LoadFont("fonts/9x15B.bdf")
 FONT_S = graphics.Font()
-FONT_S.LoadFont("fonts/7x13.bdf")
+FONT_S.LoadFont("fonts/spleen-6x12.bdf")
 FONT_XS = graphics.Font()
-FONT_XS.LoadFont("fonts/5x8.bdf")
+FONT_XS.LoadFont("fonts/spleen-5x8.bdf")
 FONT_XXS = graphics.Font()
 FONT_XXS.LoadFont("fonts/tom-thumb.bdf")
 
 # Timing defaults
 TITLE_DURATION = 3
 FRAME_DURATION = 8
+
+Y_FONT_OFFSETS = {
+    '-misc-spleen-medium-r-normal--32-320-72-72-C-160-ISO10646-1' : 0,
+    '-misc-spleen-medium-r-normal--24-240-72-72-C-120-ISO10646-1' : 1,
+    '-misc-spleen-medium-r-normal--16-160-72-72-C-80-ISO10646-1' : 2,
+    '-misc-spleen-medium-r-normal--12-120-72-72-C-60-ISO10646-1' : 2,
+    '-misc-spleen-medium-r-normal--8-80-72-72-C-50-ISO10646-1' : 0,
+    '-Raccoon-Fixed4x6-Medium-R-Normal--6-60-75-75-P-40-ISO10646-1' : 1
+}
+
+def y_font_extra_offset(font):
+    return Y_FONT_OFFSETS.get(font.headers['fontname'], 0)
+
 
 class M1_Demo(SampleBase):
     def __init__(self, *args, **kwargs):
@@ -356,15 +371,55 @@ class M1_Demo(SampleBase):
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
+    def draw_grid(self, canvas):
+
+        color = COLOR_GREY_DARKEST
+        x_cells = 4
+        x_step_size = int (PANEL_WIDTH / x_cells)
+        for i in range(x_cells):
+            x = i * x_step_size
+            graphics.DrawLine(canvas, x, 0, x, PANEL_HEIGHT, color)
+
+        y_cells = 4
+        y_step_size = int (PANEL_HEIGHT / y_cells)
+        for i in range(y_cells):
+            y = i * y_step_size
+            graphics.DrawLine(canvas, 0, y, PANEL_WIDTH, y, color)
+
+
+
     def show_fonts(self, canvas, duration):
         canvas.Clear()
+        self.draw_grid(canvas)
         phrase = 'Quick brown fox jumps over the lazy dog'
-        graphics.DrawText(canvas, FONT_XL, 0, 20, COLOR_GREY, phrase)
-        graphics.DrawText(canvas, FONT_L, 0, 33, COLOR_GREY, phrase)
-        graphics.DrawText(canvas, FONT_M, 0, 44, COLOR_GREY, phrase)
-        graphics.DrawText(canvas, FONT_S, 0, 53, COLOR_GREY, phrase)
-        graphics.DrawText(canvas, FONT_XS, 0, 59, COLOR_GREY, phrase)
-        graphics.DrawText(canvas, FONT_XXS, 0, 64, COLOR_GREY, phrase)
+        phrase = 'NAD FED 15 A'
+        phrase = '      765*40QABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        phrase = '01530A765*40Q Nadal Federer NAD FED'
+
+
+        
+
+        fonts = [FONT_XL, FONT_L, FONT_M, FONT_S, FONT_XS, FONT_XXS]
+        #fonts = fonts.reverse()
+        fonts = fonts[::-1] #reversing using list slicing
+        #fonts = [FONT_XL, FONT_XL, FONT_XL, FONT_XL]
+        #fonts = [FONT_L, FONT_L, FONT_L, FONT_L, FONT_L]
+        colors = [COLOR_GREY, COLOR_RED, COLOR_GREEN, COLOR_BLUE_7c, COLOR_CUSTOM, COLOR_WHITE]
+        
+        y=0
+        for i in range(len(fonts)):
+            f = fonts[i]
+            y+= f.baseline+f.headers['fbbyoff']+y_font_extra_offset(f)
+            #print(vars(f))
+            print('{} => w*h: {}*{} d/a {}/{} baseline: {} fbbyoff:{} name: {}'.format(
+                y_font_extra_offset(f),
+                f.CharacterWidth(ord(' ')), f.height,
+                f.props['font_ascent'], f.props['font_descent'],
+                f.baseline,
+                f.headers['fbbyoff'],
+                f.headers['fontname']))
+            graphics.DrawText(canvas, f, 0, y, colors[i], phrase)
+
         canvas = self.matrix.SwapOnVSync(canvas)
         time.sleep(duration)
 
@@ -463,6 +518,7 @@ class M1_Demo(SampleBase):
 
     def run_slide_show(self, duration, title_duration):
         canvas = self.matrix.CreateFrameCanvas()
+        #self.show_fonts(canvas, duration)
         self.run_demo_sequence_italian(canvas, duration, title_duration)
         self.run_demo_sequence_english(canvas, duration, title_duration)
         
