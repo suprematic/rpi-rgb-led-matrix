@@ -393,7 +393,7 @@ class M1_Demo(SampleBase):
     def run_demo_sequence_italian(self, canvas, duration, title_duration):
         
         # 0. Title slide: SevenCourts logo + slogan
-        self.show_title_slide(canvas, "Tabelloni interattivi per ogni club", duration)
+        self.show_title_slide(canvas, "Tabelloni interattivi per OGNI club", duration)
 
         # 1.1. Idle mode: sequence of logos of our references        
         self.show_title_text(canvas, "Logo dello sponsor,\ndel club o del torneo", COLOR_GREEN_7c, title_duration)
