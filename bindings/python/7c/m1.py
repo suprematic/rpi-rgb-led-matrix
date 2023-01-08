@@ -343,7 +343,7 @@ class SevenCourtsM1(SampleBase):
                     y_flag_t1 = 9
                     y_flag_t2 = y_flag_t1 + FLAG_HEIGHT + 11 + 10                    
                     self.canvas.SetImage(t1p1_flag, 0, y_flag_t1)
-                    self.canvas.SetImage(t2p1_flag, 0, y_flag_t1)
+                    self.canvas.SetImage(t2p1_flag, 0, y_flag_t2)
                 else:
                     # 2 (12) 3 (12) 3 3 (12) 3 (12) 2
                     y_flag_t1p1 = 2
