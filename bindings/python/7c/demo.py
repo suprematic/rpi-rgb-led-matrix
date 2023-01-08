@@ -142,8 +142,8 @@ class M1_Demo(SampleBase):
 
         color_caption = COLOR_CUSTOM_CAPTION
         font_caption = FONT_S
-        y_caption = y_font_offset(font_caption)
-        graphics.DrawText(canvas, font_caption, 0, y_caption, color_caption, "FINAL Court#1")
+        y_caption = 1 + y_font_offset(font_caption)
+        graphics.DrawText(canvas, font_caption, 0, y_caption, color_caption, "MEN'S SINGLES FINAL")
         graphics.DrawText(canvas, font_caption, x_set1 + 4, y_caption, color_caption, "1")
         graphics.DrawText(canvas, font_caption, x_set2 + 4, y_caption, color_caption, "2")
         graphics.DrawText(canvas, font_caption, x_set3 + 4, y_caption, color_caption, "3")
