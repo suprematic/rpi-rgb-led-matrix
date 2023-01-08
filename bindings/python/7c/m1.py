@@ -42,6 +42,7 @@ FONT_TEAM_NAME_S = FONT_S
 FONT_SCORE = FONTS_V0[0]
 
 FONT_CLOCK = FONTS_V0[0]
+FONT_CLOCK = FONT_L # comment for real use
 COLOR_CLOCK = COLOR_GREY
 
 UPPER_CASE_NAMES = True
@@ -87,7 +88,6 @@ class SevenCourtsM1(SampleBase):
             panel_id = self.register()
             match = None
 
-            # FIXME fancy exception handling
             try:
                 while True:
                     self.canvas.Clear()
@@ -95,7 +95,7 @@ class SevenCourtsM1(SampleBase):
                     if match != None:
                         self.display_match(match)
                     else:
-                        self.display_clock()
+                        self.display_idle_mode()
                     self.canvas = self.matrix.SwapOnVSync(self.canvas)
                     time.sleep(1)
             except URLError as e:
@@ -113,7 +113,6 @@ class SevenCourtsM1(SampleBase):
         while True:
             self.canvas.Clear()
 
-            # FIXME fancy exception handling
             try:
                 panel_id = register()
             except URLError as e:
@@ -132,9 +131,13 @@ class SevenCourtsM1(SampleBase):
             if panel_id != None:
                 return panel_id
             else:
-                self.display_clock()
+                self.display_idle_mode()
             self.canvas = self.matrix.SwapOnVSync(self.canvas)
             time.sleep(1)
+
+    def display_idle_mode(self):
+        # also some other stuff in the future
+        self.display_clock()
 
     def display_clock(self):
         text = datetime.now().strftime('%H:%M:%S')        
