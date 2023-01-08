@@ -93,6 +93,10 @@ class M1_Demo(SampleBase):
         graphics.DrawText(canvas, font, x_set2, y_T2, color_score_set_won, "6")
         graphics.DrawText(canvas, font, x_set3, y_T2, color_score_set, "4")
 
+
+    custom_shift_y_t1 = 8
+    custom_shift_y_t2 = 2
+
     def render_score_3_sets_custom(self, canvas):
         ## pseudo score in 3 sets:
         ## 7-6 3-6 7-4 *30-15
@@ -103,8 +107,6 @@ class M1_Demo(SampleBase):
         color_score_game = COLOR_CUSTOM
         font = FONT_XL_CUSTOM
         
-        custom_shift_y_t1 = 4
-        custom_shift_y_t2 = 0
         y_T1 = 26 + custom_shift_y_t1
         y_T2 = 58 + custom_shift_y_t2
         y_service_delta = 14
@@ -141,7 +143,7 @@ class M1_Demo(SampleBase):
         color_caption = COLOR_CUSTOM_DARK
         font_caption = FONT_S
         y_caption = y_font_offset(font_caption)
-        graphics.DrawText(canvas, font_caption, 14, y_caption, color_caption, "Court#1 Final")
+        graphics.DrawText(canvas, font_caption, 0, y_caption, color_caption, "Court#1 FINAL")
         graphics.DrawText(canvas, font_caption, x_set1 + 4, y_caption, color_caption, "1")
         graphics.DrawText(canvas, font_caption, x_set2 + 4, y_caption, color_caption, "2")
         graphics.DrawText(canvas, font_caption, x_set3 + 4, y_caption, color_caption, "3")
@@ -150,8 +152,6 @@ class M1_Demo(SampleBase):
     def show_score_singles_with_flags_custom(self, canvas, duration):
         canvas.Clear()
 
-        custom_shift_y_t1 = 4
-        custom_shift_y_t2 = 0
         y_T1 = 26 + custom_shift_y_t1
         y_T2 = 58 + custom_shift_y_t2
         canvas.SetImage(Image.open("images/flags/switzerland.png").convert('RGB'),   0, 12 + custom_shift_y_t1)
