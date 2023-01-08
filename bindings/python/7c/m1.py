@@ -145,8 +145,15 @@ class SevenCourtsM1(SampleBase):
         text = datetime.now().strftime('%H:%M:%S')        
         draw_text(self.canvas, 80, 60, text, FONT_CLOCK, COLOR_CLOCK)
 
-    def display_score(self, match):
+    def display_set_digit(self, x, y, font, color, score):
+        if score < 10:
+            graphics.DrawText(self.canvas, font, x_set1, y_T1, color, str(score))
+        else:
+            score = score % 10
+            fill_rect(self.canvas, x, y, width_in_pixels(font, score), y_font_offset(font), color)
+            graphics.DrawText(self.canvas, font, x_set1, y_T1, COLOR_BLACK, str(score))
 
+    def display_score(self, match):
         t1_on_serve=match["team1"]["serves"]
         t2_on_serve=match["team2"]["serves"]
         t1_set_scores = match["team1"]["setScores"]
@@ -224,14 +231,15 @@ class SevenCourtsM1(SampleBase):
         x_score = min(x_set1, X_SCORE_SERVICE) - 1
         fill_rect(self.canvas, x_score, 0, PANEL_WIDTH - x_score, PANEL_HEIGHT, COLOR_SCORE_BACKGROUND)
 
-        graphics.DrawText(self.canvas, FONT_SCORE, x_set1, y_T1, c_t1_set1, str(t1_set1))
-        graphics.DrawText(self.canvas, FONT_SCORE, x_set2, y_T1, c_t1_set2, str(t1_set2))
-        graphics.DrawText(self.canvas, FONT_SCORE, x_set3, y_T1, c_t1_set3, str(t1_set3))
+        
+        display_set_digit(x_set1, y_T1, FONT_SCORE, c_t1_set1, t1_set1)
+        display_set_digit(x_set2, y_T1, FONT_SCORE, c_t1_set2, t1_set2)
+        display_set_digit(x_set3, y_T1, FONT_SCORE, c_t1_set3, t1_set3)
         graphics.DrawText(self.canvas, FONT_SCORE, X_SCORE_GAME, y_T1, COLOR_SCORE_GAME, str(t1_game))
 
-        graphics.DrawText(self.canvas, FONT_SCORE, x_set1, y_T2, c_t2_set1, str(t2_set1))
-        graphics.DrawText(self.canvas, FONT_SCORE, x_set2, y_T2, c_t2_set2, str(t2_set2))
-        graphics.DrawText(self.canvas, FONT_SCORE, x_set3, y_T2, c_t2_set3, str(t2_set3))
+        display_set_digit(x_set1, y_T2, FONT_SCORE, c_t2_set1, t2_set1)
+        display_set_digit(x_set2, y_T2, FONT_SCORE, c_t2_set2, t2_set2)
+        display_set_digit(x_set3, y_T2, FONT_SCORE, c_t2_set3, t2_set3)
         graphics.DrawText(self.canvas, FONT_SCORE, X_SCORE_GAME, y_T2, COLOR_SCORE_GAME, str(t2_game))
 
         # service indicator

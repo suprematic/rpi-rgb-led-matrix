@@ -10,8 +10,8 @@ Content-Type: application/json
 "t1":{"p1":{"colors":"","firstname":"Roger","flag":"","lastname":"Pickle"}},
 "t2":{"p1":{"colors":"","firstname":"Ernests","flag":"","lastname":"Baller"}},
 "t1serves":true,
-"setScores":[{"first":11,"second":5}, {"first":4,"second":11}, {"first":0,"second":3}],
-"gameScore":{"first":"2","second":"0"},
+"setScores":[{"first":11,"second":5}, {"first":4,"second":11}],
+"gameScore":{"first":"12","second":"13"},
 "matchStatus":"IN_GAME",
 "description":"","authorName":"test","appVersion":"hurl-test","date":1672413885887,"userPlan":"FREE",
 "appOS":"Android","matchCreationDate":1672402758432}
