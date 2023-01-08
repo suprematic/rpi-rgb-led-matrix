@@ -2,9 +2,9 @@
 
 # -----------------------------------------------------------------------------
 # Uncomment to use with real SDK https://github.com/hzeller/rpi-rgb-led-matrix
-from rgbmatrix import graphics
+#from rgbmatrix import graphics
 # Uncomment to use with emulator https://github.com/ty-porter/RGBMatrixEmulator
-#from RGBMatrixEmulator import graphics
+from RGBMatrixEmulator import graphics
 # -----------------------------------------------------------------------------
 from samplebase import SampleBase
 from sevencourts import *
@@ -314,14 +314,10 @@ class M1_Demo(SampleBase):
                 COLOR_GREY, 
                 '23°')
 
-    def fill_rect(self, canvas, x0, y0, w, h, color):
-        for x in range (x0, x0+w):
-            graphics.DrawLine(canvas, x, y0, x, y0+h, color)
-
     def render_clock(self, canvas, format, x, y, w, h, font, duration):
         color_clock = COLOR_GREY_DARK
         for _ in range(duration):
-            self.fill_rect(canvas, x, y-h, w, h, COLOR_BLACK)
+            fill_rect(canvas, x, y-h, w, h, COLOR_BLACK)
             current_time=datetime.now().strftime(format)
             graphics.DrawText(canvas, font, x, y, color_clock, current_time)
             canvas = self.matrix.SwapOnVSync(canvas)
@@ -485,9 +481,6 @@ class M1_Demo(SampleBase):
 
     def run_slide_show(self, duration, title_duration):
         canvas = self.matrix.CreateFrameCanvas()
-
-        self.show_score_singles_with_flags_custom(canvas, duration)
-
 
         self.run_demo_sequence_italian(canvas, duration, title_duration)
         self.run_demo_sequence_english(canvas, duration, title_duration)

@@ -2,9 +2,9 @@
 
 # -----------------------------------------------------------------------------
 # Uncomment to use with real SDK https://github.com/hzeller/rpi-rgb-led-matrix
-from rgbmatrix import graphics
+#from rgbmatrix import graphics
 # Uncomment to use with emulator https://github.com/ty-porter/RGBMatrixEmulator
-#from RGBMatrixEmulator import graphics
+from RGBMatrixEmulator import graphics
 # -----------------------------------------------------------------------------
 from samplebase import SampleBase
 from sevencourts import *
@@ -41,7 +41,10 @@ FONT_TEAM_NAME_S = FONT_S
 
 FONT_SCORE = FONTS_V0[0]
 
+# Uncomment to use with real SDK https://github.com/hzeller/rpi-rgb-led-matrix
 FONT_CLOCK = FONTS_V0[0]
+# Uncomment to use with emulator https://github.com/ty-porter/RGBMatrixEmulator
+#FONT_CLOCK = FONT_L # comment for real use
 COLOR_CLOCK = COLOR_GREY
 
 UPPER_CASE_NAMES = True
@@ -87,7 +90,6 @@ class SevenCourtsM1(SampleBase):
             panel_id = self.register()
             match = None
 
-            # FIXME fancy exception handling
             try:
                 while True:
                     self.canvas.Clear()
@@ -95,7 +97,7 @@ class SevenCourtsM1(SampleBase):
                     if match != None:
                         self.display_match(match)
                     else:
-                        self.display_clock()
+                        self.display_idle_mode()
                     self.canvas = self.matrix.SwapOnVSync(self.canvas)
                     time.sleep(1)
             except URLError as e:
@@ -113,7 +115,6 @@ class SevenCourtsM1(SampleBase):
         while True:
             self.canvas.Clear()
 
-            # FIXME fancy exception handling
             try:
                 panel_id = register()
             except URLError as e:
@@ -132,9 +133,13 @@ class SevenCourtsM1(SampleBase):
             if panel_id != None:
                 return panel_id
             else:
-                self.display_clock()
+                self.display_idle_mode()
             self.canvas = self.matrix.SwapOnVSync(self.canvas)
             time.sleep(1)
+
+    def display_idle_mode(self):
+        # also some other stuff in the future
+        self.display_clock()
 
     def display_clock(self):
         text = datetime.now().strftime('%H:%M:%S')        
@@ -230,22 +235,22 @@ class SevenCourtsM1(SampleBase):
         graphics.DrawText(self.canvas, FONT_SCORE, X_SCORE_GAME, y_T2, COLOR_SCORE_GAME, str(t2_game))
 
         # service indicator
-
-        b = (0, 0 ,0)
-        y = (96, 96, 0)
-        w = (96, 96, 96)
-        ball = [
-            [b,y,y,y,b],
-            [y,y,y,w,y],
-            [y,y,w,y,y],
-            [y,w,y,y,y],
-            [b,y,y,y,b]]        
-        y_service_t1 = int(PANEL_HEIGHT/2/2 - len(ball)/2)
-        y_service_t2 = y_service_t1 + PANEL_HEIGHT/2
-        if t1_on_serve:            
-            draw_matrix(self.canvas, ball, X_SCORE_SERVICE, y_service_t1)
-        elif t2_on_serve:            
-            draw_matrix(self.canvas, ball, X_SCORE_SERVICE, y_service_t2)
+        if match["hideServiceIndicator"] != True:
+            b = (0, 0 ,0)
+            y = (96, 96, 0)
+            w = (96, 96, 96)
+            ball = [
+                [b,y,y,y,b],
+                [y,y,y,w,y],
+                [y,y,w,y,y],
+                [y,w,y,y,y],
+                [b,y,y,y,b]]        
+            y_service_t1 = int(PANEL_HEIGHT/2/2 - len(ball)/2)
+            y_service_t2 = y_service_t1 + PANEL_HEIGHT/2
+            if t1_on_serve:            
+                draw_matrix(self.canvas, ball, X_SCORE_SERVICE, y_service_t1)
+            elif t2_on_serve:            
+                draw_matrix(self.canvas, ball, X_SCORE_SERVICE, y_service_t2)
 
     def display_names(self, match):
 

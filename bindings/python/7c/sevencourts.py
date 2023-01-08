@@ -1,8 +1,8 @@
 # -----------------------------------------------------------------------------
 # Uncomment to use with real SDK https://github.com/hzeller/rpi-rgb-led-matrix
-from rgbmatrix import graphics
+#from rgbmatrix import graphics
 # Uncomment to use with emulator https://github.com/ty-porter/RGBMatrixEmulator
-#from RGBMatrixEmulator import graphics
+from RGBMatrixEmulator import graphics
 # -----------------------------------------------------------------------------
 
 from PIL import Image
@@ -125,21 +125,21 @@ def width_in_pixels(font, text):
     result = 0;
     for c in text:
         result+=font.CharacterWidth(ord(c))
-    print('<{}> => {}'.format(text,result))
+    #print('<{}> => {}'.format(text,result))
     return result
 
 def font_fits(font, width, height, *texts):
     
     font_symbol_height = y_font_offset(font)
     max_width_with_this_font = max(map(partial(width_in_pixels, font), *texts))
-    print('{}>={} {}>={} {}'.format(
-        height, font_symbol_height, width, max_width_with_this_font, *texts))
+    #print('{}>={} {}>={} {}'.format(
+    #    height, font_symbol_height, width, max_width_with_this_font, *texts))
 
     result = (height >= font_symbol_height) & (width >= max_width_with_this_font)
     return result
 
 def pick_font_that_fits(width, height, *texts):
-    print('Available container: {}x{}'.format(width, height))
+    #print('Available container: {}x{}'.format(width, height))
     if font_fits(FONT_XL, width, height, texts):
         result = FONT_XL
     elif font_fits(FONT_L, width, height, texts):
