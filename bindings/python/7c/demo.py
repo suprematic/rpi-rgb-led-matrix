@@ -154,8 +154,8 @@ class M1_Demo(SampleBase):
         custom_shift_y_t2 = 0
         y_T1 = 26 + custom_shift_y_t1
         y_T2 = 58 + custom_shift_y_t2
-        canvas.SetImage(Image.open("images/flags/switzerland.png").convert('RGB'),   0, 10)
-        canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'),   0, 42)
+        canvas.SetImage(Image.open("images/flags/switzerland.png").convert('RGB'),   0, 10 + custom_shift_y_t1)
+        canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'),   0, 42 + custom_shift_y_t2)
         
         flag_margin_r = 2
         color = COLOR_CUSTOM
