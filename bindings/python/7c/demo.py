@@ -14,7 +14,8 @@ from PIL import Image
 
 # Style constants
 COLOR_CUSTOM = graphics.Color(0, 177, 64)
-COLOR_CUSTOM_DARK = graphics.Color(0, 150, 54)
+COLOR_CUSTOM_DARK = graphics.Color(0, 110, 40)
+COLOR_CUSTOM_CAPTION = graphics.Color(130, 80, 0)
 
 FONT_XL_CUSTOM = graphics.Font()
 FONT_XL_CUSTOM.LoadFont("fonts/RozhaOne-Regular-21.bdf")
@@ -139,10 +140,10 @@ class M1_Demo(SampleBase):
         graphics.DrawText(canvas, font, x_set2, y_T2, color_score_set_won, "6")
         graphics.DrawText(canvas, font, x_set3, y_T2, color_score_set, "4")
 
-        color_caption = COLOR_CUSTOM_DARK
+        color_caption = COLOR_CUSTOM_CAPTION
         font_caption = FONT_S
         y_caption = y_font_offset(font_caption)
-        graphics.DrawText(canvas, font_caption, 0, y_caption, color_caption, "Court#1 FINAL")
+        graphics.DrawText(canvas, font_caption, 0, y_caption, color_caption, "FINAL Court#1")
         graphics.DrawText(canvas, font_caption, x_set1 + 4, y_caption, color_caption, "1")
         graphics.DrawText(canvas, font_caption, x_set2 + 4, y_caption, color_caption, "2")
         graphics.DrawText(canvas, font_caption, x_set3 + 4, y_caption, color_caption, "3")
