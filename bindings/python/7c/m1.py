@@ -147,11 +147,11 @@ class SevenCourtsM1(SampleBase):
 
     def display_set_digit(self, x, y, font, color, score):
         if score < 10:
-            graphics.DrawText(self.canvas, font, x_set1, y_T1, color, str(score))
+            graphics.DrawText(self.canvas, font, x, y, color, str(score))
         else:
             score = str(score % 10)
             fill_rect(self.canvas, x, y, width_in_pixels(font, score), y_font_offset(font), color)
-            graphics.DrawText(self.canvas, font, x_set1, y_T1, COLOR_BLACK, score)
+            graphics.DrawText(self.canvas, font, x, y, COLOR_BLACK, score)
 
     def display_score(self, match):
         t1_on_serve=match["team1"]["serves"]
