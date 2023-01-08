@@ -341,7 +341,7 @@ class SevenCourtsM1(SampleBase):
                 if same_flags_in_teams:
                     # 9    (12)    11 10    (12)    10
                     y_flag_t1 = 9
-                    y_flag_t2 = y_flag_t1p2 + FLAG_HEIGHT + 11 + 10                    
+                    y_flag_t2 = y_flag_t1 + FLAG_HEIGHT + 11 + 10                    
                     self.canvas.SetImage(t1p1_flag, 0, y_flag_t1)
                     self.canvas.SetImage(t2p1_flag, 0, y_flag_t1)
                 else:
