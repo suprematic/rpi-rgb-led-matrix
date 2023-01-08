@@ -141,10 +141,10 @@ class M1_Demo(SampleBase):
         color_caption = COLOR_CUSTOM_DARK
         font_caption = FONT_S
         y_caption = y_font_offset(font_caption)
-        graphics.DrawText(canvas, font_caption, 14, y_caption, color_caption, "Court #7")
-        graphics.DrawText(canvas, font_caption, x_set1, y_caption, color_caption, "1.")
-        graphics.DrawText(canvas, font_caption, x_set2, y_caption, color_caption, "2.")
-        graphics.DrawText(canvas, font_caption, x_set3, y_caption, color_caption, "3.")
+        graphics.DrawText(canvas, font_caption, 14, y_caption, color_caption, "Court#1")
+        graphics.DrawText(canvas, font_caption, x_set1 + 2, y_caption, color_caption, "1")
+        graphics.DrawText(canvas, font_caption, x_set2 + 2, y_caption, color_caption, "2")
+        graphics.DrawText(canvas, font_caption, x_set3 + 2, y_caption, color_caption, "3")
         graphics.DrawText(canvas, font_caption, x_game, y_caption, color_caption, "GAME")
  
     def show_score_singles_with_flags_custom(self, canvas, duration):
@@ -154,8 +154,8 @@ class M1_Demo(SampleBase):
         custom_shift_y_t2 = 0
         y_T1 = 26 + custom_shift_y_t1
         y_T2 = 58 + custom_shift_y_t2
-        canvas.SetImage(Image.open("images/flags/switzerland.png").convert('RGB'),   0, 10 + custom_shift_y_t1)
-        canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'),   0, 42 + custom_shift_y_t2)
+        canvas.SetImage(Image.open("images/flags/switzerland.png").convert('RGB'),   0, 12 + custom_shift_y_t1)
+        canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'),   0, 44 + custom_shift_y_t2)
         
         flag_margin_r = 2
         color = COLOR_CUSTOM
