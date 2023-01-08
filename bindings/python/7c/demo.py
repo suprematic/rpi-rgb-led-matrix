@@ -141,11 +141,11 @@ class M1_Demo(SampleBase):
         color_caption = COLOR_CUSTOM_DARK
         font_caption = FONT_S
         y_caption = y_font_offset(font_caption)
-        graphics.DrawText(canvas, font_caption, 14, y_caption, color_caption, "Court#1")
-        graphics.DrawText(canvas, font_caption, x_set1 + 2, y_caption, color_caption, "1")
-        graphics.DrawText(canvas, font_caption, x_set2 + 2, y_caption, color_caption, "2")
-        graphics.DrawText(canvas, font_caption, x_set3 + 2, y_caption, color_caption, "3")
-        graphics.DrawText(canvas, font_caption, x_game, y_caption, color_caption, "GAME")
+        graphics.DrawText(canvas, font_caption, 14, y_caption, color_caption, "Court#1 Final")
+        graphics.DrawText(canvas, font_caption, x_set1 + 4, y_caption, color_caption, "1")
+        graphics.DrawText(canvas, font_caption, x_set2 + 4, y_caption, color_caption, "2")
+        graphics.DrawText(canvas, font_caption, x_set3 + 4, y_caption, color_caption, "3")
+        graphics.DrawText(canvas, font_caption, x_game + 2, y_caption, color_caption, "GAME")
  
     def show_score_singles_with_flags_custom(self, canvas, duration):
         canvas.Clear()
