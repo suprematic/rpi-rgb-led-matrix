@@ -233,22 +233,22 @@ class SevenCourtsM1(SampleBase):
         graphics.DrawText(self.canvas, FONT_SCORE, X_SCORE_GAME, y_T2, COLOR_SCORE_GAME, str(t2_game))
 
         # service indicator
-
-        b = (0, 0 ,0)
-        y = (96, 96, 0)
-        w = (96, 96, 96)
-        ball = [
-            [b,y,y,y,b],
-            [y,y,y,w,y],
-            [y,y,w,y,y],
-            [y,w,y,y,y],
-            [b,y,y,y,b]]        
-        y_service_t1 = int(PANEL_HEIGHT/2/2 - len(ball)/2)
-        y_service_t2 = y_service_t1 + PANEL_HEIGHT/2
-        if t1_on_serve:            
-            draw_matrix(self.canvas, ball, X_SCORE_SERVICE, y_service_t1)
-        elif t2_on_serve:            
-            draw_matrix(self.canvas, ball, X_SCORE_SERVICE, y_service_t2)
+        if match["hideServiceIndicator"] != True:
+            b = (0, 0 ,0)
+            y = (96, 96, 0)
+            w = (96, 96, 96)
+            ball = [
+                [b,y,y,y,b],
+                [y,y,y,w,y],
+                [y,y,w,y,y],
+                [y,w,y,y,y],
+                [b,y,y,y,b]]        
+            y_service_t1 = int(PANEL_HEIGHT/2/2 - len(ball)/2)
+            y_service_t2 = y_service_t1 + PANEL_HEIGHT/2
+            if t1_on_serve:            
+                draw_matrix(self.canvas, ball, X_SCORE_SERVICE, y_service_t1)
+            elif t2_on_serve:            
+                draw_matrix(self.canvas, ball, X_SCORE_SERVICE, y_service_t2)
 
     def display_names(self, match):
 
