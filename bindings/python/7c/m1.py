@@ -259,7 +259,7 @@ class SevenCourtsM1(SampleBase):
             t1p2_flag = t2p2_flag = ''
 
         display_flags = max(len(t1p1_flag), len(t1p2_flag), len(t2p1_flag), len(t2p2_flag)) > 0        
-        same_flags_in_teams = (t1p1_flag == t1p2_flag) & (t2p1_flag = t2p2_flag)
+        same_flags_in_teams = (t1p1_flag == t1p2_flag) & (t2p1_flag == t2p2_flag)
         if display_flags:
             t1p1_flag = load_flag_image(t1p1_flag)
             t1p2_flag = load_flag_image(t1p2_flag)
