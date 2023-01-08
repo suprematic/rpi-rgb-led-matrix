@@ -21,6 +21,9 @@ FONT_XL_CUSTOM.LoadFont("fonts/RozhaOne-Regular-21.bdf")
 FONT_M_CUSTOM = graphics.Font()
 FONT_M_CUSTOM.LoadFont("fonts/9x15B.bdf")
 
+Y_SHIFT_T1_CUSTOM = 8
+Y_SHIFT_T2_CUSTOM = 2
+
 FONT_SCORE = FONTS_V0[0]
 
 # Timing defaults
@@ -93,10 +96,6 @@ class M1_Demo(SampleBase):
         graphics.DrawText(canvas, font, x_set2, y_T2, color_score_set_won, "6")
         graphics.DrawText(canvas, font, x_set3, y_T2, color_score_set, "4")
 
-
-    custom_shift_y_t1 = 8
-    custom_shift_y_t2 = 2
-
     def render_score_3_sets_custom(self, canvas):
         ## pseudo score in 3 sets:
         ## 7-6 3-6 7-4 *30-15
@@ -107,8 +106,8 @@ class M1_Demo(SampleBase):
         color_score_game = COLOR_CUSTOM
         font = FONT_XL_CUSTOM
         
-        y_T1 = 26 + custom_shift_y_t1
-        y_T2 = 58 + custom_shift_y_t2
+        y_T1 = 26 + Y_SHIFT_T1_CUSTOM
+        y_T2 = 58 + Y_SHIFT_T2_CUSTOM
         y_service_delta = 14
         x_game = 163
         x_service = 155
@@ -152,10 +151,10 @@ class M1_Demo(SampleBase):
     def show_score_singles_with_flags_custom(self, canvas, duration):
         canvas.Clear()
 
-        y_T1 = 26 + custom_shift_y_t1
-        y_T2 = 58 + custom_shift_y_t2
-        canvas.SetImage(Image.open("images/flags/switzerland.png").convert('RGB'),   0, 12 + custom_shift_y_t1)
-        canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'),   0, 44 + custom_shift_y_t2)
+        y_T1 = 26 + Y_SHIFT_T1_CUSTOM
+        y_T2 = 58 + Y_SHIFT_T2_CUSTOM
+        canvas.SetImage(Image.open("images/flags/switzerland.png").convert('RGB'),   0, 12 + Y_SHIFT_T1_CUSTOM)
+        canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'),   0, 44 + Y_SHIFT_T2_CUSTOM)
         
         flag_margin_r = 2
         color = COLOR_CUSTOM
