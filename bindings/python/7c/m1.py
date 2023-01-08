@@ -2,9 +2,9 @@
 
 # -----------------------------------------------------------------------------
 # Uncomment to use with real SDK https://github.com/hzeller/rpi-rgb-led-matrix
-#from rgbmatrix import graphics
+from rgbmatrix import graphics
 # Uncomment to use with emulator https://github.com/ty-porter/RGBMatrixEmulator
-from RGBMatrixEmulator import graphics
+#from RGBMatrixEmulator import graphics
 # -----------------------------------------------------------------------------
 from samplebase import SampleBase
 from sevencourts import *
@@ -34,11 +34,12 @@ COLOR_SCORE_GAME = COLOR_GREY
 COLOR_SCORE_SERVICE = COLOR_YELLOW
 COLOR_TEAM_NAME = COLOR_GREY
 COLOR_SCORE_BACKGROUND = COLOR_BLACK
-FONT_SCORE = FONT_XL
 FONT_TEAM_NAME_XL = FONT_XL
 FONT_TEAM_NAME_L = FONT_L
 FONT_TEAM_NAME_M = FONT_M
 FONT_TEAM_NAME_S = FONT_S
+
+FONT_SCORE = FONTS_V0[0]
 
 FONT_CLOCK = FONTS_V0[0]
 COLOR_CLOCK = COLOR_GREY
@@ -257,8 +258,8 @@ class SevenCourtsM1(SampleBase):
         else:
             t1p2_flag = t2p2_flag = ''
 
-        display_flags = max(len(t1p1_flag), len(t1p2_flag), len(t2p1_flag), len(t2p2_flag)) > 0
-
+        display_flags = max(len(t1p1_flag), len(t1p2_flag), len(t2p1_flag), len(t2p2_flag)) > 0        
+        same_flags_in_teams = (t1p1_flag == t1p2_flag) & (t2p1_flag == t2p2_flag)
         if display_flags:
             t1p1_flag = load_flag_image(t1p1_flag)
             t1p2_flag = load_flag_image(t1p2_flag)
@@ -318,6 +319,7 @@ class SevenCourtsM1(SampleBase):
         elif match["isDoubles"]:
             # (FLAG)
             # 2 (12) 3 (12) 3 3 (12) 3 (12) 2
+            # 9    (12)    11 10    (12)    10
             # (NAME)
             # 1 (14) 1 (14) 2 2 (14) 1 (14) 1
 
@@ -336,14 +338,22 @@ class SevenCourtsM1(SampleBase):
             graphics.DrawText(self.canvas, font, x, y_t2p1, COLOR_TEAM_NAME, t2p1)
             graphics.DrawText(self.canvas, font, x, y_t2p2, COLOR_TEAM_NAME, t2p2)
             if display_flags:
-                y_flag_t1 = 2
-                y_flag_t2 = y_flag_t1 + FLAG_HEIGHT + 3
-                y_flag_t3 = y_flag_t2 + FLAG_HEIGHT + 3 + 3
-                y_flag_t4 = y_flag_t3 + FLAG_HEIGHT + 3
-                self.canvas.SetImage(t1p1_flag, 0, y_flag_t1)
-                self.canvas.SetImage(t1p2_flag, 0, y_flag_t2)
-                self.canvas.SetImage(t2p1_flag, 0, y_flag_t3)
-                self.canvas.SetImage(t2p2_flag, 0, y_flag_t4)
+                if same_flags_in_teams:
+                    # 9    (12)    11 10    (12)    10
+                    y_flag_t1 = 9
+                    y_flag_t2 = y_flag_t1 + FLAG_HEIGHT + 11 + 10                    
+                    self.canvas.SetImage(t1p1_flag, 0, y_flag_t1)
+                    self.canvas.SetImage(t2p1_flag, 0, y_flag_t2)
+                else:
+                    # 2 (12) 3 (12) 3 3 (12) 3 (12) 2
+                    y_flag_t1p1 = 2
+                    y_flag_t1p2 = y_flag_t1p1 + FLAG_HEIGHT + 3
+                    y_flag_t2p1 = y_flag_t1p2 + FLAG_HEIGHT + 3 + 3
+                    y_flag_t2p2 = y_flag_t2p1 + FLAG_HEIGHT + 3
+                    self.canvas.SetImage(t1p1_flag, 0, y_flag_t1p1)
+                    self.canvas.SetImage(t1p2_flag, 0, y_flag_t1p2)
+                    self.canvas.SetImage(t2p1_flag, 0, y_flag_t2p1)
+                    self.canvas.SetImage(t2p2_flag, 0, y_flag_t2p2)
 
     def display_winner(self, match):
         # FIXME winner is not displayed
@@ -371,7 +381,7 @@ class SevenCourtsM1(SampleBase):
             draw_matrix(self.canvas, cup, x_medal, PANEL_HEIGHT / 2 + medal_delta)
 
     def display_match(self, match):
-        draw_grid(self.canvas, 8, 8, COLOR_GREY_DARKEST)
+        # draw_grid(self.canvas, 8, 8, COLOR_GREY_DARKEST)
         self.display_names(match)
         self.display_score(match)
         self.display_winner(match)
