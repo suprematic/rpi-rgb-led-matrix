@@ -103,8 +103,10 @@ class M1_Demo(SampleBase):
         color_score_game = COLOR_CUSTOM
         font = FONT_XL_CUSTOM
         
-        y_T1 = 26
-        y_T2 = 58
+        custom_shift_y_t1 = 4
+        custom_shift_y_t2 = 0
+        y_T1 = 26 + custom_shift_y_t1
+        y_T2 = 58 + custom_shift_y_t2
         y_service_delta = 14
         x_game = 163
         x_service = 155
@@ -148,8 +150,10 @@ class M1_Demo(SampleBase):
     def show_score_singles_with_flags_custom(self, canvas, duration):
         canvas.Clear()
 
-        y_T1 = 26
-        y_T2 = 58
+        custom_shift_y_t1 = 4
+        custom_shift_y_t2 = 0
+        y_T1 = 26 + custom_shift_y_t1
+        y_T2 = 58 + custom_shift_y_t2
         canvas.SetImage(Image.open("images/flags/switzerland.png").convert('RGB'),   0, 10)
         canvas.SetImage(Image.open("images/flags/spain.png").convert('RGB'),   0, 42)
         
