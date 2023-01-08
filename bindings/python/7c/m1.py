@@ -41,8 +41,10 @@ FONT_TEAM_NAME_S = FONT_S
 
 FONT_SCORE = FONTS_V0[0]
 
+# Uncomment to use with real SDK https://github.com/hzeller/rpi-rgb-led-matrix
 FONT_CLOCK = FONTS_V0[0]
-FONT_CLOCK = FONT_L # comment for real use
+# Uncomment to use with emulator https://github.com/ty-porter/RGBMatrixEmulator
+#FONT_CLOCK = FONT_L # comment for real use
 COLOR_CLOCK = COLOR_GREY
 
 UPPER_CASE_NAMES = True
