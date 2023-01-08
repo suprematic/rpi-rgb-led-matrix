@@ -146,9 +146,10 @@ class SevenCourtsM1(SampleBase):
         draw_text(self.canvas, 80, 60, text, FONT_CLOCK, COLOR_CLOCK)
 
     def display_set_digit(self, x, y, font, color, score):
+        # FIXME meh
         if (score != ""):
             if int(score) < 10:
-                graphics.DrawText(self.canvas, font, x, y, color, score)
+                graphics.DrawText(self.canvas, font, x, y, color, str(score))
             else:
                 score = str(int(score) % 10)
                 fill_rect(self.canvas, x, y, width_in_pixels(font, score), y_font_offset(font), color)
