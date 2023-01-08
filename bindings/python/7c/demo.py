@@ -486,9 +486,6 @@ class M1_Demo(SampleBase):
     def run_slide_show(self, duration, title_duration):
         canvas = self.matrix.CreateFrameCanvas()
 
-        self.show_score_singles_with_flags_custom(canvas, duration)
-
-
         self.run_demo_sequence_italian(canvas, duration, title_duration)
         self.run_demo_sequence_english(canvas, duration, title_duration)
         
