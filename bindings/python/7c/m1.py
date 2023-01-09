@@ -80,6 +80,9 @@ def match_info(panel_id):
         log("url='" + url + "', status= " + str(response.status))
     return None
 
+def player_name(p):
+    return p["lastname"] or p["firstname"] or "Noname"
+
 class SevenCourtsM1(SampleBase):
     def __init__(self, *args, **kwargs):
         super(SevenCourtsM1, self).__init__(*args, **kwargs)        
@@ -266,6 +269,8 @@ class SevenCourtsM1(SampleBase):
             elif t2_on_serve:            
                 draw_matrix(self.canvas, ball, X_SCORE_SERVICE, y_service_t2)
 
+
+
     def display_names(self, match):
 
         # 1. flags
@@ -306,14 +311,14 @@ class SevenCourtsM1(SampleBase):
                 t1p1 = match["team1"]["name"]
                 t2p1 = match["team2"]["name"]
             else:
-                t1p1 = match["team1"]["p1"]["lastname"]
-                t2p1 = match["team2"]["p1"]["lastname"]
+                t1p1 = player_name(match["team1"]["p1"])
+                t2p1 = player_name(match["team2"]["p1"])
             t1p2 = t2p2 = ''
         elif match["isDoubles"]:
-            t1p1 = match["team1"]["p1"]["lastname"]
-            t1p2 = match["team1"]["p2"]["lastname"]
-            t2p1 = match["team2"]["p1"]["lastname"]
-            t2p2 = match["team2"]["p2"]["lastname"]            
+            t1p1 = player_name(match["team1"]["p1"])
+            t1p2 = player_name(match["team1"]["p2"])
+            t2p1 = player_name(match["team2"]["p1"])
+            t2p2 = player_name(match["team2"]["p2"])
 
         if UPPER_CASE_NAMES:
             t1p1 = t1p1.upper()
