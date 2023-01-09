@@ -399,7 +399,7 @@ class M1_Demo(SampleBase):
         duration_logo = min(3, duration)
         self.show_image_centered(canvas, "images/logos/a-rete_160x43.png", duration_logo)
         self.show_image_centered(canvas, "images/logos/tom-schilke_192x55.png", duration_logo)
-        self.show_image_centered(canvas, "images/logos/sv1845_64x64.png", duration_logo)
+        #self.show_image_centered(canvas, "images/logos/sv1845_64x64.png", duration_logo)
         
 
         # 1.2. Idle mode: Clock + Weather + etc.
@@ -440,7 +440,7 @@ class M1_Demo(SampleBase):
         duration_logo = min(3, duration)
         self.show_image_centered(canvas, "images/logos/a-rete_160x43.png", duration_logo)
         self.show_image_centered(canvas, "images/logos/tom-schilke_192x55.png", duration_logo)
-        self.show_image_centered(canvas, "images/logos/sv1845_64x64.png", duration_logo)
+        #self.show_image_centered(canvas, "images/logos/sv1845_64x64.png", duration_logo)
         
 
         # 1.2. Idle mode: Clock + Weather + etc.
