@@ -24,6 +24,7 @@ COLOR_BLACK = graphics.Color(0, 0, 0)
 COLOR_RED = graphics.Color(255, 0, 0)
 COLOR_YELLOW = graphics.Color(255, 255, 0)
 COLOR_GREEN = graphics.Color(0, 255, 0)
+COLOR_BLUE = graphics.Color(0, 0, 255)
 
 COLOR_GREEN_7c = graphics.Color(147, 196, 125)
 COLOR_BLUE_7c = graphics.Color(111, 168, 220)
