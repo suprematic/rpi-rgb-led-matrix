@@ -168,7 +168,7 @@ class SevenCourtsM1(SampleBase):
         t1_set_scores = match["team1"]["setScores"]
         t2_set_scores = match["team2"]["setScores"]
 
-        is_match_over = match["matchResult"] != None
+        is_match_over = match["matchResult"] in ('T1_WON', 'T2_WON', 'DRAW')
 
         if (len(t1_set_scores)==0):
             t1_set1 = t2_set1 = t1_set2 = t2_set2 = t1_set3 = t2_set3 = ""
