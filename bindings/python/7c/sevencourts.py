@@ -140,21 +140,13 @@ def font_fits(font, width, height, *texts):
     return result
 
 def pick_font_that_fits(width, height, *texts):
-    #print('Available container: {}x{}'.format(width, height))
-    if font_fits(FONT_XL, width, height, texts):
-        result = FONT_XL
-    elif font_fits(FONT_L, width, height, texts):
+    if font_fits(FONT_L, width, height, texts):
         result = FONT_L
     elif font_fits(FONT_M, width, height, texts):
         result = FONT_M
     else:
         result = FONT_S
     
-    debug_font_info(FONT_XL, 'XL')
-    debug_font_info(FONT_L, 'L')
-    debug_font_info(FONT_M, 'M')
-    debug_font_info(FONT_S, 'S')
-    debug_font_info(result, "RES")
     return result
 
 def debug_font_info(font, name=''):
