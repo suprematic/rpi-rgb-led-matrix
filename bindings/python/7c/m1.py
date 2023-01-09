@@ -86,6 +86,9 @@ class SevenCourtsM1(SampleBase):
 
     def run(self):
         self.canvas = self.matrix.CreateFrameCanvas()
+        self.display_idle_mode()
+        self.canvas = self.matrix.SwapOnVSync(self.canvas)
+
         while True:
             panel_id = self.register()
             match = None
