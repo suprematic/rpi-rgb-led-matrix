@@ -252,7 +252,7 @@ class SevenCourtsM1(SampleBase):
         graphics.DrawText(self.canvas, FONT_SCORE, X_SCORE_GAME, y_T2, COLOR_SCORE_GAME, str(t2_game))
 
         # service indicator
-        if match.get("hideServiceIndicator", False) != True:
+        if match.get("hideServiceIndicator", False) != True and not is_match_over:
             b = (0, 0 ,0)
             y = (192, 192, 0)
             w = (192, 192, 192)
