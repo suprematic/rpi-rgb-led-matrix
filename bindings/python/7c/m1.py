@@ -251,8 +251,8 @@ class SevenCourtsM1(SampleBase):
         # service indicator
         if match.get("hideServiceIndicator", False) != True:
             b = (0, 0 ,0)
-            y = (96, 96, 0)
-            w = (96, 96, 96)
+            y = (192, 192, 0)
+            w = (192, 192, 192)
             ball = [
                 [b,y,y,y,b],
                 [y,y,y,w,y],
