@@ -19,7 +19,7 @@ import logging
 
 PANEL_NAME = socket.gethostname()
 
-BASE_URL = "https://staging.tableau.tennismath.com"
+BASE_URL = "https://prod.tableau.tennismath.com"
 REGISTRATION_URL = BASE_URL + "/panels/"
 
 # Style constants
