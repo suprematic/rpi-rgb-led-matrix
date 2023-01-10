@@ -1,0 +1,38 @@
+Interactive infoboards for EVERY club
+Tabelloni interattivi per ogni club
+
+Sponsor, club, or tournament logo
+Logo dello sponsor, del club o del torneo
+
+Time, weather, personal greetings, etc.
+Ora, meteo, saluti personali, ecc.
+
+Happy Wedding Day! John & Mary
+Felice giorno di nozze! Romeo e Giulietta
+
+The Grand Slam moment for your club!
+Il momento del Grande Slam per il tuo club!
+
+Point-by-point score (pro mode)
+Punteggio punto per punto (modalità Pro)
+
+Game-by-game score (easy mode)
+Punteggio gioco per gioco (modalità facile)
+
+Customize fonts and colors to match your style
+Personalizza font e colori per adattarli al tuo stile
+
+See in action on court #1
+Vedere in azione sul campo #1
+
+API for integration with any scoring, tournament, or back-office system
+API per l'integrazione con qualsiasi sistema di punteggio, torneo o back-office
+
+Web & Video live broadcasting
+Web e video in diretta
+
+Operated using a mobile app or a Bluetooth button
+Viene gestito tramite un'app o un pulsante Bluetooth
+
+SPECIAL PadelTrend PRICE 999€. Any other size: on request
+PREZZO SPECIALE PadelTrend 999€. Qualunque altro formato: su richiesta

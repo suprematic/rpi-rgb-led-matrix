@@ -1,24 +1,57 @@
-from samplebase import SampleBase
+#!/usr/bin/env python3
+
+# -----------------------------------------------------------------------------
+# Uncomment to use with real SDK https://github.com/hzeller/rpi-rgb-led-matrix
 from rgbmatrix import graphics
-from functools import reduce
+# Uncomment to use with emulator https://github.com/ty-porter/RGBMatrixEmulator
+#from RGBMatrixEmulator import graphics
+# -----------------------------------------------------------------------------
+from samplebase import SampleBase
+from sevencourts import *
 import time
 import urllib.request
 from urllib.error import URLError, HTTPError
 from datetime import datetime
+from PIL import Image
 import json
 import socket
+import logging
 
 PANEL_NAME = socket.gethostname()
 
 BASE_URL = "https://staging.tableau.tennismath.com"
 REGISTRATION_URL = BASE_URL + "/panels/"
 
-# Constants for the 7C M1 panel (P5 192 x 64)
-PANEL_WIDTH = 192
-PANEL_HEIGHT = 64
+# Style constants
 
-def log(*args):
-    print(*args, flush=True)    
+# Style sheet
+
+COLOR_SCORE_SET = COLOR_GREY
+COLOR_SCORE_SET_WON = COLOR_SCORE_SET
+COLOR_SCORE_SET_LOST = COLOR_GREY_DARK
+COLOR_SCORE_GAME = COLOR_GREY
+COLOR_SCORE_SERVICE = COLOR_YELLOW
+COLOR_TEAM_NAME = COLOR_GREY
+COLOR_SCORE_BACKGROUND = COLOR_BLACK
+FONT_TEAM_NAME_XL = FONT_XL
+FONT_TEAM_NAME_L = FONT_L
+FONT_TEAM_NAME_M = FONT_M
+FONT_TEAM_NAME_S = FONT_S
+
+FONT_SCORE = FONTS_V0[0]
+
+# Uncomment to use with real SDK https://github.com/hzeller/rpi-rgb-led-matrix
+FONT_CLOCK = FONTS_V0[0]
+# Uncomment to use with emulator https://github.com/ty-porter/RGBMatrixEmulator
+#FONT_CLOCK = FONT_L # comment for real use
+COLOR_CLOCK = COLOR_GREY
+
+UPPER_CASE_NAMES = True
+
+X_MIN_SCOREBOARD = int(PANEL_WIDTH / 2)
+W_SCORE_SET = 20
+X_SCORE_GAME = 163
+X_SCORE_SERVICE = 155
 
 def match_url(panel_id):
     return BASE_URL + "/panels/" + panel_id + "/match"
@@ -46,43 +79,8 @@ def match_info(panel_id):
         log("url='" + url + "', status= " + str(response.status))
     return None
 
-# Style constants
-COLOR_WHITE = graphics.Color(255, 255, 255)
-COLOR_GREY = graphics.Color(192, 192, 192)
-COLOR_GREY_DARK = graphics.Color(96, 96, 96)
-COLOR_BLACK = graphics.Color(0, 0, 0)
-COLOR_RED = graphics.Color(255, 0, 0)
-COLOR_YELLOW = graphics.Color(255, 255, 0)
-COLOR_GREEN = graphics.Color(0, 255, 0)
-
-FONT_XL = graphics.Font()
-FONT_XL.LoadFont("fonts/texgyre-27.bdf")
-FONT_L = graphics.Font()
-FONT_L.LoadFont("fonts/10x20.bdf")
-FONT_M = graphics.Font()
-FONT_M.LoadFont("fonts/9x15.bdf")
-FONT_S = graphics.Font()
-FONT_S.LoadFont("fonts/7x13.bdf")
-FONT_XS = graphics.Font()
-FONT_XS.LoadFont("fonts/5x8.bdf")
-FONT_XXS = graphics.Font()
-FONT_XXS.LoadFont("fonts/tom-thumb.bdf")
-
-# Stylesheet
-COLOR_DEFAULT = COLOR_GREY
-FONT_DEFAULT = FONT_S
-
-COLOR_SCORE_SET = COLOR_GREY
-COLOR_SCORE_SET_WON = COLOR_SCORE_SET
-COLOR_SCORE_SET_LOST = COLOR_GREY_DARK
-COLOR_SCORE_GAME = COLOR_GREY
-COLOR_SCORE_SERVICE = COLOR_YELLOW
-COLOR_TEAM_NAME = COLOR_GREY
-FONT_SCORE = FONT_XL
-FONT_TEAM_NAME_S = FONT_S
-FONT_TEAM_NAME_M = FONT_M
-FONT_TEAM_NAME_L = FONT_L
-FONT_TEAM_NAME_XL = FONT_XL
+def player_name(p, noname="Noname"):
+    return p["lastname"] or p["firstname"] or noname
 
 class SevenCourtsM1(SampleBase):
     def __init__(self, *args, **kwargs):
@@ -90,11 +88,13 @@ class SevenCourtsM1(SampleBase):
 
     def run(self):
         self.canvas = self.matrix.CreateFrameCanvas()
+        self.display_idle_mode()
+        self.canvas = self.matrix.SwapOnVSync(self.canvas)
+
         while True:
             panel_id = self.register()
             match = None
 
-            # FIXME fancy exception handling
             try:
                 while True:
                     self.canvas.Clear()
@@ -102,57 +102,73 @@ class SevenCourtsM1(SampleBase):
                     if match != None:
                         self.display_match(match)
                     else:
-                        self.display_clock()
+                        self.display_idle_mode()
                     self.canvas = self.matrix.SwapOnVSync(self.canvas)
                     time.sleep(1)
             except URLError as e:
-                log(e)
+                logging.exception(e)
+                log('URLError in #run', e)
             except socket.timeout as e:
-                log('Socket timeout', e)
+                logging.exception(e)
+                log('Socket timeout in #run', e)
             except Exception as e:
-                log(e)
+                logging.exception(e)
+                log('Unexpected exception in #run', e)
 
     def register(self):
         panel_id = None
         while True:
             self.canvas.Clear()
 
-            # FIXME fancy exception handling
             try:
                 panel_id = register()
             except URLError as e:
-                log(e)
+                logging.exception(e)
+                log('URLError in #register', e)
                 self.draw_error_indicator()
             except socket.timeout as e:
-                log('Socket timeout', e)
+                logging.exception(e)
+                log('Socket timeout in #register', e)
                 self.draw_error_indicator()
             except Exception as e:
-                log(e)
+                logging.exception(e)
+                log('Unexpected exception in #register', e)
                 self.draw_error_indicator()            
 
             if panel_id != None:
                 return panel_id
             else:
-                self.display_clock()
+                self.display_idle_mode()
             self.canvas = self.matrix.SwapOnVSync(self.canvas)
             time.sleep(1)
 
-    def display_clock(self):
-        text = datetime.now().strftime('%H:%M:%S')
-        self.draw_text(80, 60, text, FONT_XL, COLOR_GREY)
+    def display_idle_mode(self):
+        # also some other stuff in the future
+        self.display_clock()
 
+    def display_clock(self):
+        text = datetime.now().strftime('%H:%M:%S')        
+        draw_text(self.canvas, 80, 60, text, FONT_CLOCK, COLOR_CLOCK)
+
+    def display_set_digit(self, x, y, font, color, score):
+        # FIXME meh
+        if (score != ""):
+            if int(score) < 10:
+                graphics.DrawText(self.canvas, font, x, y, color, str(score))
+            else:
+                score = str(int(score) % 10)
+                # FIXME looks stupid with "1" in default font => center "1"?
+                fill_rect(self.canvas, x-1, y, width_in_pixels(font, score)+2, -y_font_offset(font)-2, color)
+                graphics.DrawText(self.canvas, font, x, y, COLOR_BLACK, score)
 
     def display_score(self, match):
-
         t1_on_serve=match["team1"]["serves"]
         t2_on_serve=match["team2"]["serves"]
         t1_set_scores = match["team1"]["setScores"]
         t2_set_scores = match["team2"]["setScores"]
 
-        is_match_over = match["matchResult"] != None
+        is_match_over = match["matchResult"] in ('T1_WON', 'T2_WON', 'DRAW')
 
-        w_set = 20        
-        
         if (len(t1_set_scores)==0):
             t1_set1 = t2_set1 = t1_set2 = t2_set2 = t1_set3 = t2_set3 = ""
             c_t1_set1 = c_t2_set1 = c_t1_set2 = c_t2_set2 = c_t1_set3 = c_t2_set3 = COLOR_BLACK
@@ -168,7 +184,7 @@ class SevenCourtsM1(SampleBase):
             else:
                 c_t1_set1 = c_t2_set1 = COLOR_SCORE_SET
             c_t1_set2 = c_t2_set2 = c_t1_set3 = c_t2_set3 = COLOR_BLACK
-            x_set1 = 96 + w_set + w_set
+            x_set1 = X_MIN_SCOREBOARD + W_SCORE_SET + W_SCORE_SET
             x_set2 = x_set3 = PANEL_WIDTH
 
         elif (len(t1_set_scores)==2):
@@ -186,8 +202,8 @@ class SevenCourtsM1(SampleBase):
             else:
                 c_t1_set2 = c_t2_set2 = COLOR_SCORE_SET
             c_t1_set3 = c_t2_set3 = COLOR_BLACK
-            x_set1 = 96 + w_set
-            x_set2 = x_set1 + w_set
+            x_set1 = X_MIN_SCOREBOARD + W_SCORE_SET
+            x_set2 = x_set1 + W_SCORE_SET
             x_set3 = PANEL_WIDTH
 
         else: # (len(t1_set_scores)==3) -- 4+ sets are not supported yet
@@ -206,115 +222,161 @@ class SevenCourtsM1(SampleBase):
                 c_t2_set3 = COLOR_SCORE_SET_WON if t2_set3>t1_set3 else COLOR_SCORE_SET_LOST
             else:
                 c_t1_set3 = c_t2_set3 = COLOR_SCORE_SET
-            x_set1 = 96
-            x_set2 = x_set1 + w_set
-            x_set3 = x_set2 + w_set
-
+            x_set1 = X_MIN_SCOREBOARD
+            x_set2 = x_set1 + W_SCORE_SET
+            x_set3 = x_set2 + W_SCORE_SET
 
         t1_game = match["team1"].get("gameScore", "")
         t2_game = match["team2"].get("gameScore", "")
         t1_game = str(t1_game if t1_game != None else "")
         t2_game = str(t2_game if t2_game != None else "")
         
-        y_T1 = 26
-        y_T2 = 58
-        y_service_delta = 13
+        # center score digits
+        y_T1 = y_font_center(FONT_SCORE, PANEL_HEIGHT/2)
+        y_T2 = y_T1 + (PANEL_HEIGHT/2)
 
-        x_game = 163
-        x_service = 155        
-
-        graphics.DrawText(self.canvas, FONT_SCORE, x_set1, y_T1, c_t1_set1, str(t1_set1))
-        graphics.DrawText(self.canvas, FONT_SCORE, x_set2, y_T1, c_t1_set2, str(t1_set2))
-        graphics.DrawText(self.canvas, FONT_SCORE, x_set3, y_T1, c_t1_set3, str(t1_set3))
-        graphics.DrawText(self.canvas, FONT_SCORE, x_game, y_T1, COLOR_SCORE_GAME, str(t1_game))
-
-        graphics.DrawText(self.canvas, FONT_SCORE, x_set1, y_T2, c_t2_set1, str(t2_set1))
-        graphics.DrawText(self.canvas, FONT_SCORE, x_set2, y_T2, c_t2_set2, str(t2_set2))
-        graphics.DrawText(self.canvas, FONT_SCORE, x_set3, y_T2, c_t2_set3, str(t2_set3))
-        graphics.DrawText(self.canvas, FONT_SCORE, x_game, y_T2, COLOR_SCORE_GAME, str(t2_game))
-
-        # FIXME shift set scores
-        #set_scores_t1 = match["team1"]["setScores"]
-        #set_scores_t2 = match["team2"]["setScores"]
-        #set_scores_t1_x = 77 - (len(set_scores_t1) * 8)
-        #set_scores_t2_x = 77 - (len(set_scores_t2) * 8)
-        #for score in [s for s in set_scores_t1 if s != None]:
-        #    score = str(score)
-        #    self.draw_text(set_scores_t1_x, 10, score)
-        #    set_scores_t1_x = set_scores_t1_x + 8
-        #for score in [s for s in set_scores_t2 if s != None]:
-        #    score = str(score)
-        #    self.draw_text(set_scores_t2_x, 30, score)
-        #    set_scores_t2_x = set_scores_t2_x + 8
+        # "cover" the score area so that names do not intersect
+        x_score = min(x_set1, X_SCORE_SERVICE) - 1
+        fill_rect(self.canvas, x_score, 0, PANEL_WIDTH - x_score, PANEL_HEIGHT, COLOR_SCORE_BACKGROUND)
 
         
-        b = (0, 0 ,0)
-        y = (96, 96, 0)
-        w = (96, 96, 96)
-        ball = [
-            [b,y,y,y,b],
-            [y,y,y,w,y],
-            [y,y,w,y,y],
-            [y,w,y,y,y],
-            [b,y,y,y,b]]        
-        if t1_on_serve:
-            self.draw_matrix(ball, x_service, y_T1-y_service_delta)
-        elif t2_on_serve:
-            self.draw_matrix(ball, x_service, y_T2-y_service_delta)
+        self.display_set_digit(x_set1, y_T1, FONT_SCORE, c_t1_set1, t1_set1)
+        self.display_set_digit(x_set2, y_T1, FONT_SCORE, c_t1_set2, t1_set2)
+        self.display_set_digit(x_set3, y_T1, FONT_SCORE, c_t1_set3, t1_set3)
+        graphics.DrawText(self.canvas, FONT_SCORE, X_SCORE_GAME, y_T1, COLOR_SCORE_GAME, str(t1_game))
+
+        self.display_set_digit(x_set1, y_T2, FONT_SCORE, c_t2_set1, t2_set1)
+        self.display_set_digit(x_set2, y_T2, FONT_SCORE, c_t2_set2, t2_set2)
+        self.display_set_digit(x_set3, y_T2, FONT_SCORE, c_t2_set3, t2_set3)
+        graphics.DrawText(self.canvas, FONT_SCORE, X_SCORE_GAME, y_T2, COLOR_SCORE_GAME, str(t2_game))
+
+        # service indicator
+        if match.get("hideServiceIndicator", False) != True and not is_match_over:
+            b = (0, 0 ,0)
+            y = (192, 192, 0)
+            w = (192, 192, 192)
+            ball = [
+                [b,y,y,y,b],
+                [y,y,y,w,y],
+                [y,y,w,y,y],
+                [y,w,y,y,y],
+                [b,y,y,y,b]]        
+            y_service_t1 = int(PANEL_HEIGHT/2/2 - len(ball)/2)
+            y_service_t2 = y_service_t1 + PANEL_HEIGHT/2
+            if t1_on_serve:            
+                draw_matrix(self.canvas, ball, X_SCORE_SERVICE, y_service_t1)
+            elif t2_on_serve:            
+                draw_matrix(self.canvas, ball, X_SCORE_SERVICE, y_service_t2)
+
+
 
     def display_names(self, match):
-        
-        # FIXME so far no flags or colors
-        flag_width=0
-        #flag_width=18 
-        flag_height=12
+
+        # 1. flags
+        t1p1_flag = match["team1"]["p1"]["flag"]            
+        t2p1_flag = match["team2"]["p1"]["flag"]
+        if match["isDoubles"]:
+            t1p2_flag = match["team1"]["p2"]["flag"]
+            t2p2_flag = match["team2"]["p2"]["flag"]
+        else:
+            t1p2_flag = t2p2_flag = ''
+
+        display_flags = max(len(t1p1_flag), len(t1p2_flag), len(t2p1_flag), len(t2p2_flag)) > 0        
+        same_flags_in_teams = (t1p1_flag == t1p2_flag) & (t2p1_flag == t2p2_flag)
+        if display_flags:
+            t1p1_flag = load_flag_image(t1p1_flag)
+            t1p2_flag = load_flag_image(t1p2_flag)
+            t2p1_flag = load_flag_image(t2p1_flag)
+            t2p2_flag = load_flag_image(t2p2_flag)
+            flag_width = FLAG_WIDTH
+        else:
+            flag_width = 0
+
+        # 2. names
+        t1_set_scores = match["team1"]["setScores"]
+        t2_set_scores = match["team2"]["setScores"]
+        if (len(t1_set_scores)==0):
+            x_scoreboard = X_SCORE_SERVICE
+        elif (len(t1_set_scores)==1):
+            x_scoreboard = X_MIN_SCOREBOARD + W_SCORE_SET + W_SCORE_SET
+        elif (len(t1_set_scores)==2):
+            x_scoreboard = X_MIN_SCOREBOARD + W_SCORE_SET
+        else: # (len(t1_set_scores)==3) -- 4+ sets are not supported yet
+            x_scoreboard = X_MIN_SCOREBOARD
+        name_max_width = x_scoreboard - flag_width - 1
 
         if match["isTeamEvent"] or not match["isDoubles"]:
             if match["isTeamEvent"]:
                 t1p1 = match["team1"]["name"]
                 t2p1 = match["team2"]["name"]
             else:
-                t1p1 = match["team1"]["p1"]["lastname"]
-                t2p1 = match["team2"]["p1"]["lastname"]
-            t1p2 = ""
-            t2p2 = ""
+                t1p1 = player_name(match["team1"]["p1"], "Player1")
+                t2p1 = player_name(match["team2"]["p1"], "Player2")
+            t1p2 = t2p2 = ''
         elif match["isDoubles"]:
-            t1p1 = match["team1"]["p1"]["lastname"]
-            t1p2 = match["team1"]["p2"]["lastname"]
-            t2p1 = match["team2"]["p1"]["lastname"]
-            t2p2 = match["team2"]["p2"]["lastname"]
+            t1p1 = player_name(match["team1"]["p1"], "Player1")
+            t1p2 = player_name(match["team1"]["p2"], "Player2")
+            t2p1 = player_name(match["team2"]["p1"], "Player3")
+            t2p2 = player_name(match["team2"]["p2"], "Player4")
 
-        max_name_length = max(len(t1p1), len(t1p2), len(t2p1), len(t2p2))
-        if max_name_length > 8:
-            font = FONT_TEAM_NAME_S
-        elif max_name_length > 6:
-            font = FONT_TEAM_NAME_M
-        else:
-            font = FONT_TEAM_NAME_L
+        if UPPER_CASE_NAMES:
+            t1p1 = t1p1.upper()
+            t1p2 = t1p2.upper()
+            t2p1 = t2p1.upper()
+            t2p2 = t2p2.upper()
 
-        # FIXME make dependent on how many sets and font size
-        # TODO scoreboard could just cover names, then no need to cut
-        name_length_limit = 13
-        t1p1 = t1p1[:name_length_limit].upper()
-        t1p2 = t1p2[:name_length_limit].upper()
-        t2p1 = t2p1[:name_length_limit].upper()
-        t2p2 = t2p2[:name_length_limit].upper()
-
+        x = flag_width + 1
         if match["isTeamEvent"] or not match["isDoubles"]:
-            y_t1 = (PANEL_HEIGHT/2 - font.height)/2 + font.height
-            y_t2 = PANEL_HEIGHT/2 + y_t1
-            x = flag_width + 2            
+            name_max_height = int(PANEL_HEIGHT/2 - 2) #=>30
+            font = pick_font_that_fits(name_max_width, name_max_height, t1p1, t2p1)
+            y_t1 = y_font_center(font, PANEL_HEIGHT/2)
+            y_t2 = y_t1 + PANEL_HEIGHT/2
             graphics.DrawText(self.canvas, font, x, y_t1, COLOR_TEAM_NAME, t1p1)
             graphics.DrawText(self.canvas, font, x, y_t2, COLOR_TEAM_NAME, t2p1)
+            if display_flags:
+                y_flag_t1 = PANEL_HEIGHT/2/2 - FLAG_HEIGHT/2
+                y_flag_t2 = y_flag_t1 + PANEL_HEIGHT/2
+                self.canvas.SetImage(t1p1_flag, 0, y_flag_t1)
+                self.canvas.SetImage(t2p1_flag, 0, y_flag_t2)
+
         elif match["isDoubles"]:
-            y_t1p1 = 1 + flag_height 
-            y_t1p2 = y_t1p1 + 1 + flag_height
-            y_t2p1 = y_t1p2 + 6 + 1 + flag_height
-            y_t2p2 = y_t2p1 + 1 + flag_height
-            graphics.DrawText(self.canvas, font, flag_width+2, y_t1p1, COLOR_TEAM_NAME, t1p1)
-            graphics.DrawText(self.canvas, font, flag_width+2, y_t1p2, COLOR_TEAM_NAME, t1p2)
-            graphics.DrawText(self.canvas, font, flag_width+2, y_t2p1, COLOR_TEAM_NAME, t2p1)
-            graphics.DrawText(self.canvas, font, flag_width+2, y_t2p2, COLOR_TEAM_NAME, t2p2)
+            # (FLAG)
+            # 2 (12) 3 (12) 3 3 (12) 3 (12) 2
+            # 9    (12)    11 10    (12)    10
+            # (NAME)
+            # 1 (14) 1 (14) 2 2 (14) 1 (14) 1
+
+            name_max_height = 1 + FLAG_HEIGHT + 1 #=> 14
+
+            font = pick_font_that_fits(name_max_width, name_max_height, t1p1, t1p2, t2p1, t2p2)
+
+            y_offset = y_font_center(font, name_max_height)
+
+            y_t1p1 = 1 + y_offset
+            y_t1p2 = 1 + name_max_height + 1 + y_offset
+            y_t2p1 = 1 + name_max_height + 1 + name_max_height + 2 + 2 + y_offset
+            y_t2p2 = 1 + name_max_height + 1 + name_max_height + 2 + 2 + + name_max_height + 1 + y_offset
+            graphics.DrawText(self.canvas, font, x, y_t1p1, COLOR_TEAM_NAME, t1p1)
+            graphics.DrawText(self.canvas, font, x, y_t1p2, COLOR_TEAM_NAME, t1p2)
+            graphics.DrawText(self.canvas, font, x, y_t2p1, COLOR_TEAM_NAME, t2p1)
+            graphics.DrawText(self.canvas, font, x, y_t2p2, COLOR_TEAM_NAME, t2p2)
+            if display_flags:
+                if same_flags_in_teams:
+                    # 9    (12)    11 10    (12)    10
+                    y_flag_t1 = 9
+                    y_flag_t2 = y_flag_t1 + FLAG_HEIGHT + 11 + 10                    
+                    self.canvas.SetImage(t1p1_flag, 0, y_flag_t1)
+                    self.canvas.SetImage(t2p1_flag, 0, y_flag_t2)
+                else:
+                    # 2 (12) 3 (12) 3 3 (12) 3 (12) 2
+                    y_flag_t1p1 = 2
+                    y_flag_t1p2 = y_flag_t1p1 + FLAG_HEIGHT + 3
+                    y_flag_t2p1 = y_flag_t1p2 + FLAG_HEIGHT + 3 + 3
+                    y_flag_t2p2 = y_flag_t2p1 + FLAG_HEIGHT + 3
+                    self.canvas.SetImage(t1p1_flag, 0, y_flag_t1p1)
+                    self.canvas.SetImage(t1p2_flag, 0, y_flag_t1p2)
+                    self.canvas.SetImage(t2p1_flag, 0, y_flag_t2p1)
+                    self.canvas.SetImage(t2p2_flag, 0, y_flag_t2p2)
 
     def display_winner(self, match):
         # FIXME winner is not displayed
@@ -337,11 +399,12 @@ class SevenCourtsM1(SampleBase):
         medal_delta=12
         x_medal=PANEL_WIDTH - 2*medal_delta
         if match_result == "T1_WON":
-            self.draw_matrix(cup, x_medal, medal_delta)
+            draw_matrix(self.canvas, cup, x_medal, medal_delta)
         elif match_result == "T2_WON":
-            self.draw_matrix(cup, x_medal, PANEL_HEIGHT / 2 + medal_delta)
+            draw_matrix(self.canvas, cup, x_medal, PANEL_HEIGHT / 2 + medal_delta)
 
     def display_match(self, match):
+        # draw_grid(self.canvas, 8, 8, COLOR_GREY_DARKEST)
         self.display_names(match)
         self.display_score(match)
         self.display_winner(match)
@@ -354,20 +417,7 @@ class SevenCourtsM1(SampleBase):
             [r,r,r,r],
             [r,r,r,r],
             [b,r,r,b]]
-        self.draw_matrix(red_dot, PANEL_WIDTH - 4, PANEL_HEIGHT - 4)
-
-    def draw_text(self, x, y, text, font=FONT_DEFAULT, color=COLOR_DEFAULT):
-        return graphics.DrawText(self.canvas, font, x, y, color, text)
-
-    def draw_matrix(self, m, x0, y0):
-        y = y0
-        for row in m:
-            x = x0
-            for px in row:
-                (r, g, b) = px
-                self.canvas.SetPixel(x, y, r, g, b)
-                x = x + 1
-            y = y + 1
+        draw_matrix(self.canvas, red_dot, PANEL_WIDTH - 4, PANEL_HEIGHT - 4)
 
 # Main function
 if __name__ == "__main__":

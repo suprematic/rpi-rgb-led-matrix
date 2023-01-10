@@ -102,3 +102,21 @@ The panel should display current time.
     - done, back, back, exit, ok
 
     
+
+
+## Install development environment
+
+### RGBMatrixEmulator
+
+- Install [Python 3.10.9](https://www.python.org/downloads/release/python-3109/)
+- Install Pillow with `pip install Pillow`
+- Install RGBMatrixEmulator with `pip install RGBMatrixEmulator`
+- Clone [RGBMatrixEmulator](https://github.com/ty-porter/RGBMatrixEmulator)
+
+Smoke-test with:
+```
+cd RGBMatrixEmulator/samples
+python runtext.py
+```
+
+Open `http://localhost:8888` in browser, "Hello world!" is to be displayed.
