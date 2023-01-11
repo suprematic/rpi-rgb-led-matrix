@@ -159,7 +159,7 @@ class SevenCourtsM1(SampleBase):
                 graphics.DrawText(self.canvas, font, x, y, color, str(score))
             else:
                 score = str(int(score) % 10)
-                fill_rect(self.canvas, x-2, y, width_in_pixels(font, score)+2, -y_font_offset(font)-1, color)
+                fill_rect(self.canvas, x-2, y+1, width_in_pixels(font, score)+2, -y_font_offset(font)-3, color)
                 graphics.DrawText(self.canvas, font, x, y, COLOR_BLACK, score)
 
     def display_score(self, match):
