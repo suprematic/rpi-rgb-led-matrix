@@ -5,22 +5,22 @@ Sponsor, club, or tournament logo
 Logo dello sponsor, del club o del torneo
 
 Time, weather, personal greetings, etc.
-Ora, meteo, saluti personali, ecc.
+Ora, meteo, messaggi di saluto, ecc.
 
 Happy Wedding Day! John & Mary
-Felice giorno di nozze! Romeo e Giulietta
+Felice matrimonio! Anna e Marco
 
 The Grand Slam moment for your club!
 Il momento del Grande Slam per il tuo club!
 
 Point-by-point score (pro mode)
-Punteggio punto per punto (modalità Pro)
+Punteggio Point-by-point (modalità "Pro")
 
 Game-by-game score (easy mode)
-Punteggio gioco per gioco (modalità facile)
+Punteggio Game-by-game (modalità "easy")
 
 Customize fonts and colors to match your style
-Personalizza font e colori per adattarli al tuo stile
+Personalizza i font e colori per adattarli al tuo stile
 
 See in action on court #1
 Vedere in azione sul campo #1
@@ -35,4 +35,4 @@ Operated using a mobile app or a Bluetooth button
 Viene gestito tramite un'app o un pulsante Bluetooth
 
 SPECIAL PadelTrend PRICE 999€. Any other size: on request
-PREZZO SPECIALE PadelTrend 999€. Qualunque altro formato: su richiesta
+PREZZO SPECIALE PadelTrend 999€. Altre misure: su richiesta

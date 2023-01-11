@@ -39,7 +39,7 @@ def load_font(path):
 
 # Initial fonts - all from SDK
 FONTS_V0 = [
-    load_font("fonts/texgyre-27.bdf"),
+    load_font("fonts/texgyre-27-modified.bdf"),
     load_font("fonts/10x20.bdf"),
     load_font("fonts/9x15.bdf"),
     load_font("fonts/7x13.bdf"),

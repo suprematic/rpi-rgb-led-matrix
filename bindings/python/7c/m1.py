@@ -47,6 +47,7 @@ FONT_CLOCK = FONTS_V0[0]
 COLOR_CLOCK = COLOR_GREY
 
 UPPER_CASE_NAMES = True
+MARGIN_NAMES_SCOREBOARD = 3
 
 X_MIN_SCOREBOARD = int(PANEL_WIDTH / 2)
 W_SCORE_SET = 20
@@ -157,8 +158,7 @@ class SevenCourtsM1(SampleBase):
                 graphics.DrawText(self.canvas, font, x, y, color, str(score))
             else:
                 score = str(int(score) % 10)
-                # FIXME looks stupid with "1" in default font => center "1"?
-                fill_rect(self.canvas, x-1, y, width_in_pixels(font, score)+2, -y_font_offset(font)-2, color)
+                fill_rect(self.canvas, x-2, y+1, width_in_pixels(font, score)+2, -y_font_offset(font)-3, color)
                 graphics.DrawText(self.canvas, font, x, y, COLOR_BLACK, score)
 
     def display_score(self, match):
@@ -236,7 +236,7 @@ class SevenCourtsM1(SampleBase):
         y_T2 = y_T1 + (PANEL_HEIGHT/2)
 
         # "cover" the score area so that names do not intersect
-        x_score = min(x_set1, X_SCORE_SERVICE) - 1
+        x_score = min(x_set1, X_SCORE_SERVICE) - MARGIN_NAMES_SCOREBOARD
         fill_rect(self.canvas, x_score, 0, PANEL_WIDTH - x_score, PANEL_HEIGHT, COLOR_SCORE_BACKGROUND)
 
         
@@ -303,7 +303,7 @@ class SevenCourtsM1(SampleBase):
             x_scoreboard = X_MIN_SCOREBOARD + W_SCORE_SET
         else: # (len(t1_set_scores)==3) -- 4+ sets are not supported yet
             x_scoreboard = X_MIN_SCOREBOARD
-        name_max_width = x_scoreboard - flag_width - 1
+        name_max_width = x_scoreboard - flag_width - 1 - MARGIN_NAMES_SCOREBOARD
 
         if match["isTeamEvent"] or not match["isDoubles"]:
             if match["isTeamEvent"]:
@@ -325,7 +325,7 @@ class SevenCourtsM1(SampleBase):
             t2p1 = t2p1.upper()
             t2p2 = t2p2.upper()
 
-        x = flag_width + 1
+        x = flag_width + 2
         if match["isTeamEvent"] or not match["isDoubles"]:
             name_max_height = int(PANEL_HEIGHT/2 - 2) #=>30
             font = pick_font_that_fits(name_max_width, name_max_height, t1p1, t2p1)
