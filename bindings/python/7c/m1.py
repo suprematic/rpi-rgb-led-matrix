@@ -304,7 +304,7 @@ class SevenCourtsM1(SampleBase):
             x_scoreboard = X_MIN_SCOREBOARD + W_SCORE_SET
         else: # (len(t1_set_scores)==3) -- 4+ sets are not supported yet
             x_scoreboard = X_MIN_SCOREBOARD
-        name_max_width = x_scoreboard - flag_width - 1
+        name_max_width = x_scoreboard - flag_width - 4
 
         if match["isTeamEvent"] or not match["isDoubles"]:
             if match["isTeamEvent"]:
@@ -326,7 +326,7 @@ class SevenCourtsM1(SampleBase):
             t2p1 = t2p1.upper()
             t2p2 = t2p2.upper()
 
-        x = flag_width + 1
+        x = flag_width + 2
         if match["isTeamEvent"] or not match["isDoubles"]:
             name_max_height = int(PANEL_HEIGHT/2 - 2) #=>30
             font = pick_font_that_fits(name_max_width, name_max_height, t1p1, t2p1)
