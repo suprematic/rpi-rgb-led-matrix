@@ -159,8 +159,7 @@ class SevenCourtsM1(SampleBase):
                 graphics.DrawText(self.canvas, font, x, y, color, str(score))
             else:
                 score = str(int(score) % 10)
-                # FIXME looks stupid with "1" in default font => center "1"?
-                fill_rect(self.canvas, x-1, y, width_in_pixels(font, score)+2, -y_font_offset(font)-2, color)
+                fill_rect(self.canvas, x-2, y, width_in_pixels(font, score)+1, -y_font_offset(font)-2, color)
                 graphics.DrawText(self.canvas, font, x, y, COLOR_BLACK, score)
 
     def display_score(self, match):
