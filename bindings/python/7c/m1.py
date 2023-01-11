@@ -48,6 +48,7 @@ FONT_CLOCK = FONTS_V0[0]
 COLOR_CLOCK = COLOR_GREY
 
 UPPER_CASE_NAMES = True
+MARGIN_NAMES_SCOREBOARD = 3
 
 X_MIN_SCOREBOARD = int(PANEL_WIDTH / 2)
 W_SCORE_SET = 20
@@ -237,7 +238,7 @@ class SevenCourtsM1(SampleBase):
         y_T2 = y_T1 + (PANEL_HEIGHT/2)
 
         # "cover" the score area so that names do not intersect
-        x_score = min(x_set1, X_SCORE_SERVICE) - 1
+        x_score = min(x_set1, X_SCORE_SERVICE) - MARGIN_NAMES_SCOREBOARD
         fill_rect(self.canvas, x_score, 0, PANEL_WIDTH - x_score, PANEL_HEIGHT, COLOR_SCORE_BACKGROUND)
 
         
@@ -304,7 +305,7 @@ class SevenCourtsM1(SampleBase):
             x_scoreboard = X_MIN_SCOREBOARD + W_SCORE_SET
         else: # (len(t1_set_scores)==3) -- 4+ sets are not supported yet
             x_scoreboard = X_MIN_SCOREBOARD
-        name_max_width = x_scoreboard - flag_width - 4
+        name_max_width = x_scoreboard - flag_width - 1 - MARGIN_NAMES_SCOREBOARD
 
         if match["isTeamEvent"] or not match["isDoubles"]:
             if match["isTeamEvent"]:
