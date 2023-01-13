@@ -149,7 +149,7 @@ class SevenCourtsM1(SampleBase):
 
     def display_clock(self):
 
-        image = Image.open("images/logos/henoto_159x28.png").convert('RGB')
+        image = Image.open("images/logos/henoto_120x21.png").convert('RGB')
         self.canvas.SetImage(image, 4, 4)
 
         text = datetime.now().strftime('%H:%M')        
