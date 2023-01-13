@@ -152,6 +152,8 @@ class SevenCourtsM1(SampleBase):
         image = Image.open("images/logos/henoto_120x21.png").convert('RGB')
         self.canvas.SetImage(image, 4, 8)
 
+        draw_text(self.canvas, 20, 60, "Court 6", FONT_L, COLOR_CLOCK)
+
         text = datetime.now().strftime('%H:%M')        
         draw_text(self.canvas, 120, 60, text, FONT_CLOCK, COLOR_CLOCK)
 
