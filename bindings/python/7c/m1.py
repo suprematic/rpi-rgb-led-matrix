@@ -19,7 +19,7 @@ import logging
 
 PANEL_NAME = socket.gethostname()
 
-BASE_URL = "https://192.168.88.246:5001"
+BASE_URL = "http://192.168.88.246:5001"
 REGISTRATION_URL = BASE_URL + "/panels/"
 
 # Style constants
