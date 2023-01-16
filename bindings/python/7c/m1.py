@@ -150,13 +150,13 @@ class SevenCourtsM1(SampleBase):
     def display_clock(self):
 
         image = Image.open("images/logos/a-rete_149x40.png").convert('RGB')
-        self.canvas.SetImage(image, 4, 4)
+        self.canvas.SetImage(image, 0, 0)
 
         #draw_text(self.canvas, 4, 60, "Court 6", FONT_M, COLOR_GREY_DARK)
 
 
         text = datetime.now().strftime('%H:%M')        
-        draw_text(self.canvas, 120, 60, text, FONT_CLOCK, COLOR_CLOCK)
+        draw_text(self.canvas, 124, 62, text, FONT_CLOCK, COLOR_CLOCK)
 
     def display_set_digit(self, x, y, font, color, score):
         # FIXME meh
