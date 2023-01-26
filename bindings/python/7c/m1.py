@@ -148,8 +148,8 @@ class SevenCourtsM1(SampleBase):
         self.display_clock()
 
     def display_clock(self):
-        text = datetime.now().strftime('%H:%M:%S')        
-        draw_text(self.canvas, 80, 60, text, FONT_CLOCK, COLOR_CLOCK)
+        text = datetime.now().strftime('%H:%M')        
+        draw_text(self.canvas, 120, 60, text, FONT_CLOCK, COLOR_CLOCK)
 
     def display_set_digit(self, x, y, font, color, score):
         # FIXME meh
