@@ -1,9 +1,8 @@
-# -----------------------------------------------------------------------------
-# Uncomment to use with real SDK https://github.com/hzeller/rpi-rgb-led-matrix
-from rgbmatrix import graphics
-# Uncomment to use with emulator https://github.com/ty-porter/RGBMatrixEmulator
-#from RGBMatrixEmulator import graphics
-# -----------------------------------------------------------------------------
+import os
+if os.getenv('USE_RGB_MATRIX_EMULATOR', False):
+  from RGBMatrixEmulator import graphics
+else:
+  from rgbmatrix import graphics
 
 from PIL import Image
 from functools import partial

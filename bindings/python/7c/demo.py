@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
-# -----------------------------------------------------------------------------
-# Uncomment to use with real SDK https://github.com/hzeller/rpi-rgb-led-matrix
-from rgbmatrix import graphics
-# Uncomment to use with emulator https://github.com/ty-porter/RGBMatrixEmulator
-#from RGBMatrixEmulator import graphics
-# -----------------------------------------------------------------------------
+import os
+# Set the environment variable USE_RGB_MATRIX_EMULATOR to use with emulator https://github.com/ty-porter/RGBMatrixEmulator
+# Do not set to use with real SDK https://github.com/hzeller/rpi-rgb-led-matrix
+if os.getenv('USE_RGB_MATRIX_EMULATOR', False):
+  from RGBMatrixEmulator import graphics
+else:
+  from rgbmatrix import graphics
+
 from samplebase import SampleBase
 from sevencourts import *
 import time
