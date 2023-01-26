@@ -1,2 +1,0 @@
-SET USE_RGB_MATRIX_EMULATOR=True
-m1.bat
