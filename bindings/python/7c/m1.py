@@ -156,7 +156,7 @@ class SevenCourtsM1(SampleBase):
 
 
         text = datetime.now().strftime('%H:%M')        
-        draw_text(self.canvas, 124, 62, text, FONT_CLOCK, COLOR_CLOCK)
+        draw_text(self.canvas, 124, 62, text, FONT_CLOCK, COLOR_GREY_DARK)
 
     def display_set_digit(self, x, y, font, color, score):
         # FIXME meh
