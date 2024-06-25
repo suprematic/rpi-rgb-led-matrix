@@ -52,6 +52,9 @@ static rgb_matrix::Font *to_font(struct LedFont *font) {
 static struct LedFont *from_font(rgb_matrix::Font *font) {
   return reinterpret_cast<struct LedFont*>(font);
 }
+static rgb_matrix::Color* to_color(struct Color* color) {
+  return reinterpret_cast<rgb_matrix::Color*>(color);
+}
 
 
 static struct RGBLedMatrix *led_matrix_create_from_options_optional_edit(
@@ -95,6 +98,8 @@ static struct RGBLedMatrix *led_matrix_create_from_options_optional_edit(
     RT_OPT_COPY_IF_SET(daemon);
     RT_OPT_COPY_IF_SET(drop_privileges);
     RT_OPT_COPY_IF_SET(do_gpio_init);
+    RT_OPT_COPY_IF_SET(drop_priv_user);
+    RT_OPT_COPY_IF_SET(drop_priv_group);
 #undef RT_OPT_COPY_IF_SET
   }
 
@@ -138,6 +143,8 @@ static struct RGBLedMatrix *led_matrix_create_from_options_optional_edit(
     ACTUAL_VALUE_BACK_TO_RT_OPT(daemon);
     ACTUAL_VALUE_BACK_TO_RT_OPT(drop_privileges);
     ACTUAL_VALUE_BACK_TO_RT_OPT(do_gpio_init);
+    ACTUAL_VALUE_BACK_TO_RT_OPT(drop_priv_user);
+    ACTUAL_VALUE_BACK_TO_RT_OPT(drop_priv_group);
 #undef ACTUAL_VALUE_BACK_TO_RT_OPT
   }
 
@@ -218,6 +225,11 @@ void led_canvas_get_size(const struct LedCanvas *canvas,
 void led_canvas_set_pixel(struct LedCanvas *canvas, int x, int y,
 			  uint8_t r, uint8_t g, uint8_t b) {
   to_canvas(canvas)->SetPixel(x, y, r, g, b);
+}
+
+void led_canvas_set_pixels(struct LedCanvas *canvas, int x, int y,
+  int width, int height, struct Color *colors) {
+  to_canvas(canvas)->SetPixels(x, y, width, height, to_color(colors));
 }
 
 void led_canvas_clear(struct LedCanvas *canvas) {

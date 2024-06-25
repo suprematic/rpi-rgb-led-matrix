@@ -160,6 +160,11 @@ SwsContext *CreateSWSContext(const AVCodecContext *codec_ctx,
 int main(int argc, char *argv[]) {
   RGBMatrix::Options matrix_options;
   rgb_matrix::RuntimeOptions runtime_opt;
+  // If started with 'sudo': make sure to drop privileges to same user
+  // we started with, which is the most expected (and allows us to read
+  // files as that user).
+  runtime_opt.drop_priv_user = getenv("SUDO_UID");
+  runtime_opt.drop_priv_group = getenv("SUDO_GID");
   if (!rgb_matrix::ParseOptionsFromFlags(&argc, &argv,
                                          &matrix_options, &runtime_opt)) {
     return usage(argv[0]);
@@ -287,7 +292,7 @@ int main(int argc, char *argv[]) {
       // Find the first video stream
       int videoStream = -1;
       AVCodecParameters *codec_parameters = NULL;
-      AVCodec *av_codec = NULL;
+      const AVCodec *av_codec = NULL;
       for (int i = 0; i < (int)format_context->nb_streams; ++i) {
         codec_parameters = format_context->streams[i]->codecpar;
         av_codec = avcodec_find_decoder(codec_parameters->codec_id);
